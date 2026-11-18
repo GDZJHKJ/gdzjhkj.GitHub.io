@@ -3,329 +3,1069 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f1f4ef">
-<title>微信码工具 · 收款码换头像、加名字，照样能扫</title>
-<meta name="description" content="上传微信收款码或名片二维码，换中间头像、加名称和文案、挑页面配色，一键导出高清图片。原码内容不变，扫码结果完全一致，全程本地处理不上传。">
-<meta property="og:title" content="微信码工具 · 收款码换装">
-<meta property="og:description" content="换头像、加名字、挑配色，扫出来还是原来那个码。本地处理，不上传。">
+<meta name="theme-color" content="#F6F9F7">
+<title>好彩U全工具箱 · 收款码海报 + 名片二维码</title>
+<meta name="description" content="好彩U全工具箱：上传收款二维码，换中间头像、换码色、挑卡片配色与尺寸，一键导出高清海报；也能生成个人名片二维码。二维码内容不变，扫码结果一致，全程本地处理不上传。">
+<meta property="og:title" content="好彩U全工具箱 · 支付码海报与名片码">
+<meta property="og:description" content="收款码换头像、换码色、挑配色；名片码一键生成。扫出来还是原来的码，本地处理不上传。">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2307c160'/%3E%3Crect x='7' y='7' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='18' y='7' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='7' y='18' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='18' y='18' width='3.2' height='3.2' rx='.8' fill='%23fff'/%3E%3Crect x='22.4' y='22.4' width='2.6' height='2.6' rx='.7' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230B8A58'/%3E%3Crect x='7' y='7' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='18' y='7' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='7' y='18' width='7' height='7' rx='1.6' fill='%23fff'/%3E%3Crect x='18' y='18' width='3.2' height='3.2' rx='.8' fill='%23fff'/%3E%3Crect x='22.4' y='22.4' width='2.6' height='2.6' rx='.7' fill='%23fff'/%3E%3C/svg%3E">
 <style>
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
+
 :root{
-  --ink:#101713; --ink2:#3b4a43; --muted:#6f7e76; --line:#e3e9e4;
-  --bg:#f1f4ef; --card:#ffffff; --brand:#07c160; --brand-d:#049e4e;
-  --brand-t:#e7f7ee;
-  --radius:20px;
-  --shadow-s:0 1px 2px rgba(16,23,19,.05),0 6px 18px rgba(16,23,19,.05);
-  --shadow-m:0 2px 6px rgba(16,23,19,.06),0 18px 44px rgba(16,23,19,.10);
-  --font:"PingFang SC","HarmonyOS Sans SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --ink:#0b1a13;
+  --ink2:#43514a;
+  --muted:#76847c;
+  --faint:#9ba8a0;
+  --line:rgba(14,27,21,.08);
+  --hair:rgba(255,255,255,.72);
+  --brand:#07c160;
+  --brand-d:#039a4c;
+  --brand-l:#34d97f;
+  --radius:26px;
+  --blur:saturate(190%) blur(32px);
+  --font:-apple-system,"SF Pro Text","SF Pro Display","PingFang SC","HarmonyOS Sans SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,"Segoe UI",Roboto,sans-serif;
+  --ease:cubic-bezier(.22,.7,.24,1);
+  --shadow-glass:0 1px 0 rgba(255,255,255,.9) inset,0 18px 44px -18px rgba(14,35,26,.22),0 2px 8px -4px rgba(14,35,26,.10);
+  --shadow-card:0 2px 6px rgba(14,35,26,.07),0 30px 60px -26px rgba(14,35,26,.42);
 }
+
 html,body{margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
   font-family:var(--font); color:var(--ink);
   background:
-    radial-gradient(1200px 520px at 50% -220px,#ffffff 0%,rgba(255,255,255,0) 70%),
-    linear-gradient(180deg,#f5f7f4 0%,#eff3ee 60%,#edf1ec 100%);
-  min-height:100vh; -webkit-font-smoothing:antialiased;
+    radial-gradient(880px 620px at 30% -6%,#b9edd3 0%,rgba(185,237,211,0) 56%),
+    radial-gradient(720px 560px at 108% 8%,#c2cffb 0%,rgba(194,207,251,0) 52%),
+    radial-gradient(820px 640px at -12% 100%,#ffd2ad 0%,rgba(255,210,173,0) 54%),
+    radial-gradient(600px 480px at 96% 74%,#ded0fa 0%,rgba(222,208,250,0) 58%),
+    linear-gradient(180deg,#f7faf8 0%,#eff3f2 50%,#ebeef1 100%);
+  background-attachment:fixed;
+  min-height:100vh; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 button,input,textarea{font-family:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 img{display:block;max-width:100%}
+::selection{background:rgba(7,193,96,.22)}
 
-/* ===== 顶部 ===== */
+/* ============ 顶栏（玻璃） ============ */
 .top{
   position:sticky; top:0; z-index:20;
-  backdrop-filter:saturate(140%) blur(14px); -webkit-backdrop-filter:saturate(140%) blur(14px);
-  background:rgba(246,248,245,.82);
-  border-bottom:1px solid rgba(16,23,19,.07);
+  background:rgba(255,255,255,.93);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  border-bottom:1px solid rgba(255,255,255,.65);
+  box-shadow:0 1px 0 rgba(14,27,21,.05),0 8px 30px -24px rgba(14,35,26,.5);
 }
 .top-in{
-  max-width:1120px; margin:0 auto; padding:14px 22px;
-  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  max-width:1180px; margin:0 auto; padding:16px 28px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
 }
-.brand{display:flex; align-items:center; gap:11px; min-width:0}
+.brand{display:flex; align-items:center; gap:13px; min-width:0}
 .mark{
-  width:36px; height:36px; border-radius:11px; flex:none;
-  background:linear-gradient(150deg,#24d47c,#05a851);
-  box-shadow:0 3px 10px rgba(7,193,96,.30);
+  width:42px; height:42px; border-radius:13px; flex:none; position:relative;
+  background:linear-gradient(160deg,#3ae08a 0%,#0ec26c 45%,#039b4c 100%);
+  box-shadow:0 8px 20px -8px rgba(4,155,78,.65),inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 2px rgba(0,0,0,.12);
   display:grid; place-items:center;
 }
-.mark svg{width:20px;height:20px;display:block}
-.brand h1{font-size:18px; line-height:1.15; margin:0; letter-spacing:-.2px; font-weight:700}
-.brand p{margin:3px 0 0; font-size:11.5px; color:var(--muted); letter-spacing:.2px}
+.mark::after{
+  content:""; position:absolute; inset:1px 1px auto; height:46%; border-radius:12px 12px 60% 60%/12px 12px 40% 40%;
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0)); pointer-events:none;
+}
+.mark svg{width:22px;height:22px;display:block;position:relative}
+.brand h1{
+  font-size:22px; line-height:1.1; margin:0; font-weight:600;
+  letter-spacing:-.6px; color:#0b1712;
+}
+.brand p{margin:4px 0 0; font-size:12px; color:var(--muted); letter-spacing:-.1px; font-weight:400}
+
+.trust{
+  display:inline-flex; align-items:center; gap:6px; margin-left:6px;
+  padding:6px 12px; border-radius:99px;
+  background:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.85);
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 4px 12px -8px rgba(14,35,26,.3);
+  font-size:11px; font-weight:500; color:#5d6b64; white-space:nowrap;
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+}
+.trust svg{width:12px;height:12px;opacity:.65}
+
 .tabs{
-  margin-left:auto; display:flex; gap:4px; padding:4px; border-radius:13px;
-  background:#e9ede8; box-shadow:inset 0 1px 2px rgba(16,23,19,.05);
+  margin-left:auto; display:flex; gap:2px; padding:4px; border-radius:16px;
+  background:rgba(120,132,125,.13);
+  box-shadow:inset 0 1px 3px rgba(14,35,26,.08),inset 0 0 0 1px rgba(255,255,255,.55);
+  -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
 }
 .tab{
-  padding:8px 15px; border-radius:10px; font-size:13.5px; font-weight:600; color:#5c6b64;
-  transition:.18s ease; white-space:nowrap;
+  position:relative; padding:9px 20px; border-radius:13px;
+  font-size:13.5px; font-weight:500; color:#586760; letter-spacing:-.1px;
+  transition:color .2s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease),transform .18s var(--ease);
+  white-space:nowrap;
 }
-.tab.is-on{background:#fff; color:#0b241a; box-shadow:0 1px 2px rgba(16,23,19,.08),0 3px 8px rgba(16,23,19,.06)}
-.tab:active{transform:scale(.97)}
+.tab:hover{color:#22372c}
+.tab.is-on{
+  color:#08241a; font-weight:600; background:#fff;
+  box-shadow:0 1px 1px rgba(14,35,26,.06),0 3px 10px -3px rgba(14,35,26,.22);
+}
+.tab:active{transform:scale(.98)}
 
-/* ===== 布局 ===== */
+/* ============ 布局 ============ */
 .grid{
-  max-width:1120px; margin:0 auto; padding:24px 22px 90px;
-  display:grid; grid-template-columns:minmax(0,1fr) 392px; gap:26px; align-items:start;
+  max-width:1180px; margin:0 auto; padding:22px 28px 58px;
+  display:grid; grid-template-columns:minmax(0,1fr) 408px; gap:28px; align-items:start;
 }
 .panel{order:1; min-width:0}
-.stage{order:2; position:sticky; top:86px}
-@media(max-width:1000px){
-  .grid{grid-template-columns:1fr; gap:18px; padding:16px 16px 104px}
+.stage{order:2; position:sticky; top:92px}
+@media(max-width:1020px){
+  .grid{grid-template-columns:1fr; gap:14px; padding:12px 12px 100px}
   .stage{order:0; position:static}
   .panel{order:1}
-  .top-in{padding:11px 16px; gap:10px}
+  .top-in{padding:12px 16px; gap:10px}
   .brand p{display:none}
-  .tabs{margin-left:0; width:100%; justify-content:center}
-  .tab{flex:1; text-align:center; padding:9px 8px; font-size:13px}
+  .trust{display:none}
+  .brand h1{font-size:18px; letter-spacing:-.4px}
+  .mark{width:34px;height:34px;border-radius:11px}
+  .mark svg{width:18px;height:18px}
+  .tabs{margin-left:0; width:100%; justify-content:stretch}
+  .tab{flex:1; text-align:center; padding:8px 6px; font-size:13px}
+  .block{padding:16px 16px 18px}
+  .drop{min-height:84px; padding:14px}
+  .row-inline{gap:12px}
+  .row-inline .range-row{flex:1 1 150px}
+  .row-inline .seg{flex:0 0 128px}
+  .row-inline.swatch-row{gap:16px}
+  .row-inline.swatch-row .swatches{gap:10px}
 }
 
-/* ===== 控制面板 ===== */
-.panel-in{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-s); overflow:hidden}
+/* ============ 玻璃面板 ============ */
+.panel-in{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.52));
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-glass);
+  overflow:hidden;
+  animation:rise .55s var(--ease) both;
+}
 .panel[hidden]{display:none}
-.block{padding:20px 22px 24px; border-top:1px solid #eff2ef}
-.block:first-child{border-top:0}
-.block-h{display:flex; align-items:baseline; gap:9px; margin-bottom:14px}
+.block{padding:16px 26px 18px; border-top:1px solid rgba(14,27,21,.055)}
+.block:first-child{border-top:0; padding-top:22px}
+.block-h{display:flex; align-items:center; gap:11px; margin-bottom:10px}
 .num{
-  font:600 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.5px;
-  color:#8a978f; background:#f1f4f0; border:1px solid #e6ebe7; border-radius:6px;
-  padding:4px 5px; transform:translateY(-1px);
+  font:500 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.8px;
+  color:#6f7d76; background:rgba(255,255,255,.75);
+  border:1px solid rgba(255,255,255,.9); border-radius:8px;
+  padding:5px 6px; transform:translateY(-1px);
+  box-shadow:0 1px 2px rgba(14,35,26,.05);
 }
-.block-h h2{font-size:15px; font-weight:700; margin:0; letter-spacing:-.1px}
-.block-h .sub{margin-left:auto; font-size:12px; color:var(--muted)}
+.block-h h2{font-size:15.5px; font-weight:600; margin:0; letter-spacing:-.3px; color:#0c1b14}
+.block-h .sub{margin-left:auto; font-size:11.5px; color:var(--faint); letter-spacing:-.1px; text-align:right}
 
-/* 上传区 */
+/* 上传 */
 .drop{
-  position:relative; display:flex; align-items:center; gap:14px;
-  min-height:104px; padding:16px; border-radius:15px; cursor:pointer;
-  border:1.5px dashed #dbe3dd; background:#fafbf9; transition:.18s ease;
+  position:relative; display:flex; align-items:center; gap:16px;
+  min-height:84px; padding:16px; border-radius:18px; cursor:pointer;
+  border:1.5px dashed rgba(14,35,26,.2);
+  background:rgba(255,255,255,.45);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  transition:border-color .2s var(--ease),background .2s var(--ease),transform .2s var(--ease);
 }
-.drop:hover{border-color:#9fd7b8; background:#f7fbf8}
-.drop.is-drag{border-color:var(--brand); background:var(--brand-t)}
-.drop.has{border-style:solid; border-color:#e1e8e3; background:#fff; min-height:0; padding:12px}
+.drop:hover{border-color:rgba(7,193,96,.5); background:rgba(255,255,255,.7)}
+.drop:active{transform:scale(.995)}
+.drop.is-drag{border-color:var(--brand); background:rgba(234,249,241,.85)}
+.drop.has{border-style:solid; border-color:rgba(255,255,255,.9); background:rgba(255,255,255,.78); min-height:0; padding:11px 14px; box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 4px 14px -10px rgba(14,35,26,.4)}
 .drop input{position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer}
 .drop-ico{
-  width:44px; height:44px; border-radius:12px; flex:none; display:grid; place-items:center;
-  background:#fff; border:1px solid #e6ece8; color:#7d8b84;
+  width:46px; height:46px; border-radius:14px; flex:none; display:grid; place-items:center;
+  background:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.9); color:#7c8a83;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -10px rgba(14,35,26,.4);
 }
 .drop.has .drop-ico{display:none}
-.drop-ico svg{width:20px;height:20px}
+.drop-ico svg{width:23px;height:23px}
 .drop-txt{min-width:0}
-.drop-txt b{display:block; font-size:13.5px; font-weight:650; letter-spacing:-.1px}
-.drop-txt span{display:block; font-size:12px; color:var(--muted); margin-top:4px; line-height:1.5}
+.drop-txt b{display:block; font-size:14px; font-weight:600; letter-spacing:-.2px}
+.drop-txt span{display:block; font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.6}
 .thumb{
-  width:64px; height:64px; border-radius:11px; flex:none; object-fit:cover;
-  background:#f2f4f1; border:1px solid #e6ece8;
+  width:64px; height:64px; border-radius:14px; flex:none; object-fit:cover;
+  background:#f2f5f1; border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 3px 10px -6px rgba(14,35,26,.5);
 }
 .thumb.sq{width:56px;height:56px;border-radius:50%}
 .meta{min-width:0; flex:1}
-.meta b{display:block; font-size:13px; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.meta span{display:block; font-size:11.5px; color:var(--muted); margin-top:3px}
-.link{font-size:12px; color:var(--brand-d); font-weight:600; padding:6px 4px; border-radius:8px}
-.link:active{background:#f1f4f0}
+.meta b{display:block; font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.meta span{display:block; font-size:11px; color:var(--faint); margin-top:4px}
+.link{
+  font-size:12px; color:var(--brand-d); font-weight:600; padding:8px 10px; border-radius:10px;
+  transition:background .15s var(--ease); letter-spacing:-.1px;
+}
+.link:hover{background:rgba(255,255,255,.75)}
+.link:active{background:rgba(234,249,241,.9)}
 
-/* 解码状态 */
+/* 状态 */
 .decode{
-  display:flex; align-items:center; gap:8px; margin-top:10px;
-  font-size:12px; color:var(--muted); min-height:20px; line-height:1.5; word-break:break-all;
+  display:flex; align-items:flex-start; gap:9px; margin-top:13px;
+  font-size:11.5px; color:var(--muted); min-height:18px; line-height:1.55;
 }
-.decode.ok{color:#0a7a46}
-.decode.bad{color:#a15a1e}
-.decode .dot{width:6px;height:6px;border-radius:50%;background:#c3cdc7;flex:none}
-.decode.ok .dot{background:var(--brand)}
-.decode.bad .dot{background:#e78b3c}
+.decode .dot{width:6px;height:6px;border-radius:50%;background:#c7d1cb;flex:none;margin-top:5px}
+.decode.ok{color:#06774a}
+.decode.ok .dot{background:var(--brand); box-shadow:0 0 0 3px rgba(7,193,96,.14)}
+.decode.bad{color:#9a5a1c}
+.decode.bad .dot{background:#e8a33d}
 .decode .txt{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%}
-
-/* 开关行 */
-.switch-row{display:flex; align-items:flex-start; gap:14px; margin-top:16px; padding-top:15px; border-top:1px dashed #edf1ee}
-.switch-row b{font-size:13px; font-weight:650; display:block}
-.switch-row p{margin:4px 0 0; font-size:11.5px; color:var(--muted); line-height:1.55}
-.switch{
-  width:46px; height:27px; border-radius:99px; background:#dfe6e1; flex:none; position:relative;
-  transition:.2s ease; margin-left:auto; margin-top:1px;
+.hintline{
+  display:flex; gap:7px; align-items:flex-start; margin-top:11px;
+  font-size:11px; color:#8b988f; line-height:1.65;
 }
-.switch i{position:absolute; top:3px; left:3px; width:21px; height:21px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.18); transition:.2s cubic-bezier(.4,1.2,.5,1)}
-.switch[aria-pressed="true"]{background:var(--brand)}
-.switch[aria-pressed="true"] i{left:22px}
-.switch:disabled{opacity:.45; cursor:not-allowed}
+.hintline i{flex:none; margin-top:2px; opacity:.65}
+
+/* 开关 */
+.switch-row{display:flex; align-items:flex-start; gap:18px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(14,27,21,.06)}
+.switch-row b{font-size:13px; font-weight:600; display:block; letter-spacing:-.1px}
+.switch-row p{margin:5px 0 0; font-size:11px; color:var(--muted); line-height:1.65; max-width:430px}
+.switch{
+  width:50px; height:30px; border-radius:99px; flex:none; position:relative;
+  background:rgba(120,132,125,.2);
+  box-shadow:inset 0 1px 3px rgba(14,35,26,.12),inset 0 0 0 1px rgba(255,255,255,.5);
+  transition:background .26s var(--ease); margin-left:auto; margin-top:0;
+}
+.switch i{
+  position:absolute; top:2px; left:2px; width:26px; height:26px; border-radius:50%;
+  background:#fff; box-shadow:0 1px 4px rgba(14,35,26,.25),0 0 1px rgba(0,0,0,.06);
+  transition:transform .26s var(--ease);
+}
+.switch[aria-pressed="true"]{
+  background:linear-gradient(180deg,#3ad97f,#06b859);
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.35),0 2px 8px -3px rgba(7,193,96,.6);
+}
+.switch[aria-pressed="true"] i{transform:translateX(20px)}
+.switch:disabled{opacity:.4; cursor:not-allowed}
 
 /* 滑杆 */
-.range-row{display:flex; align-items:center; gap:12px; margin-top:16px}
-.range-row label{font-size:12.5px; color:var(--ink2); width:62px; flex:none}
-input[type=range]{
-  -webkit-appearance:none; appearance:none; flex:1; height:26px; background:none; margin:0;
+.range-row{display:flex; align-items:center; gap:16px; margin-top:16px}
+.range-row label{font-size:12.5px; color:var(--ink2); width:56px; flex:none; letter-spacing:-.1px}
+input[type=range]{-webkit-appearance:none; appearance:none; flex:1; height:28px; background:none; margin:0}
+input[type=range]::-webkit-slider-runnable-track{
+  height:5px; border-radius:99px;
+  background:linear-gradient(90deg,var(--brand-l) var(--p,50%),rgba(120,132,125,.22) var(--p,50%));
+  box-shadow:inset 0 1px 2px rgba(14,35,26,.08);
 }
-input[type=range]::-webkit-slider-runnable-track{height:4px; border-radius:99px; background:linear-gradient(90deg,var(--brand) var(--p,50%),#e3e9e4 var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none; width:20px; height:20px; margin-top:-8px; border-radius:50%;
-  background:#fff; border:1px solid #dfe6e1; box-shadow:0 2px 6px rgba(16,23,19,.18);
+  -webkit-appearance:none; width:22px; height:22px; margin-top:-8.5px; border-radius:50%;
+  background:#fff; border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 2px 8px rgba(14,35,26,.22),0 1px 2px rgba(14,35,26,.12);
+  transition:transform .15s var(--ease);
 }
-input[type=range]::-moz-range-track{height:4px;border-radius:99px;background:#e3e9e4}
-input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe6e1;border-radius:50%;background:#fff}
-.range-val{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--ink2); width:38px; text-align:right}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.08)}
+input[type=range]::-moz-range-track{height:5px;border-radius:99px;background:rgba(120,132,125,.22)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:1px solid #fff;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(14,35,26,.22)}
+.range-val{font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--ink2); width:38px; text-align:right}
 
-/* 分段控件 */
-.seg{display:flex; gap:3px; background:#f0f3ef; padding:3px; border-radius:11px}
-.seg button{
-  flex:1; padding:7px 6px; border-radius:9px; font-size:12px; font-weight:600; color:#61706a; transition:.15s;
+/* 分段（iOS 风格） */
+.seg{
+  display:flex; gap:2px; background:rgba(120,132,125,.16); padding:4px; border-radius:15px;
+  box-shadow:inset 0 1px 3px rgba(14,35,26,.07),inset 0 0 0 1px rgba(255,255,255,.6);
 }
-.seg button.is-on{background:#fff; color:#0b241a; box-shadow:0 1px 2px rgba(16,23,19,.09)}
-.row-2{display:flex; gap:14px; align-items:flex-end; margin-top:14px; flex-wrap:wrap}
+.seg button{
+  flex:1; padding:9px 6px; border-radius:12px; font-size:12px; font-weight:500; color:#586760;
+  letter-spacing:-.1px;
+  transition:background .2s var(--ease),color .2s var(--ease),box-shadow .2s var(--ease),transform .16s var(--ease);
+}
+.seg button:hover{color:#22372c}
+.seg button.is-on{
+  background:#fff; color:#08241a; font-weight:600;
+  box-shadow:0 1px 1px rgba(14,35,26,.06),0 3px 10px -3px rgba(14,35,26,.22);
+}
+.seg button:active{transform:scale(.985)}
+.row-2{display:flex; gap:16px; align-items:flex-end; margin-top:16px; flex-wrap:wrap}
 .row-2 > .cell{flex:1; min-width:150px}
 
+/* 同一行排布：滑杆 + 分段 / 色板 + 输入 */
+.row-inline{display:flex; gap:20px; align-items:center; margin-top:16px; flex-wrap:wrap}
+.row-inline .range-row{margin-top:0; flex:1 1 240px}
+.row-inline .seg{flex:1 1 190px}
+.swline{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
+.swlabel{display:flex; align-items:center; gap:10px; font-size:15.5px; font-weight:600; letter-spacing:-.3px; color:#0c1b14; flex:none}
+.swlabel .num{margin:0}
+.block-color{padding-top:18px; padding-bottom:20px}
+.row-inline.swatch-row{align-items:flex-end; gap:22px}
+.row-inline.swatch-row .swatches{flex:0 0 auto}
+.head-switch{display:flex; align-items:center; gap:9px; margin-left:auto; font-size:11.5px; color:#7c8a82}
+
 /* 表单 */
-.fields{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px}
 .fields .full{grid-column:1/-1}
-@media(max-width:420px){.fields{grid-template-columns:1fr}}
-.field label{display:block; font-size:11.5px; font-weight:600; color:#7b8a82; margin-bottom:6px; letter-spacing:.2px}
+@media(max-width:360px){.fields{grid-template-columns:1fr}}
+.field label{display:block; font-size:11px; font-weight:500; color:#7e8b84; margin-bottom:6px; letter-spacing:.2px}
 .field input{
-  width:100%; height:40px; padding:0 13px; border-radius:11px; border:1px solid #e6ece8;
-  background:#fafbf9; font-size:13px; transition:.15s; outline:none;
+  width:100%; height:42px; padding:0 14px; border-radius:13px;
+  border:1px solid rgba(255,255,255,.9);
+  background:rgba(255,255,255,.68);
+  box-shadow:inset 0 1px 2px rgba(14,35,26,.06);
+  font-size:13px; outline:none; letter-spacing:-.1px;
+  transition:border-color .18s var(--ease),background .18s var(--ease),box-shadow .18s var(--ease);
 }
-.field input:focus{border-color:#8fd7b0; background:#fff; box-shadow:0 0 0 3px rgba(7,193,96,.10)}
-.field input::placeholder{color:#a9b5ae}
+.field input::placeholder{color:#a8b4ad}
+.field input:hover{background:rgba(255,255,255,.82)}
+.field input:focus{
+  border-color:rgba(7,193,96,.45); background:#fff;
+  box-shadow:0 0 0 4px rgba(7,193,96,.12),inset 0 1px 2px rgba(14,35,26,.04);
+}
 
-/* 风格色板 */
-.swatches{display:flex; gap:12px; flex-wrap:wrap}
-.swatch{width:46px; text-align:center}
+/* 色板 */
+.swatches{display:flex; gap:14px; flex-wrap:wrap}
+.swatch{width:46px; text-align:center; padding:0}
 .swatch .cc{
-  width:44px; height:44px; border-radius:13px; border:1px solid rgba(16,23,19,.10);
-  position:relative; transition:.16s ease; box-shadow:0 1px 2px rgba(16,23,19,.06);
+  width:42px; height:42px; border-radius:13px; border:1px solid rgba(255,255,255,.9);
+  position:relative; margin:0 auto;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 14px -8px rgba(14,35,26,.55);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
 }
-.swatch.is-on .cc{transform:translateY(-2px); box-shadow:0 0 0 2px #fff,0 0 0 4px var(--brand),0 6px 14px rgba(7,193,96,.24)}
-.swatch .cc::after{
-  content:""; position:absolute; inset:auto 0 6px auto; right:8px; bottom:8px; width:8px; height:8px; border-radius:3px; background:rgba(255,255,255,.9); opacity:0;
+.swatch:hover .cc{transform:translateY(-2px)}
+.swatch.is-on .cc{
+  transform:translateY(-2px);
+  box-shadow:0 0 0 3px rgba(255,255,255,.95),0 0 0 5px var(--brand),0 10px 20px -8px rgba(7,193,96,.5);
 }
-.swatch span{display:block; font-size:11px; color:var(--muted); margin-top:6px}
+.swatch span{display:block; font-size:11px; color:var(--muted); margin-top:8px; letter-spacing:-.1px}
+.swatch.is-on span{color:#0b6b3c; font-weight:600}
 
-/* ===== 预览舞台 ===== */
+/* ============ 预览（玻璃） ============ */
 .stage-in{
+  position:relative; overflow:hidden;
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:28px; padding:20px 20px 18px;
   background:
-    radial-gradient(rgba(16,23,19,.055) 1px, transparent 1px) 0 0/15px 15px,
-    linear-gradient(180deg,#fbfcfa 0%,#f0f4ef 100%);
-  border:1px solid var(--line); border-radius:22px; padding:18px; box-shadow:var(--shadow-s);
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.34) 46%,rgba(255,255,255,.16) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.22));
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  box-shadow:var(--shadow-glass);
+  animation:rise .55s var(--ease) both;
 }
-.stage-head{display:flex; align-items:center; gap:8px; margin-bottom:14px; padding:2px 2px 0}
-.eyebrow{font-size:11px; font-weight:700; letter-spacing:1.4px; color:#8b978f; text-transform:uppercase}
+.stage-in::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:radial-gradient(rgba(14,35,26,.05) 1px,transparent 1px);
+  background-size:16px 16px;
+  -webkit-mask-image:radial-gradient(120% 78% at 50% 10%,#000 0%,rgba(0,0,0,.5) 55%,transparent 84%);
+  mask-image:radial-gradient(120% 78% at 50% 10%,#000 0%,rgba(0,0,0,.5) 55%,transparent 84%);
+}
+.stage-in > *{position:relative}
+.stage-head{display:flex; align-items:center; gap:8px; margin-bottom:16px; padding:0 2px}
+.eyebrow{font-size:10.5px; font-weight:600; letter-spacing:1.8px; color:#8d998f}
 .badge{
-  margin-left:auto; display:inline-flex; align-items:center; gap:6px;
-  font-size:11px; font-weight:650; color:#5f6d66; background:#fff; border:1px solid #e4eae6;
-  padding:5px 9px; border-radius:99px; white-space:nowrap; transition:.18s;
+  margin-left:auto; display:inline-flex; align-items:center; gap:7px;
+  font-size:11px; font-weight:500; color:#5d6b64;
+  background:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.9);
+  padding:6px 11px; border-radius:99px; white-space:nowrap;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 4px 12px -8px rgba(14,35,26,.4);
+  transition:.22s var(--ease);
 }
-.badge i{width:6px;height:6px;border-radius:50%;background:#c9d3cd;flex:none}
-.badge.ok{color:#07794a; border-color:#cfeadd; background:#f3fbf7}
-.badge.ok i{background:var(--brand)}
-.badge.warn{color:#9a6412; border-color:#f0e0c7; background:#fffaf0}
+.badge i{width:6px;height:6px;border-radius:50%;background:#c4cfc9;flex:none}
+.badge.ok{color:#06774a; border-color:rgba(190,238,213,.9); background:rgba(240,252,246,.8)}
+.badge.ok i{background:var(--brand); box-shadow:0 0 0 3px rgba(7,193,96,.14)}
+.badge.warn{color:#96631a; border-color:rgba(240,226,202,.9); background:rgba(255,251,241,.8)}
 .badge.warn i{background:#e8a33d}
-.badge.bad{color:#a2412c; border-color:#f3d6cd; background:#fff5f1; cursor:pointer}
+.badge.bad{color:#a0412c; border-color:rgba(242,213,204,.9); background:rgba(255,245,241,.8); cursor:pointer}
 .badge.bad i{background:#e26a4a}
-.badge.check{color:#5f6d66}
-.badge.check i{background:#c9d3cd; animation:pulse 1s infinite}
+.badge.check{color:#5d6b64}
+.badge.check i{animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
 
-.canvas-wrap{display:grid; place-items:center; padding:6px 2px 2px}
-#cv{
-  width:100%; max-width:340px; height:auto; border-radius:14px;
-  box-shadow:0 3px 8px rgba(16,23,19,.10),0 22px 50px rgba(16,23,19,.16);
-  background:#fff; opacity:0; transition:opacity .25s ease;
+.fold{
+  display:none; align-items:center; gap:4px; padding:6px 11px; border-radius:99px;
+  background:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.9);
+  font-size:11px; font-weight:500; color:#5d6b64; white-space:nowrap;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset;
 }
-#cv.on{opacity:1}
+.fold:active{background:#fff}
+.stage-in.is-fold{
+  display:grid; grid-template-columns:auto minmax(0,1fr);
+  align-items:center; column-gap:14px;
+  padding:12px 14px;
+}
+.stage-in.is-fold .canvas-wrap{grid-column:1; padding:0; place-items:start}
+.stage-in.is-fold .stage-head{grid-column:2; margin:0; flex-wrap:wrap; justify-content:flex-end; gap:8px}
+.stage-in.is-fold .eyebrow{display:none}
+.stage-in.is-fold #cv{width:96px!important; height:auto!important; max-width:96px; border-radius:10px; cursor:zoom-in}
+.stage-in.is-fold .hint{display:none}
 
-.stage-actions{display:flex; gap:8px; margin-top:16px}
-.btn{
-  height:42px; padding:0 16px; border-radius:12px; font-size:13px; font-weight:650;
-  border:1px solid #e2e8e4; background:#fff; color:var(--ink); transition:.15s ease;
-  display:inline-flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap;
+.canvas-wrap{display:grid; place-items:center; padding:4px 2px 2px}
+#cv{
+  width:auto; max-width:100%; height:auto; border-radius:18px; background:#fff;
+  box-shadow:var(--shadow-card);
+  opacity:0; transform:scale(.985);
+  transition:opacity .3s var(--ease),transform .45s var(--ease);
+  cursor:zoom-in;
 }
+#cv.on{opacity:1; transform:none}
+
+.stage-actions{display:flex; gap:9px; margin-top:16px}
+.btn{
+  height:46px; padding:0 18px; border-radius:15px;
+  font-size:13px; font-weight:600; letter-spacing:-.1px;
+  background:rgba(255,255,255,.7); color:var(--ink);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -10px rgba(14,35,26,.5);
+  -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  transition:transform .16s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  display:inline-flex; align-items:center; justify-content:center; gap:7px; white-space:nowrap;
+}
+.btn:hover{background:rgba(255,255,255,.9); box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 10px 22px -12px rgba(14,35,26,.55)}
 .btn:active{transform:translateY(1px)}
 .btn-primary{
-  flex:1; background:linear-gradient(160deg,#12cd67,#04a052); color:#fff; border-color:transparent;
-  box-shadow:0 4px 14px rgba(7,193,96,.30);
+  flex:1; color:#fff; border-color:rgba(255,255,255,.3);
+  background:linear-gradient(180deg,#35da7f 0%,#10c268 55%,#04a253 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),inset 0 -1px 2px rgba(0,60,30,.18),0 12px 26px -12px rgba(4,162,83,.7);
 }
-.btn-primary:active{box-shadow:0 2px 6px rgba(7,193,96,.28)}
-.btn svg{width:15px;height:15px}
-.btn-ghost{color:#78857d; background:#fbfcfa}
-.hint{margin:12px 2px 0; font-size:11px; color:#8d9a93; line-height:1.6; text-align:center}
+.btn-primary:hover{background:linear-gradient(180deg,#3fdf88 0%,#14c96d 55%,#05ab58 100%); box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 16px 30px -12px rgba(4,162,83,.75)}
+.btn-primary:active{box-shadow:inset 0 1px 2px rgba(0,50,25,.2),0 6px 14px -10px rgba(4,162,83,.7)}
+.btn svg{width:15px;height:15px;flex:none}
+.btn-ghost{
+  color:#6f7d76; background:rgba(255,255,255,.45); border-color:rgba(255,255,255,.7);
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.8); box-shadow:0 1px 0 rgba(255,255,255,.9) inset}
+.hint{margin:14px 2px 0; font-size:10.5px; color:#8e9a92; line-height:1.7; text-align:center; letter-spacing:-.05px}
 
-/* 底部 dock（移动端） */
+/* ============ 移动端底栏 ============ */
 .dock{
   position:fixed; left:0; right:0; bottom:0; z-index:30; display:none;
-  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(255,255,255,.92); backdrop-filter:blur(14px);
-  border-top:1px solid rgba(16,23,19,.08);
-  gap:10px; align-items:center;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.62);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  border-top:1px solid rgba(255,255,255,.75);
+  box-shadow:0 -10px 30px -22px rgba(14,35,26,.5);
 }
-.dock-in{display:flex; gap:10px; align-items:center; max-width:560px; margin:0 auto; width:100%}
-.dock .badge{margin-left:0; flex:none; overflow:hidden; max-width:52%}
-.dock .btn-primary{flex:1}
-.dock .btn{height:40px; padding:0 11px; font-size:12.5px; flex:none}
-@media(max-width:1000px){.dock{display:flex} .stage-actions{display:none} .foot{padding-bottom:96px} .toast{bottom:96px}}
+.dock-in{display:flex; gap:9px; align-items:center; max-width:560px; margin:0 auto; width:100%}
+.dock .badge{margin-left:0; flex:none; overflow:hidden; max-width:46%; padding:6px 10px}
+.dock .btn{height:42px; padding:0 13px; font-size:12px; flex:none; border-radius:13px}
+.dock .btn-primary{flex:1; padding:0 8px}
+@media(max-width:1020px){
+  .dock{display:flex}
+  .stage-actions{display:none}
+  .foot{padding-bottom:104px}
+  .toast{bottom:104px}
+  #cv{max-width:100%; cursor:zoom-in}
+  .fold{display:inline-flex}
+}
 
-/* 页脚 */
-.foot{max-width:1120px; margin:0 auto; padding:0 22px 34px; font-size:11.5px; color:#98a49d; line-height:1.7; text-align:center}
-.foot a{color:#7d8b84; text-decoration:none; border-bottom:1px solid #d7ded9}
+/* ============ 页脚 ============ */
+.foot{
+  max-width:1180px; margin:0 auto; padding:0 28px 30px;
+  font-size:11px; color:#93a098; line-height:1.8; text-align:center; letter-spacing:-.05px;
+}
+.foot a{color:#73827a; text-decoration:none; border-bottom:1px solid rgba(20,40,30,.15); padding-bottom:1px}
+.foot a:hover{color:#0b6b3c; border-color:rgba(7,193,96,.5)}
 
-/* 弹层 */
+/* ============ 弹层 ============ */
 .modal{
-  position:fixed; inset:0; z-index:60; display:none; place-items:center; padding:24px;
-  background:rgba(10,16,13,.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  position:fixed; inset:0; z-index:60; display:none; place-items:center; padding:22px;
+  background:rgba(10,18,14,.45);
+  -webkit-backdrop-filter:blur(14px) saturate(140%); backdrop-filter:blur(14px) saturate(140%);
 }
 .modal.on{display:grid}
-.modal-in{max-width:520px; width:100%; background:#fff; border-radius:20px; padding:18px; box-shadow:0 30px 80px rgba(0,0,0,.3); text-align:center}
-.modal-in h3{margin:2px 0 4px; font-size:15px}
-.modal-in p{margin:0 0 14px; font-size:12px; color:var(--muted)}
-.modal-in img{max-height:62vh; width:auto; max-width:100%; margin:0 auto; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,.12)}
-.modal-in .btn{margin-top:14px; width:100%}
+.modal-in{
+  max-width:470px; width:100%; padding:22px; border-radius:26px; text-align:center;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(255,255,255,.9);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 40px 90px -30px rgba(0,0,0,.55);
+  animation:pop .32s var(--ease) both;
+}
+.modal-in h3{margin:2px 0 5px; font-size:16px; font-weight:600; letter-spacing:-.3px}
+.modal-in p{margin:0 0 16px; font-size:11.5px; color:var(--muted)}
+.modal-in img{max-height:60vh; width:auto; max-width:100%; margin:0 auto; border-radius:16px; box-shadow:0 16px 40px -18px rgba(14,35,26,.5)}
+.modal-in .btn{margin-top:16px; width:100%}
 
 /* toast */
 .toast{
-  position:fixed; left:50%; bottom:76px; transform:translate(-50%,14px); z-index:80;
-  background:rgba(16,23,19,.92); color:#fff; font-size:12.5px; padding:10px 16px; border-radius:12px;
-  opacity:0; pointer-events:none; transition:.25s ease; max-width:80vw; line-height:1.5; text-align:center;
+  position:fixed; left:50%; bottom:82px; transform:translate(-50%,12px); z-index:80;
+  background:rgba(22,32,27,.88); color:#fff; font-size:12px;
+  padding:11px 18px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+  opacity:0; pointer-events:none; transition:.28s var(--ease); max-width:82vw; line-height:1.5;
+  text-align:center; box-shadow:0 18px 40px -18px rgba(0,0,0,.6); letter-spacing:-.1px;
 }
 .toast.on{opacity:1; transform:translate(-50%,0)}
+
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+}
+
+
+/* ============ 模板 / 尺寸 / 码色 ============ */
+.tplrow{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+.tpls{display:flex; gap:10px}
+.tpl{
+  display:flex; flex-direction:column; align-items:center; gap:7px; padding:6px; border-radius:13px;
+  transition:background .2s var(--ease),transform .18s var(--ease),box-shadow .2s var(--ease);
+}
+.tpl:hover{background:rgba(255,255,255,.62)}
+.tpl:active{transform:scale(.97)}
+.tpl.is-on{
+  background:rgba(255,255,255,.92);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -10px rgba(14,35,26,.55);
+}
+.tpl > span:last-child{font-size:10.5px; color:var(--muted); letter-spacing:-.1px; line-height:1}
+.tpl.is-on > span:last-child{color:#0b6b3c; font-weight:600}
+.tpl .mini{
+  position:relative; display:block; width:46px; height:58px; border-radius:10px; overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(14,27,21,.10),0 4px 10px -6px rgba(14,35,26,.5);
+}
+.mini i,.mini b{position:absolute; display:block; border-radius:3px}
+.mini b{
+  background-color:#fff;
+  background-image:repeating-conic-gradient(#0b1510 0% 25%, #f6f8f6 0% 50%);
+  background-size:4px 4px;
+  opacity:.92;
+}
+.m-poster::after{
+  content:""; position:absolute; left:11px; right:11px; top:6px; height:4px;
+  background:rgba(255,255,255,.92); border-radius:2px;
+}
+.m-poster i{border-radius:5px}
+.m-poster b{top:20px; width:20px; height:20px; left:50%; margin-left:-10px; background-size:3px 3px}
+.m-min b{background-size:3px 3px}
+.m-min::after{
+  content:""; position:absolute; left:14px; right:14px; bottom:11px; height:3px;
+  background:rgba(20,40,30,.14); border-radius:2px;
+}
+.m-wx b{background-size:4px 4px}
+.m-poster{background:linear-gradient(165deg,#2bd276,#03a051)}
+.m-poster i{left:8px; right:8px; top:12px; bottom:7px; background:#fff; border-radius:6px}
+.m-poster b{left:50%; top:19px; width:19px; height:19px; margin-left:-9.5px; background:#0a120e; opacity:.86}
+.m-min{background:linear-gradient(165deg,#fbfcfa,#e6ece5)}
+.m-min i{left:7px; right:7px; top:8px; bottom:7px; background:#fff; border-radius:6px; box-shadow:0 1px 3px rgba(14,35,26,.10)}
+.m-min b{left:50%; top:15px; width:18px; height:18px; margin-left:-9px; background:#0a120e; opacity:.86}
+.m-wx{background:linear-gradient(165deg,#f7f9f7,#e7ece8)}
+.m-wx i{left:7px; top:7px; width:13px; height:13px; background:#cfd8d1; border-radius:4px}
+.m-wx b{left:7px; top:26px; width:32px; height:25px; background:#0a120e; opacity:.84; border-radius:4px}
+
+.segsm{flex:0 0 auto; margin-left:auto}
+.tpldesc{font-size:10.5px; color:var(--muted); margin-top:9px; letter-spacing:-.05px; line-height:1.5}
+.segsm button{flex:0 0 auto; padding:8px 12px; font-size:11.5px; font-variant-numeric:tabular-nums; letter-spacing:0}
+
+.optrow{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:14px}
+.qrcs{display:flex; align-items:center; gap:8px}
+.qrclabel{font-size:10.5px; color:var(--muted); letter-spacing:-.1px}
+.qrc{
+  width:22px; height:22px; border-radius:50%; background:var(--c); border:2px solid transparent;
+  box-shadow:inset 0 -5px 8px rgba(0,0,0,.16),0 0 0 1px rgba(14,27,21,.10);
+  transition:transform .18s var(--ease),box-shadow .2s var(--ease);
+}
+.qrc:hover{transform:translateY(-2px)}
+.qrc.is-on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--brand),inset 0 -5px 8px rgba(0,0,0,.16)}
+.opthint{font-size:10px; color:var(--faint); letter-spacing:-.05px; margin-left:auto; max-width:190px; line-height:1.4; text-align:right}
+
+@media(max-width:1020px){
+  .tplrow{gap:12px}
+  .tpl .mini{width:42px; height:54px}
+  .optrow{gap:12px}
+  .swatches{gap:10px}
+  .swatch{width:42px}
+  .swatch .cc{width:38px; height:38px}
+  .segsm{flex:1 1 auto; margin-left:0}
+  .segsm button{flex:1 1 0; padding:7px 6px}
+}
+
+/* ============================================================
+   好彩U · 精致层（Apple 质感 / 工具箱）
+   ============================================================ */
+:root{
+  --ink:#0A120E; --ink2:#3B4842; --muted:#6E7C75; --faint:#96A39C;
+  --brand:#0FA36B; --brand-d:#0A8A58; --brand-l:#2BC98A;
+  --obsidian:#0D1512;
+  --hair:rgba(255,255,255,.86);
+  --blur:saturate(180%) blur(34px);
+  --shadow-glass:0 1px 0 rgba(255,255,255,.92) inset,0 1px 1px rgba(10,22,16,.03),0 20px 48px -28px rgba(10,26,18,.34);
+  --shadow-card:0 1px 0 rgba(255,255,255,.9) inset,0 30px 70px -40px rgba(10,26,18,.55);
+}
+
+body{
+  background:
+    radial-gradient(130% 60% at 50% -16%,rgba(255,255,255,.96) 0%,rgba(255,255,255,0) 58%),
+    radial-gradient(820px 560px at 8% -6%,rgba(15,163,107,.10) 0%,rgba(15,163,107,0) 62%),
+    radial-gradient(720px 520px at 96% 6%,rgba(48,92,146,.08) 0%,rgba(48,92,146,0) 60%),
+    linear-gradient(180deg,#F8FAF9 0%,#EEF1F0 46%,#E8ECEA 100%);
+  background-attachment:fixed;
+  font-feature-settings:"tnum" 1;
+}
+
+/* 顶栏 */
+.top{
+  background:rgba(252,253,252,.72);
+  border-bottom:1px solid rgba(10,24,17,.07);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 10px 30px -26px rgba(10,26,18,.5);
+}
+.top-in{max-width:1160px; padding:14px 28px; gap:12px}
+.mark{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(158deg,#1BC386 0%,#0A8A5C 48%,#053826 100%);
+  box-shadow:0 10px 24px -14px rgba(4,64,42,.7),inset 0 1px 1px rgba(255,255,255,.4),inset 0 -1px 2px rgba(0,0,0,.18);
+}
+.mark svg{width:22px;height:22px}
+.brand h1{font-size:20px; font-weight:600; letter-spacing:-.9px; color:#08120D}
+.brand p{font-size:11.5px; color:var(--muted); margin-top:5px; letter-spacing:.02em}
+.trust{
+  font-size:10.5px; padding:6px 11px; color:#5A6761;
+  background:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.9);
+}
+.top-act{margin-left:auto; display:flex; align-items:center; gap:8px}
+.sfx{
+  display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 13px;
+  border-radius:99px; font-size:11.5px; font-weight:500; color:#5A6761;
+  background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -14px rgba(10,26,18,.6);
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+  transition:transform .16s var(--ease),color .2s,background .2s,box-shadow .2s;
+}
+.sfx svg{width:14px;height:14px;opacity:.62;transition:opacity .2s}
+.sfx:hover{background:rgba(255,255,255,.92); color:#12221A}
+.sfx:active{transform:scale(.96)}
+.sfx.is-on{color:#07583A; background:rgba(233,250,243,.9); border-color:rgba(198,240,219,.9); box-shadow:0 0 0 1px rgba(15,163,107,.14),0 8px 18px -14px rgba(15,163,107,.55)}
+.sfx.is-on svg{opacity:.95; color:#0A8A58}
+
+/* 工具箱入口卡片 */
+.tools{
+  grid-column:1/-1; order:0;
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+}
+.tool{
+  display:flex; align-items:center; gap:14px; text-align:left;
+  padding:14px 16px; border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.66));
+  border:1px solid rgba(255,255,255,.92);
+  box-shadow:0 1px 0 rgba(255,255,255,.94) inset,0 14px 34px -26px rgba(10,26,18,.55);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  transition:transform .22s var(--ease),box-shadow .26s var(--ease),background .26s var(--ease),border-color .26s var(--ease);
+  min-width:0;
+}
+.tool:hover{transform:translateY(-1px); box-shadow:0 1px 0 rgba(255,255,255,.94) inset,0 22px 44px -28px rgba(10,26,18,.55)}
+.tool:active{transform:scale(.985)}
+.tool.is-on{
+  border-color:rgba(10,24,17,.16);
+  background:linear-gradient(180deg,#FFFFFF,#F4F7F5);
+  box-shadow:0 1px 0 #fff inset,0 0 0 1px rgba(10,24,17,.34),0 22px 44px -30px rgba(10,26,18,.55);
+}
+.tool-ico{
+  width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;
+  background:rgba(15,163,107,.10); color:#0A5138;
+  box-shadow:inset 0 0 0 1px rgba(15,163,107,.12);
+  transition:background .26s var(--ease),color .26s var(--ease),box-shadow .26s var(--ease);
+}
+.tool-ico svg{width:21px;height:21px}
+.tool.is-on .tool-ico{
+  background:linear-gradient(158deg,#16241E,#070F0B); color:#EAF5EF;
+  box-shadow:0 8px 18px -12px rgba(6,16,11,.85),inset 0 1px 0 rgba(255,255,255,.14);
+}
+.tool-txt{min-width:0; flex:1}
+.tool-txt b{display:block; font-size:14.5px; font-weight:600; letter-spacing:-.3px; color:#0A120E}
+.tool-txt i{display:block; font-style:normal; font-size:10.5px; color:var(--muted); margin-top:4px; letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.tool-go{
+  width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;
+  color:#0A120E; background:rgba(10,24,17,.05);
+  transition:background .26s var(--ease),color .26s var(--ease),transform .26s var(--ease);
+}
+.tool-go svg{width:12px;height:12px}
+.tool.is-on .tool-go{background:#0D1512; color:#fff}
+
+/* 布局与面板 */
+.grid{gap:20px; padding:16px 28px 52px; grid-template-columns:minmax(0,1fr) 412px; align-items:start}
+.panel{
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.9);
+  background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.62));
+  box-shadow:var(--shadow-glass);
+}
+.block{padding:15px 24px 17px}
+.block:first-child{padding-top:20px}
+.block-h h2{font-size:15px; letter-spacing:-.4px}
+.num{border-radius:7px; color:#5E6C65}
+
+/* 输入 */
+.field input,.field textarea{border-radius:12px}
+.field input:focus,.field textarea:focus{box-shadow:0 0 0 3px rgba(15,163,107,.16),0 1px 0 rgba(255,255,255,.9) inset}
+.drop{border-radius:16px}
+.drop:hover{border-color:rgba(15,163,107,.42)}
+
+/* 按钮：黑曜石主按钮 */
+.btn{
+  height:44px; border-radius:13px; font-size:12.5px; letter-spacing:-.1px;
+  background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.92);
+  box-shadow:0 1px 0 rgba(255,255,255,.92) inset,0 8px 20px -18px rgba(10,26,18,.7);
+}
+.btn:hover{background:#fff; box-shadow:0 1px 0 #fff inset,0 12px 26px -18px rgba(10,26,18,.55)}
+.btn:active{transform:scale(.975)}
+.btn-primary{
+  color:#F4FBF7; border-color:rgba(255,255,255,.16);
+  background:linear-gradient(180deg,#1B2A23 0%,#0E1712 55%,#070D0A 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.4),0 16px 30px -18px rgba(5,14,10,.9);
+}
+.btn-primary:hover{
+  background:linear-gradient(180deg,#22352C 0%,#111C16 55%,#0A120E 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 18px 34px -16px rgba(5,14,10,.85);
+}
+.btn-ghost{background:rgba(255,255,255,.5); color:#5E6C65}
+
+/* 分段 / 滑杆 / 开关 */
+.seg{background:rgba(120,132,125,.12); border-radius:12px}
+.seg button{border-radius:9px; font-size:12px}
+.seg button.is-on{background:#fff; box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 2px 8px -4px rgba(10,26,18,.45)}
+.switch[aria-pressed="true"]{background:linear-gradient(180deg,#18B478,#0A8A58)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 2px 6px -2px rgba(10,26,18,.5)}
+
+/* 色板 / 码色 */
+.swatch .cc{border-radius:12px}
+.swatch.is-on .cc{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--brand),0 10px 20px -12px rgba(15,163,107,.45)}
+.qrc{transition:transform .18s var(--ease)}
+.qrc:active{transform:scale(.94)}
+
+/* 预览 */
+.stage{top:88px}
+.stage-in{
+  border-radius:24px;
+  background:
+    radial-gradient(120% 74% at 50% 0%,rgba(255,255,255,.86) 0%,rgba(255,255,255,.4) 52%,rgba(255,255,255,.2) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.26));
+  box-shadow:var(--shadow-card);
+}
+.eyebrow{letter-spacing:1.9px; color:#8A968F}
+#cv{filter:drop-shadow(0 24px 44px rgba(10,26,18,.26))}
+
+/* 触感：全站按压反馈 */
+button{ -webkit-tap-highlight-color:transparent; }
+@media(hover:hover){
+  .btn:hover, .tool:hover{will-change:transform}
+}
+.foot{color:#8C9892}
+
+/* 移动端 */
+@media(max-width:1020px){
+  .grid{padding:10px 12px 100px; gap:11px; grid-template-columns:1fr}
+  .tools{gap:10px; margin-bottom:2px}
+  .tool{padding:11px 12px; gap:10px; border-radius:16px}
+  .tool-ico{width:34px;height:34px;border-radius:10px}
+  .tool-ico svg{width:17px;height:17px}
+  .tool-txt b{font-size:13px; letter-spacing:-.2px}
+  .tool-txt i{font-size:9.5px; margin-top:3px}
+  .tool-go{display:none}
+  .top-in{padding:10px 14px; gap:8px}
+  .brand h1{font-size:17px; letter-spacing:-.6px}
+  .mark{width:32px;height:32px;border-radius:10px}
+  .mark svg{width:18px;height:18px}
+  .sfx{height:30px; padding:0 10px}
+  .sfx span{display:none}
+  .stage{top:0}
+  .stage-in{border-radius:20px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important; transition-duration:.001s!important}
+}
+
+/* 模板缩略：新增卡片 */
+.tpls{display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; flex:0 1 auto; max-width:100%; padding-bottom:2px}
+.tpls::-webkit-scrollbar{display:none}
+.m-frame{background:linear-gradient(165deg,#fbfcfa,#e6ece5)}
+.m-frame i{left:6px; right:6px; top:7px; bottom:7px; background:#fff; border-radius:6px; box-shadow:inset 0 0 0 1.6px rgba(10,24,17,.22)}
+.m-frame b{left:50%; top:19px; width:17px; height:17px; margin-left:-8.5px; background:#0a120e; opacity:.86; background-size:3px 3px}
+.m-receipt{background:linear-gradient(165deg,#17b978,#064e34)}
+.m-receipt i{left:8px; right:8px; top:9px; bottom:9px; background:#fff; border-radius:3px; border-top:2px dashed rgba(10,24,17,.16); border-bottom:2px dashed rgba(10,24,17,.16)}
+.m-receipt b{left:50%; top:19px; width:18px; height:18px; margin-left:-9px; background:#0a120e; opacity:.86; background-size:3px 3px}
+.m-banner{background:linear-gradient(165deg,#202b27,#0e1412)}
+.m-banner i{left:6px; right:6px; top:7px; bottom:7px; background:#fff; border-radius:6px}
+.m-banner b{left:50%; top:26px; width:18px; height:18px; margin-left:-9px; background:#0a120e; opacity:.86; background-size:3px 3px}
+.m-banner::before{content:""; position:absolute; left:50%; top:13px; width:9px; height:9px; margin-left:-4.5px; border-radius:50%; background:#c9d3cc}
+
+/* 底栏收起 */
+.dock-min{
+  width:30px; height:38px; flex:none; border-radius:11px; display:grid; place-items:center;
+  color:#5E6C65; background:rgba(255,255,255,.78); border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset; transition:transform .16s var(--ease);
+}
+.dock-min svg{width:14px; height:14px}
+.dock-min:active{transform:scale(.94)}
+.dock-open{
+  display:none; flex:1; height:44px; border-radius:13px; align-items:center; justify-content:center; gap:7px;
+  font-size:12.5px; font-weight:600; color:#F4FBF7;
+  background:linear-gradient(180deg,#1B2A23 0%,#0E1712 55%,#070D0A 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 16px 30px -18px rgba(5,14,10,.9);
+}
+.dock-open svg{width:15px; height:15px}
+.dock.is-min{background:transparent; border-top:0; box-shadow:none; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); -webkit-backdrop-filter:none; backdrop-filter:none}
+.dock.is-min .dock-in{gap:0; justify-content:flex-end; max-width:520px}
+.dock.is-min .dock-open{flex:0 0 auto; padding:0 22px}
+.dock-open{box-shadow:0 14px 34px -14px rgba(5,14,10,.75),inset 0 1px 0 rgba(255,255,255,.16)}
+.dock.is-min .dock-in > .badge,
+.dock.is-min #btnSave2,
+.dock.is-min #btnHold2,
+.dock.is-min #dockMin{display:none}
+.dock.is-min #dockOpen{display:inline-flex}
+
+/* 行内小输入 */
+.inlinerow{display:flex; align-items:center; gap:10px; margin-top:12px}
+.inlinerow > label{font-size:11.5px; color:var(--muted); flex:none; letter-spacing:-.1px}
+.inlinerow input{
+  height:34px; width:148px; padding:0 12px; border-radius:10px; font-size:12.5px;
+  border:1px solid rgba(255,255,255,.92); background:rgba(255,255,255,.86); color:var(--ink);
+  box-shadow:0 1px 0 rgba(255,255,255,.92) inset,0 2px 8px -6px rgba(10,26,18,.55);
+  outline:none; transition:box-shadow .18s var(--ease),border-color .18s var(--ease);
+}
+.inlinerow input:focus{border-color:rgba(15,163,107,.45); box-shadow:0 0 0 3px rgba(15,163,107,.14)}
+.inlinerow .opthint{margin-left:auto; font-size:10.5px; color:var(--faint); white-space:nowrap}
+
+/* ===== 品牌标识（矢量） ===== */
+.sprite{position:absolute; width:0; height:0; overflow:hidden; pointer-events:none}
+.mark{background:none; box-shadow:none; padding:0; overflow:visible}
+.mark::after{display:none}
+.mark svg{width:100%; height:100%; display:block; border-radius:inherit;
+  filter:drop-shadow(0 9px 20px rgba(4,64,42,.34))}
+
+/* ===== 开屏 ===== */
+.splash{
+  position:fixed; inset:0; z-index:300; display:grid; place-items:center; overflow:hidden;
+  background:radial-gradient(120% 92% at 50% -12%, #E5F5ED 0%, #F2F8F4 44%, #FCFDFB 100%);
+  opacity:1; transform:none;
+  transition:opacity .55s cubic-bezier(.22,.9,.24,1), transform .55s cubic-bezier(.22,.9,.24,1);
+}
+.splash.is-out{opacity:0; transform:scale(1.02); pointer-events:none}
+.sp-orb{
+  position:absolute; top:-8%; width:min(84vw,600px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle at 50% 42%, rgba(23,185,120,.26), rgba(23,185,120,.05) 48%, transparent 70%);
+  filter:blur(4px);
+}
+.sp-in{position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 30px}
+.sp-logo{width:96px; height:96px; display:block; animation:spPop .95s cubic-bezier(.2,.9,.2,1) both;
+  filter:drop-shadow(0 24px 46px rgba(4,64,42,.3))}
+.sp-logo svg{width:100%; height:100%; display:block}
+.sp-name{margin-top:24px; font-size:33px; line-height:1; font-weight:600; color:#06110B; letter-spacing:-1.6px;
+  animation:spUp .7s .18s both}
+.sp-sub{margin-top:10px; font-size:11.5px; color:#6E7C74; letter-spacing:.28em; text-indent:.28em;
+  animation:spUp .7s .26s both}
+.sp-line{width:26px; height:1px; margin:19px 0 17px; background:rgba(10,24,17,.16); animation:spUp .7s .32s both}
+.sp-trust{display:flex; align-items:center; gap:11px; font-size:11px; color:#5A6A62; letter-spacing:.02em;
+  animation:spUp .7s .38s both}
+.sp-trust i{width:3px; height:3px; border-radius:50%; background:rgba(10,24,17,.22)}
+.sp-bar{width:132px; height:2px; border-radius:3px; margin-top:38px; background:rgba(10,24,17,.09); overflow:hidden}
+.sp-bar i{display:block; height:100%; width:0; border-radius:3px;
+  background:linear-gradient(90deg,#2BD79C,#0A8A5C); animation:spBar 1.15s .12s cubic-bezier(.4,0,.2,1) forwards}
+.sp-tip{margin-top:15px; font-size:10.5px; color:#93A099; letter-spacing:.08em; animation:spUp .8s .58s both}
+@keyframes spPop{from{opacity:0; transform:scale(.86); filter:blur(8px)} to{opacity:1; transform:none; filter:blur(0)}}
+@keyframes spUp{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
+@keyframes spBar{to{width:100%}}
+
+/* ===== 码色：对应颜色的小二维码芯片 ===== */
+.qrc{
+  width:30px; height:30px; border-radius:9px; background:#fff; border:0; padding:0;
+  display:grid; place-items:center; color:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(10,24,17,.09), 0 7px 14px -11px rgba(10,26,18,.85);
+  transition:transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease;
+}
+.qrc svg{width:19px; height:19px; display:block}
+.qrc:hover{transform:translateY(-2px)}
+.qrc.is-on{box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--c), 0 10px 20px -12px var(--c)}
+.qrclabel{margin-right:2px}
+
+/* ===== 安全承诺条 ===== */
+.trustbar{
+  display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+  margin:12px 0 0; padding:9px 12px; border-radius:12px;
+  background:rgba(255,255,255,.62); border:1px solid rgba(255,255,255,.85);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 8px 20px -20px rgba(10,26,18,.75);
+}
+.trustbar span{display:inline-flex; align-items:center; gap:5px; font-size:10.5px; color:#5E6C65; letter-spacing:-.02em}
+.trustbar svg{width:12px; height:12px; color:#0E9E67; flex:none}
+
+@media (prefers-reduced-motion:reduce){
+  .sp-logo,.sp-name,.sp-sub,.sp-line,.sp-trust,.sp-bar i,.sp-tip{animation-duration:.01ms !important; animation-delay:0s !important}
+  .sp-bar i{width:100%}
+}
+
+/* ===== 顶栏隐私条 ===== */
+.privacybar{
+  display:flex; align-items:center; justify-content:center; gap:7px; flex-wrap:wrap;
+  padding:7px 16px 8px; font-size:10.5px; color:#7C8A82; letter-spacing:.01em;
+  border-bottom:1px solid rgba(10,24,17,.05);
+  background:linear-gradient(180deg,rgba(247,251,248,.9),rgba(252,253,252,.6));
+}
+.privacybar svg{width:11px; height:11px; color:#0E9E67; flex:none}
+.privacybar i{font-style:normal; color:#AEB9B2}
+@media (max-width:520px){
+  .privacybar{padding:6px 12px 7px; font-size:10px; gap:6px}
+}
+
+/* 焦点环：去掉浏览器默认灰环 */
+button:focus{outline:none}
+button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
+
+/* 移动端预览：默认展开，限制高度更省空间 */
+@media (max-width:1020px){
+  #cv{max-height:min(44vh,280px); width:auto}
+  .canvas-wrap{padding:0}
+  .stage-head{margin-bottom:12px}
+}
+
+/* 移动端微调 */
+@media (max-width:1020px){
+  #cv{max-height:min(38vh,232px)}
+  .stage-in{padding:16px 14px 14px}
+}
+.tool.is-on{box-shadow:0 1px 0 #fff inset,0 0 0 1px rgba(10,24,17,.2),0 22px 44px -30px rgba(10,26,18,.55)}
+
+/* 工具卡选中：去掉双描边，只留一层细边 */
+.tool.is-on{
+  border-color:rgba(10,24,17,.22);
+  box-shadow:0 1px 0 #fff inset,0 18px 36px -28px rgba(10,26,18,.62);
+}
+.privacybar{color:#6B7A72}
+
+/* ===== 底部标识控件 ===== */
+.brandcard{
+  margin-top:12px; padding:11px 12px 12px; border-radius:16px;
+  background:linear-gradient(180deg,rgba(232,248,241,.94),rgba(248,251,249,.92));
+  border:1px solid rgba(15,163,107,.16);
+  box-shadow:0 1px 0 rgba(255,255,255,.92) inset, 0 12px 26px -24px rgba(10,60,40,.8);
+  transition:opacity .2s ease;
+}
+.brandcard.is-off{opacity:.6}
+.bc-head{display:flex; align-items:center; gap:8px}
+.bc-title{font-size:12px; font-weight:600; color:#0B3B28; letter-spacing:-.1px}
+.bc-sub{font-size:10px; color:#6F8A7C; letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mf-switch{
+  margin-left:auto; width:38px; height:22px; border-radius:99px; flex:none; position:relative; padding:0;
+  background:linear-gradient(180deg,#18B478,#0A8A58);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.14); transition:background .22s var(--ease);
+}
+.mf-switch i{
+  position:absolute; top:2px; left:18px; width:18px; height:18px; border-radius:50%; background:#fff;
+  box-shadow:0 1px 3px rgba(6,26,16,.28); transition:left .22s var(--ease);
+}
+.mf-switch[aria-checked="false"]{background:rgba(10,24,17,.16)}
+.mf-switch[aria-checked="false"] i{left:2px}
+.bc-body{display:flex; align-items:center; gap:8px; margin-top:9px}
+.bc-prev{width:34px; height:34px; flex:none; border-radius:9px; background:#fff; box-shadow:inset 0 0 0 1px rgba(10,24,17,.07)}
+.bc-input{
+  flex:1; min-width:0; height:36px; padding:0 12px; border-radius:10px; font-size:12.5px; color:var(--ink);
+  border:1px solid rgba(255,255,255,.95); background:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 2px 8px -7px rgba(10,26,18,.6); outline:none;
+}
+.bc-input:focus{border-color:rgba(15,163,107,.45); box-shadow:0 0 0 3px rgba(15,163,107,.14)}
+.bc-up{
+  flex:none; height:36px; padding:0 12px; border-radius:10px; font-size:11.5px; font-weight:600;
+  color:#0A5138; background:rgba(255,255,255,.92); border:1px solid rgba(15,163,107,.22);
+  display:inline-flex; align-items:center; gap:4px; cursor:pointer;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset;
+}
+.bc-up svg{width:12px; height:12px}
+.bc-up:active{transform:scale(.97)}
+.bc-clear{flex:none; font-size:10.5px; color:#7E8E86; text-decoration:underline; padding:0 2px}
+
+/* ===== 页脚 ===== */
+.foot{max-width:1180px; margin:0 auto; padding:0 24px 34px; display:flex; flex-direction:column; align-items:center; gap:9px}
+.foot-in{
+  display:flex; align-items:center; justify-content:center; gap:11px; flex-wrap:wrap;
+  padding:9px 15px; border-radius:14px;
+  background:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.92);
+  box-shadow:0 1px 0 rgba(255,255,255,.92) inset, 0 12px 30px -28px rgba(10,26,18,.8);
+}
+.foot-logo{width:22px; height:22px; display:block; flex:none}
+.foot-logo svg{width:100%; height:100%; display:block}
+.foot-name{font-size:12px; font-weight:600; color:#243029; letter-spacing:-.2px}
+.foot-badge{display:inline-flex; align-items:center; gap:4px; font-size:10.5px; color:#4E5C55}
+.foot-badge svg{width:11px; height:11px; color:#0E9E67; flex:none}
+.foot-note{margin:0; font-size:10.5px; color:#84938B; text-align:center; line-height:1.6}
+@media (max-width:1020px){
+  .grid{padding-bottom:16px}
+  .foot{padding:0 18px 108px}
+  .foot-in{gap:9px; padding:8px 12px}
+  .foot-note{font-size:10px}
+}
 
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gU" x1="6%" y1="0%" x2="94%" y2="100%">
+      <stop offset="0%" stop-color="#2BD79C"/><stop offset="46%" stop-color="#0FA26A"/><stop offset="100%" stop-color="#043A27"/>
+    </linearGradient>
+    <linearGradient id="gUshine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".38"/><stop offset="62%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <symbol id="logoU" viewBox="0 0 40 40">
+    <rect x=".6" y=".6" width="38.8" height="38.8" rx="12" fill="url(#gU)"/>
+    <rect x=".6" y=".6" width="38.8" height="38.8" rx="12" fill="url(#gUshine)"/>
+    <rect x=".6" y=".6" width="38.8" height="38.8" rx="12" fill="none" stroke="#ffffff" stroke-opacity=".26" stroke-width="1.1"/>
+    <path d="M13.6 11.4v9.9c0 4.2 2.9 7 6.4 7s6.4-2.8 6.4-7V11.4" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<div class="splash" id="splash">
+  <span class="sp-orb"></span>
+  <div class="sp-in">
+    <span class="sp-logo"><svg viewBox="0 0 40 40"><use href="#logoU"/></svg></span>
+    <b class="sp-name">好彩U</b>
+    <span class="sp-sub">二维码工具箱</span>
+    <span class="sp-line"></span>
+    <div class="sp-trust"><span>本机生成</span><i></i><span>不上传</span><i></i><span>不留存</span></div>
+    <div class="sp-bar"><i></i></div>
+    <div class="sp-tip">轻触任意处进入</div>
+  </div>
+</div>
+
 <header class="top">
   <div class="top-in">
     <div class="brand">
       <span class="mark">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="3" y="3" width="7" height="7" rx="1.6" fill="#fff" opacity=".95"/>
-          <rect x="14" y="3" width="7" height="7" rx="1.6" fill="#fff" opacity=".95"/>
-          <rect x="3" y="14" width="7" height="7" rx="1.6" fill="#fff" opacity=".95"/>
-          <rect x="14" y="14" width="3" height="3" rx=".8" fill="#fff"/>
-          <rect x="18.5" y="14" width="2.5" height="2.5" rx=".7" fill="#fff"/>
-          <rect x="14" y="18.5" width="2.5" height="2.5" rx=".7" fill="#fff"/>
-          <rect x="18" y="18" width="3" height="3" rx=".8" fill="#fff"/>
-        </svg>
+        <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#logoU"/></svg>
       </span>
       <div>
-        <h1>微信码工具</h1>
-        <p>换头像、加名字，扫出来还是原来那个码</p>
+        <h1>好彩U全工具箱</h1>
+        <p>支付码海报 · 名片二维码</p>
       </div>
     </div>
-    <nav class="tabs" role="tablist">
-      <button class="tab is-on" data-tab="pay" role="tab">收款码换装</button>
-      <button class="tab" data-tab="card" role="tab">个人名片码</button>
-    </nav>
+    <div class="top-act">
+      <button class="sfx is-on" id="sfxBtn" aria-pressed="true" title="点击音效：开">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="M15.6 9.2a4 4 0 0 1 0 5.6"/><path d="M18.2 6.8a7.4 7.4 0 0 1 0 10.4"/></svg>
+        <span>音效</span>
+      </button>
+    </div>
   </div>
 </header>
 
+<div class="privacybar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7.6a4 4 0 0 1 8 0V10"/><path d="M12 14v2.4"/></svg>
+  <span>图片仅在本机处理</span><i>·</i><span>不上传</span><i>·</i><span>关闭即清空</span>
+</div>
+
 <main class="grid">
+  <section class="tools" role="tablist" aria-label="工具箱">
+    <button class="tab tool is-on" data-tab="pay" role="tab">
+      <span class="tool-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="4.2"/><rect x="7.4" y="7.4" width="4" height="4" rx="1.2"/><rect x="13" y="7.4" width="3.6" height="3.6" rx="1.1"/><rect x="7.4" y="13" width="3.6" height="3.6" rx="1.1"/><path d="M14.4 14.4h2.4v2.4"/></svg>
+      </span>
+      <span class="tool-txt"><b>收款码海报</b><i>换头像 · 换码色 · 高清</i></span>
+      <span class="tool-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span>
+    </button>
+    <button class="tab tool" data-tab="card" role="tab">
+      <span class="tool-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.6" width="18" height="14.8" rx="4"/><circle cx="8.4" cy="10" r="2.2"/><path d="M5.6 16.2c.5-1.8 1.6-2.8 2.8-2.8s2.3 1 2.8 2.8"/><path d="M14.4 9.6h4.2M14.4 13.2h3"/></svg>
+      </span>
+      <span class="tool-txt"><b>名片二维码</b><i>扫码存通讯录 · 三种尺寸</i></span>
+      <span class="tool-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span>
+    </button>
+  </section>
+
 
   <!-- ================= 预览 ================= -->
   <section class="stage">
-    <div class="stage-in">
+    <div class="stage-in" id="stageIn">
       <div class="stage-head">
         <span class="eyebrow">实时预览</span>
         <span class="badge" id="badge"><i></i><span id="badgeText">示例预览</span></span>
+        <button class="fold" id="btnFold">收起预览</button>
       </div>
       <div class="canvas-wrap">
         <canvas id="cv"></canvas>
@@ -335,10 +1075,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
           下载 PNG
         </button>
-        <button class="btn" id="btnHold">长按保存</button>
+        <button class="btn" id="btnCopy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 5.5A2.5 2.5 0 0 0 12.5 3H6.5A2.5 2.5 0 0 0 4 5.5v6A2.5 2.5 0 0 0 6.5 14"/></svg>
+          复制图片
+        </button>
         <button class="btn btn-ghost" id="btnReset">清空</button>
       </div>
-      <p class="hint">全部在你的浏览器里完成，图片不会上传到任何服务器</p>
+      <p class="hint">图片只在本机处理，不会上传到任何服务器</p>
     </div>
   </section>
 
@@ -347,7 +1090,12 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
     <div class="panel-in">
 
       <div class="block">
-        <div class="block-h"><span class="num">01</span><h2>上传原二维码</h2><span class="sub">收款码 / 赞赏码 / 加好友码</span></div>
+        <div class="block-h"><span class="num">01</span><h2>上传原二维码</h2>
+          <div class="head-switch">
+            <span>高清重绘</span>
+            <button class="switch" id="swRedraw" aria-pressed="true" title="开启后按原码内容重建干净图案，扫出来一样；关闭则直接用原图"><i></i></button>
+          </div>
+        </div>
         <input type="file" id="fileQr" accept="image/*" hidden>
         <label class="drop" for="fileQr" id="dropQr">
           <span class="drop-ico">
@@ -355,7 +1103,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
           </span>
           <span class="drop-txt">
             <b>选择或拖入二维码截图</b>
-            <span>PNG / JPG，尽量用清晰原图，支持截图里带边框的码</span>
+            <span>PNG / JPG，也可以直接 Ctrl+V 粘贴；带边框的截图会自动识别并裁切</span>
           </span>
         </label>
         <div class="drop has" id="qrChip" hidden>
@@ -365,14 +1113,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
           <button class="link" id="qrClear">移除</button>
         </div>
         <div class="decode" id="decodeBox"><i class="dot"></i><span class="txt" id="decodeText">还没有上传，下面看到的是示例效果</span></div>
-
-        <div class="switch-row">
-          <div>
-            <b>高清重绘</b>
-            <p>开启后用原码内容重建一张干净图案，扫出来一模一样；关闭则直接用原图</p>
-          </div>
-          <button class="switch" id="swRedraw" aria-pressed="true" title="高清重绘"><i></i></button>
+        <div class="hintline">
+          <i>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          </i>
+          <span>没有现成图片？先试示例；图片只在本机内存处理，不会上传或保存</span>
         </div>
+
       </div>
 
       <div class="block">
@@ -394,17 +1141,15 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
           <button class="link" id="logoClear">移除</button>
         </div>
 
-        <div class="range-row">
-          <label for="logoSize">头像大小</label>
-          <input type="range" id="logoSize" min="8" max="30" step="1" value="16">
-          <span class="range-val" id="logoVal">16%</span>
-        </div>
-        <div class="row-2">
-          <div class="cell">
-            <div class="seg" id="logoShape">
-              <button class="is-on" data-shape="circle">圆形</button>
-              <button data-shape="rounded">圆角方</button>
-            </div>
+        <div class="row-inline">
+          <div class="range-row">
+            <label for="logoSize">头像大小</label>
+            <input type="range" id="logoSize" min="8" max="30" step="1" value="16">
+            <span class="range-val" id="logoVal">16%</span>
+          </div>
+          <div class="seg" id="logoShape">
+            <button class="is-on" data-shape="circle">圆形</button>
+            <button data-shape="rounded">圆角方</button>
           </div>
         </div>
       </div>
@@ -412,20 +1157,39 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
       <div class="block">
         <div class="block-h"><span class="num">03</span><h2>名称和文案</h2><span class="sub">都可以不填</span></div>
         <div class="fields">
-          <div class="field full"><label for="payKicker">二维码上方小字</label><input id="payKicker" placeholder="例如：微信收款" value="微信收款" maxlength="14"></div>
-          <div class="field full"><label for="payName">名称</label><input id="payName" placeholder="例如：楼下咖啡 · 阿哲" maxlength="16"></div>
+          <div class="field"><label for="payKicker">标题文字</label><input id="payKicker" placeholder="好彩U · 扫码收款" value="好彩U · 扫码收款" maxlength="16"></div>
+          <div class="field"><label for="payName">名称</label><input id="payName" placeholder="例如：楼下咖啡 · 阿哲" maxlength="16"></div>
           <div class="field full"><label for="payNote">副标题</label><input id="payNote" placeholder="例如：扫码付款，支持备注桌号" maxlength="24"></div>
         </div>
       </div>
 
       <div class="block">
-        <div class="block-h"><span class="num">04</span><h2>页面风格</h2><span class="sub">底色与卡片质感</span></div>
-        <div class="swatches" data-swatches="pay">
-          <button class="swatch is-on" data-theme="paper"><span class="cc" style="background:linear-gradient(150deg,#fbfcfa,#e6ece5)"></span><span>素白</span></button>
-          <button class="swatch" data-theme="mint"><span class="cc" style="background:linear-gradient(150deg,#e8f9ef,#c9edd9)"></span><span>苔绿</span></button>
-          <button class="swatch" data-theme="sand"><span class="cc" style="background:linear-gradient(150deg,#faf2e5,#e9d8bd)"></span><span>米砂</span></button>
-          <button class="swatch" data-theme="mist"><span class="cc" style="background:linear-gradient(150deg,#edf2f9,#d7e1f0)"></span><span>雾蓝</span></button>
-          <button class="swatch" data-theme="ink"><span class="cc" style="background:linear-gradient(150deg,#202b27,#0e1412)"></span><span>墨黑</span></button>
+        <div class="block-h"><span class="num">04</span><h2>卡片样式</h2><span class="sub">模板 · 尺寸 · 配色</span></div>
+        <div class="tplrow">
+          <div class="tpls" data-tpls="pay"><button class="tpl is-on" data-tpl="poster" title="品牌大标题 + 白色卡片 + 底部标识，适合贴在柜台"><span class="mini m-poster"><i></i><b></b></span><span>品牌海报</span></button><button class="tpl" data-tpl="minimal" title="白卡极简：二维码 + 名称，干净利落"><span class="mini m-min"><i></i><b></b></span><span>极简卡</span></button><button class="tpl" data-tpl="frame" title="细边框 + 四角标记，留白更高级"><span class="mini m-frame"><i></i><b></b></span><span>边框卡</span></button><button class="tpl" data-tpl="receipt" title="票据造型 + 品牌底色，像一张小票"><span class="mini m-receipt"><i></i><b></b></span><span>票据卡</span></button></div>
+          <div class="seg segsm" data-ratios="pay"><button class="" data-ratio="1:1">1:1</button><button class="is-on" data-ratio="3:4">3:4</button><button class="" data-ratio="9:16">9:16</button></div>
+        </div>
+        <div class="brandcard" id="brandCard">
+          <div class="bc-head">
+            <span class="bc-title">底部标识</span>
+            <span class="bc-sub">自动生成支付徽标 · 可上传 · 可隐藏</span>
+            <button class="mf-switch" id="swBrand" role="switch" aria-checked="true" aria-pressed="true" title="显示底部标识"><i></i></button>
+          </div>
+          <div class="bc-body">
+            <canvas class="bc-prev" id="brandPrev" width="136" height="136" aria-hidden="true"></canvas>
+            <input id="payBrand" class="bc-input" value="好彩U" maxlength="10" placeholder="留空则自动隐藏">
+            <label class="bc-up" for="fileBrand" title="上传你自己的标识图">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V5"/><path d="m7 10 5-5 5 5"/><path d="M5 19h14"/></svg>
+              上传
+            </label>
+            <input type="file" id="fileBrand" accept="image/*" hidden>
+            <button class="bc-clear" id="brandClear" hidden>清除</button>
+          </div>
+        </div>
+        <div class="optrow">
+          <div class="swatches"><button class="swatch is-on" data-theme="paper"><span class="cc" style="background:linear-gradient(150deg,#fbfcfa,#e6ece5)"></span><span>素白</span></button><button class="swatch " data-theme="mint"><span class="cc" style="background:linear-gradient(150deg,#e8f9ef,#c9edd9)"></span><span>苔绿</span></button><button class="swatch " data-theme="sand"><span class="cc" style="background:linear-gradient(150deg,#faf2e5,#e9d8bd)"></span><span>米砂</span></button><button class="swatch " data-theme="mist"><span class="cc" style="background:linear-gradient(150deg,#edf2f9,#d7e1f0)"></span><span>雾蓝</span></button><button class="swatch " data-theme="ink"><span class="cc" style="background:linear-gradient(150deg,#202b27,#0e1412)"></span><span>墨黑</span></button></div>
+          <div class="qrcs"><span class="qrclabel">码色</span><button class="qrc is-on" data-qrc="ink" style="--c:#0A120E" title="墨黑" aria-label="墨黑"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="green" style="--c:#0B3F2A" title="深绿" aria-label="深绿"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="blue" style="--c:#12294A" title="深蓝" aria-label="深蓝"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="brown" style="--c:#3A2418" title="咖啡" aria-label="咖啡"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="wine" style="--c:#3C1220" title="酒红" aria-label="酒红"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button></div>
+          <span class="opthint" id="qrColorHint">深色最稳，彩色码也照样能扫</span>
         </div>
       </div>
 
@@ -444,8 +1208,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
           <div class="field"><label for="cOrg">公司</label><input id="cOrg" placeholder="某某科技" maxlength="18"></div>
           <div class="field"><label for="cTel">手机</label><input id="cTel" placeholder="13800000000" maxlength="20" inputmode="tel"></div>
           <div class="field"><label for="cEmail">邮箱</label><input id="cEmail" placeholder="hi@example.com" maxlength="40" inputmode="email"></div>
-          <div class="field full"><label for="cUrl">网址</label><input id="cUrl" placeholder="https://" maxlength="60" inputmode="url"></div>
-          <div class="field full"><label for="cAddr">地址</label><input id="cAddr" placeholder="广州市天河区…" maxlength="40"></div>
+          <div class="field"><label for="cUrl">网址</label><input id="cUrl" placeholder="https://" maxlength="60" inputmode="url"></div>
+          <div class="field"><label for="cAddr">地址</label><input id="cAddr" placeholder="广州市天河区…" maxlength="40"></div>
           <div class="field full"><label for="cNote">一句话介绍</label><input id="cNote" placeholder="例如：做点小生意，也做点小设计" maxlength="30"></div>
         </div>
       </div>
@@ -477,41 +1241,52 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:1px solid #dfe
       </div>
 
       <div class="block">
-        <div class="block-h"><span class="num">03</span><h2>页面风格</h2><span class="sub">底色与卡片质感</span></div>
-        <div class="swatches" data-swatches="card">
-          <button class="swatch is-on" data-theme="paper"><span class="cc" style="background:linear-gradient(150deg,#fbfcfa,#e6ece5)"></span><span>素白</span></button>
-          <button class="swatch" data-theme="mint"><span class="cc" style="background:linear-gradient(150deg,#e8f9ef,#c9edd9)"></span><span>苔绿</span></button>
-          <button class="swatch" data-theme="sand"><span class="cc" style="background:linear-gradient(150deg,#faf2e5,#e9d8bd)"></span><span>米砂</span></button>
-          <button class="swatch" data-theme="mist"><span class="cc" style="background:linear-gradient(150deg,#edf2f9,#d7e1f0)"></span><span>雾蓝</span></button>
-          <button class="swatch" data-theme="ink"><span class="cc" style="background:linear-gradient(150deg,#202b27,#0e1412)"></span><span>墨黑</span></button>
+        <div class="block-h"><span class="num">03</span><h2>卡片样式</h2><span class="sub">模板 · 尺寸 · 配色</span></div>
+        <div class="tplrow">
+          <div class="tpls" data-tpls="card"><button class="tpl is-on" data-tpl="wechat" title="头像 + 昵称 + 地区 + 扫码提示"><span class="mini m-wx"><i></i><b></b></span><span>名片卡</span></button><button class="tpl" data-tpl="minimal" title="白卡极简：只留名字和二维码"><span class="mini m-min"><i></i><b></b></span><span>极简卡</span></button><button class="tpl" data-tpl="banner" title="头像居中 + 姓名职位上下排，简约克制"><span class="mini m-banner"><i></i><b></b></span><span>简约卡</span></button></div>
+          <div class="seg segsm" data-ratios="card"><button class="is-on" data-ratio="1:1">1:1</button><button class="" data-ratio="3:4">3:4</button><button class="" data-ratio="9:16">9:16</button></div>
         </div>
-        <div class="field" style="margin-top:16px">
-          <label for="cKicker">二维码上方小字</label>
-          <input id="cKicker" value="扫一扫，加我微信" maxlength="14">
+        <div class="field" style="margin-top:12px"><label for="cKicker">底部提示</label><input id="cKicker" value="扫码保存我的名片，随时联系" maxlength="20"></div>
+        <div class="optrow">
+          <div class="swatches"><button class="swatch is-on" data-theme="paper"><span class="cc" style="background:linear-gradient(150deg,#fbfcfa,#e6ece5)"></span><span>素白</span></button><button class="swatch " data-theme="mint"><span class="cc" style="background:linear-gradient(150deg,#e8f9ef,#c9edd9)"></span><span>苔绿</span></button><button class="swatch " data-theme="sand"><span class="cc" style="background:linear-gradient(150deg,#faf2e5,#e9d8bd)"></span><span>米砂</span></button><button class="swatch " data-theme="mist"><span class="cc" style="background:linear-gradient(150deg,#edf2f9,#d7e1f0)"></span><span>雾蓝</span></button><button class="swatch " data-theme="ink"><span class="cc" style="background:linear-gradient(150deg,#202b27,#0e1412)"></span><span>墨黑</span></button></div>
+          <div class="qrcs"><span class="qrclabel">码色</span><button class="qrc is-on" data-qrc="ink" style="--c:#0A120E" title="墨黑" aria-label="墨黑"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="green" style="--c:#0B3F2A" title="深绿" aria-label="深绿"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="blue" style="--c:#12294A" title="深蓝" aria-label="深蓝"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="brown" style="--c:#3A2418" title="咖啡" aria-label="咖啡"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button><button class="qrc" data-qrc="wine" style="--c:#3C1220" title="酒红" aria-label="酒红"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.2" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="9.8" y="1.2" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="11" y="2.4" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="1.2" y="9.8" width="5" height="5" rx="1.1" fill="currentColor"/><rect x="2.4" y="11" width="2.6" height="2.6" rx=".6" fill="#fff"/><rect x="7.6" y="1.6" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="4.4" width="1.5" height="2.8" rx=".3" fill="currentColor"/><rect x="9.9" y="7.2" width="1.5" height="1.5" rx=".3" fill="currentColor"/><rect x="12" y="7.6" width="2.4" height="1.5" rx=".3" fill="currentColor"/><rect x="7.6" y="7.6" width="1.6" height="1.6" rx=".3" fill="currentColor"/><rect x="10.2" y="10" width="1.4" height="1.4" rx=".3" fill="currentColor"/><rect x="12" y="12" width="2.4" height="2.4" rx=".3" fill="currentColor"/><rect x="7.6" y="10.6" width="1.3" height="2.6" rx=".3" fill="currentColor"/><rect x="9.6" y="13.2" width="2" height="1.3" rx=".3" fill="currentColor"/></svg></button></div>
+          <span class="opthint">深色最稳，彩色码也照样能扫</span>
         </div>
       </div>
-
     </div>
   </section>
 </main>
 
-<div class="foot">
-  本地处理 · 不上传任何图片 · 二维码内容不会经过服务器<br>
-  开源在 <a href="https://github.com/gdhkj" target="_blank" rel="noopener">github.com/gdhkj</a>
-</div>
+<footer class="foot">
+  <div class="foot-in">
+    <span class="foot-logo"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#logoU"/></svg></span>
+    <b class="foot-name">好彩U全工具箱</b>
+    <span class="foot-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7.6a4 4 0 0 1 8 0V10"/></svg>本机处理</span>
+    <span class="foot-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17.5a4.2 4.2 0 0 1 .6-8.3A5.4 5.4 0 0 1 18 9.6a3.9 3.9 0 0 1 .6 7.7"/><path d="M3.5 3.5l17 17"/></svg>不上传</span>
+    <span class="foot-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5h15"/><path d="M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9"/><path d="M6.4 7.5l.9 11a2 2 0 0 0 2 1.9h5.4a2 2 0 0 0 2-1.9l.9-11"/></svg>关闭即清空</span>
+  </div>
+  <p class="foot-note">图片只在浏览器内存里处理，不上传、不保存，关掉页面即释放</p>
+</footer>
 
-<div class="dock">
+<div class="dock" id="dock">
   <div class="dock-in">
     <span class="badge" id="dockBadge"><i></i><span id="dockBadgeText">示例预览</span></span>
     <button class="btn btn-primary" id="btnSave2">下载 PNG</button>
     <button class="btn" id="btnHold2">长按保存</button>
+    <button class="dock-min" id="dockMin" aria-label="收起操作栏" title="收起操作栏">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg>
+    </button>
+    <button class="dock-open" id="dockOpen" aria-label="展开操作栏">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+      下载 / 保存
+    </button>
   </div>
 </div>
 
 <div class="modal" id="modal">
   <div class="modal-in">
     <h3>长按图片保存到相册</h3>
-    <p>在微信里打开时，长按这张图即可保存</p>
+    <p>长按这张图即可保存到相册</p>
     <img id="modalImg" alt="生成的二维码图片">
     <button class="btn" id="modalClose">关闭</button>
   </div>
@@ -544,38 +1319,84 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   'use strict';
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
+  /* 开屏：约 1.1s 自动淡出，轻触立即进入 */
+  (function () {
+    var sp = $('#splash');
+    if (!sp) return;
+    if (/[?&]sp=0/.test(location.search)) { sp.remove(); return; }
+    var timer = setTimeout(out, 1150);
+    function out() {
+      if (!sp || sp.classList.contains('is-out')) return;
+      clearTimeout(timer);
+      sp.classList.add('is-out');
+      setTimeout(function () { if (sp && sp.parentNode) sp.parentNode.removeChild(sp); }, 620);
+    }
+    sp.addEventListener('pointerdown', out, { passive: true });
+    sp.addEventListener('click', out);
+  })();
   var FAM = '"PingFang SC","HarmonyOS Sans SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,sans-serif';
-  var LOGIC_W = 1080;
-  var DS = 2; // 画布超采样倍数
+  var W = 1080;              // 逻辑宽度
+  var DS = 2;                // 导出超采样
+  var SIZES = { '1:1': 1080, '3:4': 1440, '9:16': 1920 };
 
   var THEMES = {
-    paper: { bg: ['#FCFDFB', '#E5EBE5'], card: '#FFFFFF', text: '#0D1712', sub: '#647469', accent: '#05954A', line: 'rgba(13,23,18,.07)', shadow: 'rgba(16,30,22,.18)' },
-    mint:  { bg: ['#F1FBF6', '#C9EDDA'], card: '#FFFFFF', text: '#08281A', sub: '#4F7666', accent: '#06934B', line: 'rgba(8,40,26,.08)', shadow: 'rgba(8,50,32,.20)' },
-    sand:  { bg: ['#FCF7EE', '#EAD8BE'], card: '#FFFDF8', text: '#2A2115', sub: '#88785F', accent: '#A9762F', line: 'rgba(42,33,21,.08)', shadow: 'rgba(60,45,25,.18)' },
-    mist:  { bg: ['#F4F8FD', '#D5E0EF'], card: '#FFFFFF', text: '#12202E', sub: '#61758A', accent: '#2A6BB5', line: 'rgba(18,32,46,.08)', shadow: 'rgba(20,40,60,.18)' },
-    ink:   { bg: ['#16211C', '#080D0B'], card: '#1A2521', text: '#F2F7F3', sub: '#9CACA3', accent: '#3EDC93', line: 'rgba(255,255,255,.09)', shadow: 'rgba(0,0,0,.55)' }
+    paper: {
+      bg: ['#FCFDFB', '#E4EAE5'], card: '#FFFFFF', text: '#0D1712', sub: '#66766B',
+      accent: '#0FA36B', line: 'rgba(13,23,18,.07)', shadow: 'rgba(16,30,22,.18)',
+      hero: ['#17B978', '#064E34'], heroText: '#FFFFFF', ribbon: '#FFFFFF', mark: '#2E3A34'
+    },
+    mint: {
+      bg: ['#EFFBF5', '#C6EBD8'], card: '#FFFFFF', text: '#08281A', sub: '#4F7666',
+      accent: '#0B8F5D', line: 'rgba(8,40,26,.08)', shadow: 'rgba(8,50,32,.20)',
+      hero: ['#12A96B', '#043E29'], heroText: '#FFFFFF', ribbon: '#FFFFFF', mark: '#2E3A34'
+    },
+    sand: {
+      bg: ['#FCF7EE', '#E9D7BC'], card: '#FFFDF8', text: '#2A2115', sub: '#88785F',
+      accent: '#B07A31', line: 'rgba(42,33,21,.08)', shadow: 'rgba(60,45,25,.18)',
+      hero: ['#E3BD7A', '#B3813A'], heroText: '#33250F', ribbon: '#FFFCF6', mark: '#4A3A22'
+    },
+    mist: {
+      bg: ['#F4F8FD', '#D3DFF0'], card: '#FFFFFF', text: '#12202E', sub: '#61758A',
+      accent: '#3A6DA6', line: 'rgba(18,32,46,.08)', shadow: 'rgba(20,40,60,.18)',
+      hero: ['#8FB4E4', '#3B639B'], heroText: '#FFFFFF', ribbon: '#FFFFFF', mark: '#33465A'
+    },
+    ink: {
+      bg: ['#16211C', '#080D0B'], card: '#1A2521', text: '#F2F7F3', sub: '#9CACA3',
+      accent: '#2FD08A', line: 'rgba(255,255,255,.09)', shadow: 'rgba(0,0,0,.55)',
+      hero: ['#22302A', '#060B09'], heroText: '#F2F7F3', ribbon: '#0C1411', mark: '#E6EFE9'
+    }
+  };
+
+  /* 二维码前景色：全部为深色，保证与白底对比度足够 */
+  var QRC = {
+    ink: '#0A120E', green: '#0B3F2A', blue: '#12294A', brown: '#3A2418', wine: '#3C1220'
   };
 
   var DEMO = {
-    payName: '阿哲的咖啡小铺',
-    payNote: '扫码付款 · 支持备注桌号',
+    payName: '小满咖啡',
+    payNote: '扫码支付 · 支持备注桌号',
     name: '陈明',
     title: '产品经理',
     org: '某某科技',
+    addr: '广州市天河区',
     note: '做点小生意，也做点小设计'
   };
 
   var S = {
     tab: 'pay',
     theme: 'paper',
+    tpl: { pay: 'poster', card: 'wechat' },
+    ratio: { pay: '3:4', card: '1:1' },
+    qrColor: 'ink',
     pay: {
       img: null, objUrl: null, fileName: '', decoded: false, text: '', crop: null,
       redraw: true, logo: null, logoUrl: null, logoName: '',
-      size: 16, shape: 'circle', kicker: '微信收款', name: '', note: ''
+      size: 16, shape: 'circle', kicker: '好彩U · 扫码收款', name: '', note: '',
+      brand: '好彩U', brandImg: null, brandImgUrl: null, brandShow: true
     },
     card: {
       logo: null, logoUrl: null, logoName: '',
-      size: 14, shape: 'circle', kicker: '扫一扫，加我微信',
+      size: 14, shape: 'circle', kicker: '扫码保存我的名片，随时联系',
       name: '', title: '', org: '', tel: '', email: '', url: '', addr: '', note: ''
     }
   };
@@ -587,6 +1408,82 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   var currentGeo = null;
   var checkTimer = 0;
   var rafId = 0;
+
+  /* ---------------- 音效 & 触感 ---------------- */
+  var SFX_ON = (function () {
+    try { var v = localStorage.getItem('haocaiu-sfx'); return v === null ? true : v === '1'; } catch (e) { return true; }
+  })();
+  var AC = null;
+
+  function ensureAudio() {
+    try {
+      if (!AC) {
+        var C = window.AudioContext || window.webkitAudioContext;
+        if (C) AC = new C();
+      }
+      if (AC && AC.state === 'suspended') AC.resume();
+    } catch (e) {}
+  }
+
+  function beep(f1, f2, dur, gain) {
+    if (!SFX_ON || !AC) return;
+    try {
+      var t0 = AC.currentTime;
+      var o = AC.createOscillator(), g = AC.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f1, t0);
+      if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur * 0.85);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(gain, t0 + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(AC.destination);
+      o.start(t0); o.stop(t0 + dur + 0.03);
+    } catch (e) {}
+  }
+
+  function sfxTap() { ensureAudio(); beep(960, 700, 0.05, 0.04); }
+  function sfxSel() { ensureAudio(); beep(600, 860, 0.085, 0.048); }
+  function sfxDone() {
+    ensureAudio();
+    beep(700, 960, 0.12, 0.042);
+    setTimeout(function () { beep(1120, 1260, 0.09, 0.028); }, 105);
+  }
+  function buzz(ms) {
+    if (!SFX_ON) return;
+    try { if (navigator.vibrate) navigator.vibrate(ms || 8); } catch (e) {}
+  }
+
+  function bindFeel() {
+    var b = $('#sfxBtn');
+    function sync() {
+      if (!b) return;
+      b.classList.toggle('is-on', SFX_ON);
+      b.setAttribute('aria-pressed', SFX_ON ? 'true' : 'false');
+      b.title = '点击音效：' + (SFX_ON ? '开' : '关');
+    }
+    sync();
+    if (b) b.addEventListener('click', function () {
+      SFX_ON = !SFX_ON;
+      try { localStorage.setItem('haocaiu-sfx', SFX_ON ? '1' : '0'); } catch (e) {}
+      ensureAudio();
+      if (SFX_ON) { sfxSel(); buzz(14); }
+      sync();
+    });
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      var btn = t && t.closest ? t.closest('button') : null;
+      if (!btn || btn.id === 'sfxBtn') return;
+      if (btn.matches('.tool,.tpl,.qrc,.swatch,[data-ratio]')) sfxSel(); else sfxTap();
+      buzz(btn.matches('.tool,.btn-primary') ? 10 : 6);
+    }, true);
+    document.addEventListener('change', function (e) {
+      if (e.target.matches && e.target.matches('input[type=file]')) chimeNext = true;
+      if (e.target.matches && e.target.matches('input[type=checkbox]')) sfxTap();
+    });
+    document.addEventListener('change', function (e) {
+      if (e.target.matches && e.target.matches('input[type=range]')) sfxTap();
+    });
+  }
 
   /* ---------------- 基础工具 ---------------- */
   function rrect(c, x, y, w, h, r) {
@@ -616,6 +1513,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       c.font = weight + ' ' + s + 'px ' + FAM;
     }
     return s;
+  }
+
+  function textMid(c, str, x, y, font, color, track) {
+    c.save();
+    c.font = font;
+    c.fillStyle = color;
+    c.textAlign = 'center';
+    c.textBaseline = 'alphabetic';
+    if (!track) { c.fillText(str, x, y); c.restore(); return; }
+    var chars = Array.from(str);
+    var ws = chars.map(function (ch) { return c.measureText(ch).width; });
+    var total = ws.reduce(function (a, b) { return a + b; }, 0) + track * (chars.length - 1);
+    var xx = x - total / 2;
+    for (var i = 0; i < chars.length; i++) {
+      c.fillText(chars[i], xx + ws[i] / 2, y);
+      xx += ws[i] + track;
+    }
+    c.restore();
   }
 
   function toast(msg) {
@@ -723,44 +1638,47 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     c.width = c.height = 256;
     var x = c.getContext('2d');
     var g = x.createLinearGradient(0, 0, 256, 256);
-    g.addColorStop(0, '#31D282');
-    g.addColorStop(1, '#049B50');
+    g.addColorStop(0, '#21C784');
+    g.addColorStop(1, '#06513A');
     x.fillStyle = g;
     x.fillRect(0, 0, 256, 256);
-    x.fillStyle = 'rgba(255,255,255,.92)';
-    x.font = '600 104px ' + FAM;
+    x.fillStyle = 'rgba(255,255,255,.94)';
+    x.font = '600 116px "SF Pro Display","Helvetica Neue",' + FAM;
     x.textAlign = 'center';
     x.textBaseline = 'middle';
-    x.fillText('微', 128, 140);
+    x.fillText('U', 128, 134);
     return c;
   }
 
   /* ---------------- 构建模型 ---------------- */
-  function payState() { return S.pay; }
-  function cardState() { return S.card; }
-
   function buildModel() {
     var isPay = S.tab === 'pay';
-    var m = { tab: S.tab, theme: THEMES[S.theme] || THEMES.paper, demo: false, lines: [], qr: null, img: null, crop: null, logo: null, size: 16, shape: 'circle', kicker: '' };
+    var T = THEMES[S.theme] || THEMES.paper;
+    var m = {
+      tab: S.tab, tpl: S.tpl[S.tab], theme: T, H: SIZES[S.ratio[S.tab]] || 1440,
+      qrColor: QRC[S.qrColor] || QRC.ink,
+      demo: false, qr: null, img: null, crop: null, logo: null,
+      size: 16, shape: 'circle', kicker: '', name: '', sub: '', note: '', qrText: ''
+    };
 
     if (isPay) {
       var p = S.pay;
       m.kicker = (p.kicker || '').trim();
+      m.brand = p.brandShow === false ? '' : (p.brand === undefined ? '好彩U' : String(p.brand || '').trim());
+      m.brandImg = p.brandShow === false ? null : (p.brandImg || null);
       m.size = p.size;
       m.shape = p.shape;
       if (!p.img) {
         m.demo = true;
-        m.qrText = '示例二维码 · 微信码工具，上传你的收款码即可替换';
+        m.qrText = '示例二维码 · 好彩U全工具箱，上传你的收款码即可替换';
         m.qr = makeQr(m.qrText);
         m.logo = demoAvatar;
         m.size = 16;
-        m.kicker = m.kicker || '微信收款';
-        m.lines = [
-          { s: DEMO.payName, size: 58, weight: 600, color: m.theme.text },
-          { s: DEMO.payNote, size: 30, weight: 400, color: m.theme.sub, gap: 22 }
-        ];
+        m.name = (p.name || '').trim() || DEMO.payName;
+        m.note = (p.note || '').trim() || DEMO.payNote;
+        if (!m.kicker) m.kicker = '好彩U · 扫码收款';
       } else {
-        m.logo = p.logo;
+        m.logo = p.logo || demoAvatar;
         if (p.redraw && p.text) {
           m.qrText = p.text;
           m.qr = makeQr(p.text);
@@ -768,22 +1686,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           m.img = p.img;
           m.crop = p.crop;
         }
-        if (p.name.trim()) m.lines.push({ s: p.name.trim(), size: 58, weight: 600, color: m.theme.text });
-        if (p.note.trim()) m.lines.push({ s: p.note.trim(), size: 30, weight: 400, color: m.theme.sub, gap: 22 });
+        m.name = (p.name || '').trim();
+        m.note = (p.note || '').trim();
       }
-      if (!m.logo) m.logo = demoAvatar;
     } else {
       var c = S.card;
       m.kicker = (c.kicker || '').trim();
       m.size = c.size;
       m.shape = c.shape;
       m.logo = c.logo || demoAvatar;
+
       var filled = !!(c.name.trim() || c.title.trim() || c.org.trim());
       m.demo = !filled;
       var data = filled ? {
         name: c.name.trim(), title: c.title.trim(), org: c.org.trim(), tel: c.tel.trim(),
         email: c.email.trim(), url: c.url.trim(), addr: c.addr.trim(), note: c.note.trim()
-      } : { name: DEMO.name, title: DEMO.title, org: DEMO.org, note: DEMO.note };
+      } : { name: DEMO.name, title: DEMO.title, org: DEMO.org, addr: DEMO.addr, note: DEMO.note };
 
       m.qrText = vcardOf(data);
       try {
@@ -792,153 +1710,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         m.qr = makeQr(vcardOf({ name: DEMO.name, title: DEMO.title, org: DEMO.org }));
         m.demo = true;
       }
-
-      var subLine = [data.title, data.org].filter(Boolean).join(' · ');
-      m.lines.push({ s: data.name, size: 56, weight: 600, color: m.theme.text });
-      if (subLine) m.lines.push({ s: subLine, size: 30, weight: 400, color: m.theme.sub, gap: 20 });
-      if (data.note) m.lines.push({ s: data.note, size: 26, weight: 400, color: m.theme.sub, gap: 16 });
+      m.name = data.name;
+      m.sub = [data.title, data.org].filter(Boolean).join(' · ');
+      m.addr = data.addr || '';
+      m.note = data.note || '';
     }
     return m;
   }
 
-  /* ---------------- 绘制 ---------------- */
-  function drawCard() {
-    var m = buildModel();
-    var T = m.theme;
-    var M = 44, PAD = 68;
-    var innerW = LOGIC_W - 2 * (M + PAD); // 856
-    var tile = innerW;
-
-    // 文字适配
-    for (var i = 0; i < m.lines.length; i++) {
-      var l = m.lines[i];
-      l.fit = fitFont(mctx, l.s, l.weight, l.size, innerW - 8);
-    }
-
-    // 纵向布局
-    var top = M + PAD;
-    var kickerBase = 0;
-    if (m.kicker) {
-      kickerBase = top + 32;
-      top += 32 + 40;
-    }
-    var tileTop = top;
-    var tileBottom = tileTop + tile;
-
-    var base = tileBottom + 94;
-    var placed = [];
-    for (var j = 0; j < m.lines.length; j++) {
-      var ln = m.lines[j];
-      if (j > 0) base += (ln.gap || 20);
-      placed.push({ s: ln.s, weight: ln.weight, color: ln.color, fit: ln.fit, base: base });
-      base += ln.fit;
-    }
-    var lastBase = placed.length ? placed[placed.length - 1].base : tileBottom;
-    var H = Math.round(lastBase + (placed.length ? 74 : 0) + PAD + M);
-
-    // 画布尺寸
-    if (cv.width !== LOGIC_W * DS || cv.height !== H * DS) {
-      cv.width = LOGIC_W * DS;
-      cv.height = H * DS;
-    }
-    ctx.setTransform(DS, 0, 0, DS, 0, 0);
-
-    // 背景
-    var bg = ctx.createLinearGradient(0, 0, LOGIC_W * 0.4, H);
-    bg.addColorStop(0, T.bg[0]);
-    bg.addColorStop(1, T.bg[1]);
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, LOGIC_W, H);
-
-    // 卡片
-    ctx.save();
-    ctx.shadowColor = T.shadow;
-    ctx.shadowBlur = 64;
-    ctx.shadowOffsetY = 22;
-    rrect(ctx, M, M, LOGIC_W - 2 * M, H - 2 * M, 46);
-    ctx.fillStyle = T.card;
-    ctx.fill();
-    ctx.restore();
-    ctx.strokeStyle = T.line;
-    ctx.lineWidth = 1;
-    rrect(ctx, M + 0.5, M + 0.5, LOGIC_W - 2 * M - 1, H - 2 * M - 1, 46);
-    ctx.stroke();
-
-    // 二维码底板
-    ctx.save();
-    ctx.shadowColor = 'rgba(10,20,15,.10)';
-    ctx.shadowBlur = 28;
-    ctx.shadowOffsetY = 10;
-    rrect(ctx, M + PAD, tileTop, tile, tile, 34);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.restore();
-    ctx.strokeStyle = S.theme === 'ink' ? 'rgba(255,255,255,.10)' : 'rgba(13,23,18,.06)';
-    ctx.lineWidth = 1;
-    rrect(ctx, M + PAD + 0.5, tileTop + 0.5, tile - 1, tile - 1, 34);
-    ctx.stroke();
-
-    // 二维码内容
-    var qPad = 26;
-    var qx = M + PAD + qPad, qy = tileTop + qPad, qw = tile - qPad * 2;
-    var geo = { x: qx, y: qy, w: qw, h: qw };
-
-    if (m.qr) {
-      var box = drawQrMatrix(ctx, m.qr, qx, qy, qw, '#0A120E');
-      geo = box;
-    } else if (m.img) {
-      var src = m.crop || { x: 0, y: 0, w: m.img.width, h: m.img.height };
-      var ar = src.w / src.h;
-      var dw = qw, dh = qw;
-      if (ar > 1) dh = qw / ar; else dw = qw * ar;
-      var dx = qx + (qw - dw) / 2, dy = qy + (qw - dh) / 2;
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(dx, dy, dw, dh);
-      ctx.drawImage(m.img, src.x, src.y, src.w, src.h, dx, dy, dw, dh);
-      geo = { x: dx, y: dy, w: dw, h: dh };
-    }
-
-    // 中间头像
-    if (m.logo) {
-      drawLogo(ctx, m.logo, M + PAD + tile / 2, tileTop + tile / 2, tile * (m.size / 100), m.shape);
-    }
-
-    // 上方小字（逐字排布，避免 letterSpacing 影响其它文字）
-    if (m.kicker) {
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillStyle = T.accent;
-      var ks = fitFont(ctx, m.kicker, 600, 30, innerW - 40);
-      ctx.font = '600 ' + ks + 'px ' + FAM;
-      var gap = Math.round(ks * 0.22);
-      var chars = Array.from(m.kicker);
-      var ws = chars.map(function (ch) { return ctx.measureText(ch).width; });
-      var total = ws.reduce(function (a, b) { return a + b; }, 0) + gap * (chars.length - 1);
-      var xx = LOGIC_W / 2 - total / 2;
-      for (var ci = 0; ci < chars.length; ci++) {
-        ctx.fillText(chars[ci], xx + ws[ci] / 2, kickerBase);
-        xx += ws[ci] + gap;
-      }
-      ctx.restore();
-    }
-
-    // 名称 / 副标题
-    placed.forEach(function (p) {
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillStyle = p.color;
-      ctx.font = p.weight + ' ' + p.fit + 'px ' + FAM;
-      ctx.fillText(p.s, LOGIC_W / 2, p.base);
-      ctx.restore();
-    });
-
-    cv.classList.add('on');
-    currentGeo = { qr: geo, demo: m.demo, text: m.qrText, tab: m.tab, H: H };
-    return currentGeo;
-  }
-
+  /* ---------------- 绘制：通用零件 ---------------- */
   function drawLogo(c, img, cx, cy, d, shape) {
     var ring = Math.max(7, Math.round(d * 0.06));
     c.save();
@@ -974,8 +1754,644 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     c.restore();
   }
 
+  function drawCheck(c, cx, cy, r, bg) {
+    c.save();
+    c.beginPath();
+    c.arc(cx, cy, r, 0, Math.PI * 2);
+    c.fillStyle = bg;
+    c.fill();
+    c.strokeStyle = '#FFFFFF';
+    c.lineWidth = Math.max(2, r * 0.16);
+    c.lineJoin = 'round';
+    c.beginPath();
+    c.moveTo(cx - r * 0.36, cy - r * 0.02);
+    c.lineTo(cx - r * 0.08, cy + r * 0.28);
+    c.lineTo(cx + r * 0.38, cy - r * 0.26);
+    c.stroke();
+    c.restore();
+  }
+
+  function shade(hex, f) {
+    var h = String(hex || '#0B8A58').replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    var r = parseInt(h.substr(0, 2), 16), g = parseInt(h.substr(2, 2), 16), b = parseInt(h.substr(4, 2), 16);
+    function mix(v) { return Math.max(0, Math.min(255, Math.round(f < 0 ? v * (1 + f) : v + (255 - v) * f))); }
+    return 'rgb(' + mix(r) + ',' + mix(g) + ',' + mix(b) + ')';
+  }
+
+  function brandPal(label) {
+    var pals = [['#2BD79C', '#043A27'], ['#2A44D8', '#0B1450'], ['#D9A24A', '#5A3208'],
+      ['#C34B6B', '#4A0E22'], ['#2AA7B8', '#073841'], ['#39463F', '#070F0B']];
+    var h = 0, k = String(label || '');
+    for (var i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) & 0xffffff;
+    return pals[h % pals.length];
+  }
+
+  function drawBrandBadge(c, cx, cy, size, label, img, T) {
+    var half = size / 2;
+    var r = Math.round(size * 0.30);
+    if (img) {
+      c.save();
+      c.fillStyle = '#fff';
+      rrect(c, cx - half - size * 0.055, cy - half - size * 0.055, size * 1.11, size * 1.11, r * 1.08);
+      c.fill();
+      c.save();
+      rrect(c, cx - half, cy - half, size, size, r);
+      c.clip();
+      drawCover(c, img, cx - half, cy - half, size, size);
+      c.restore();
+      c.restore();
+      return;
+    }
+    var pal = T ? [T.accent, shade(T.accent, -0.62)] : brandPal(label);
+    var g = c.createLinearGradient(cx - half, cy - half, cx + half, cy + half);
+    g.addColorStop(0, pal[0]);
+    g.addColorStop(1, pal[1]);
+    c.save();
+    rrect(c, cx - half, cy - half, size, size, r);
+    c.fillStyle = g;
+    c.fill();
+    var sh = c.createLinearGradient(0, cy - half, 0, cy + half);
+    sh.addColorStop(0, 'rgba(255,255,255,.34)');
+    sh.addColorStop(.62, 'rgba(255,255,255,0)');
+    rrect(c, cx - half, cy - half, size, size, r);
+    c.fillStyle = sh;
+    c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.26)';
+    c.lineWidth = Math.max(1, size * 0.02);
+    rrect(c, cx - half + 1, cy - half + 1, size - 2, size - 2, Math.max(2, r - 1));
+    c.stroke();
+    c.fillStyle = '#FFFFFF';
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.font = '600 ' + Math.round(size * 0.5) + 'px "SF Pro Display","Helvetica Neue",' + FAM;
+    c.fillText('¥', cx, cy + size * 0.02);
+    c.restore();
+  }
+
+  function drawBrandMark(c, cx, baseline, scale, T, label, img) {
+    label = (label === undefined || label === null) ? '好彩U' : String(label).trim();
+    if (!label && !img) return;
+    var fs = Math.round(56 * scale);
+    var box = Math.round(60 * scale);
+    var gap = Math.round(16 * scale);
+    c.save();
+    c.textBaseline = 'alphabetic';
+    c.font = '600 ' + fs + 'px ' + FAM;
+    var tw = label ? c.measureText(label).width : 0;
+    var total = box + (label ? gap + tw : 0);
+    var left = cx - total / 2;
+    var top = baseline - box + Math.round(box * 0.16);
+    drawBrandBadge(c, left + box / 2, top + box / 2, box, label, img, T);
+    if (label) {
+      c.fillStyle = T.mark;
+      c.font = '600 ' + fs + 'px ' + FAM;
+      c.textAlign = 'left';
+      c.textBaseline = 'alphabetic';
+      c.fillText(label, left + box + gap, baseline);
+    }
+    c.restore();
+  }
+
+  /* ---------------- 绘制：极简卡 ---------------- */
+  function drawMinimal(m) {
+    var T = m.theme, H = m.H;
+    var M = 44, PAD = H >= 1800 ? 48 : 74;
+    var innerW = W - 2 * (M + PAD);
+
+    var blocks = [];
+    if (m.name) blocks.push({ s: m.name, weight: 600, size: 56, color: T.text, fit: fitFont(mctx, m.name, 600, 56, innerW - 16), gap: 0 });
+    if (m.sub) blocks.push({ s: m.sub, weight: 400, size: 30, color: T.sub, fit: fitFont(mctx, m.sub, 400, 30, innerW - 16), gap: 22 });
+    if (m.note) blocks.push({ s: m.note, weight: 400, size: 26, color: T.sub, fit: fitFont(mctx, m.note, 400, 26, innerW - 16), gap: 16 });
+
+    var textH = 0;
+    blocks.forEach(function (b, i) { textH += (i ? b.gap : 0) + b.fit; });
+
+    var kickerH = m.kicker ? 84 : 0;
+    var availH = H - 2 * M - 2 * 40;
+    var tile = Math.min(innerW, availH - kickerH - textH - 110);
+    if (tile < 300) tile = Math.max(240, Math.min(innerW, availH - kickerH - textH - 110));
+    var contentH = kickerH + tile + (blocks.length ? 96 + textH + 46 : 0);
+
+    var startY = M + Math.max(0, (H - 2 * M - contentH) / 2);
+
+    // 卡片
+    ctx.save();
+    ctx.shadowColor = T.shadow;
+    ctx.shadowBlur = 64;
+    ctx.shadowOffsetY = 22;
+    rrect(ctx, M, M, W - 2 * M, H - 2 * M, 46);
+    ctx.fillStyle = T.card;
+    ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = T.line;
+    ctx.lineWidth = 1;
+    rrect(ctx, M + .5, M + .5, W - 2 * M - 1, H - 2 * M - 1, 46);
+    ctx.stroke();
+
+    // 小字
+    if (m.kicker) {
+      textMid(ctx, m.kicker, W / 2, startY + 46, '600 30px ' + FAM, T.accent, Math.round(30 * 0.22));
+    }
+
+    var tileTop = startY + kickerH;
+    var tileX = M + PAD;
+
+    // 二维码底板
+    ctx.save();
+    ctx.shadowColor = 'rgba(10,20,15,.10)';
+    ctx.shadowBlur = 26;
+    ctx.shadowOffsetY = 9;
+    rrect(ctx, tileX, tileTop, tile, tile, 34);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = S.theme === 'ink' ? 'rgba(255,255,255,.10)' : 'rgba(13,23,18,.06)';
+    ctx.lineWidth = 1;
+    rrect(ctx, tileX + .5, tileTop + .5, tile - 1, tile - 1, 34);
+    ctx.stroke();
+
+    var qPad = 26;
+    var qx = tileX + qPad, qy = tileTop + qPad, qw = tile - qPad * 2;
+    var geo = { x: qx, y: qy, w: qw, h: qw };
+
+    if (m.qr) {
+      geo = drawQrMatrix(ctx, m.qr, qx, qy, qw, m.qrColor);
+    } else if (m.img) {
+      var src = m.crop || { x: 0, y: 0, w: m.img.width, h: m.img.height };
+      var ar = src.w / src.h;
+      var dw = qw, dh = qw;
+      if (ar > 1) dh = qw / ar; else dw = qw * ar;
+      var dx = qx + (qw - dw) / 2, dy = qy + (qw - dh) / 2;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(dx, dy, dw, dh);
+      ctx.drawImage(m.img, src.x, src.y, src.w, src.h, dx, dy, dw, dh);
+      geo = { x: dx, y: dy, w: dw, h: dh };
+    }
+
+    if (m.logo) drawLogo(ctx, m.logo, tileX + tile / 2, tileTop + tile / 2, tile * (m.size / 100), m.shape);
+
+    // 文案
+    var base = tileTop + tile + 90;
+    blocks.forEach(function (b, i) {
+      base += i ? b.gap : 0;
+      base += b.fit;
+      ctx.save();
+      ctx.fillStyle = b.color;
+      ctx.font = b.weight + ' ' + b.fit + 'px ' + FAM;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(b.s, W / 2, base);
+      ctx.restore();
+    });
+
+    return geo;
+  }
+
+  /* ---------------- 绘制：品牌收款海报 ---------------- */
+  function drawPoster(m) {
+    var T = m.theme, H = m.H;
+
+    // 背景
+    var bg = ctx.createLinearGradient(0, 0, W * .25, H);
+    bg.addColorStop(0, T.hero[0]);
+    bg.addColorStop(1, T.hero[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    var glow = ctx.createRadialGradient(W * .5, H * .12, 0, W * .5, H * .12, W * .82);
+    glow.addColorStop(0, 'rgba(255,255,255,.20)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // 标题
+    var titleY = Math.round(H * 0.10);
+    var tSize = Math.round(W * (H >= 1800 ? 0.076 : 0.062));
+    var tFit = fitFont(mctx, m.kicker || '好彩U · 扫码收款', 700, tSize, W - 160);
+    textMid(ctx, m.kicker || '好彩U · 扫码收款', W / 2, titleY, '700 ' + tFit + 'px ' + FAM, T.heroText, Math.round(tFit * 0.06));
+
+    // 白色卡片：先按比例取目标宽度，再按可用高度收紧，保证二维码始终居中、四周留白一致
+    var cardW = Math.round(W * (H >= 1800 ? 0.78 : (H >= 1400 ? 0.66 : 0.62)));
+    var ribbonY = Math.round(H * 0.845);
+    var cardTopMin = titleY + Math.round(tSize * 0.9) + Math.round(H * 0.028);
+    var pad = Math.round(cardW * 0.10);
+    var hasName = !!(m.name && m.name.trim());
+    var nameRow = hasName ? Math.round(cardW * 0.15) : 0;
+    var avail = ribbonY - cardTopMin - Math.round(H * 0.04);
+    var qr = Math.min(cardW - pad * 2, avail - pad * 2 - nameRow - (hasName ? 24 : 0));
+    qr = Math.max(300, qr);
+    pad = Math.round(qr * 0.125);
+    var cardW2 = qr + pad * 2;
+    var cardX = Math.round((W - cardW2) / 2);
+    var cardH = qr + pad * 2 + nameRow + (hasName ? 24 : 0);
+    var cardY = Math.round(cardTopMin + (avail - cardH) / 2);
+    cardW = cardW2;
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(6,50,30,.22)';
+    ctx.shadowBlur = 48;
+    ctx.shadowOffsetY = 18;
+    rrect(ctx, cardX, cardY, cardW, cardH, Math.round(cardW * 0.06));
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.restore();
+
+    // 二维码
+    var qx = cardX + pad, qy = cardY + pad, qw = qr;
+    var geo = { x: qx, y: qy, w: qw, h: qw };
+    if (m.qr) {
+      geo = drawQrMatrix(ctx, m.qr, qx, qy, qw, m.qrColor);
+    } else if (m.img) {
+      var src = m.crop || { x: 0, y: 0, w: m.img.width, h: m.img.height };
+      var ar = src.w / src.h, dw = qw, dh = qw;
+      if (ar > 1) dh = qw / ar; else dw = qw * ar;
+      var dx = qx + (qw - dw) / 2, dy = qy + (qw - dh) / 2;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(dx, dy, dw, dh);
+      ctx.drawImage(m.img, src.x, src.y, src.w, src.h, dx, dy, dw, dh);
+      geo = { x: dx, y: dy, w: dw, h: dh };
+    }
+
+    var logoD = qr * (m.size / 100);
+    var lcx = qx + qr / 2, lcy = qy + qr / 2;
+    if (m.logo) drawLogo(ctx, m.logo, lcx, lcy, logoD, m.shape);
+    drawCheck(ctx, lcx + logoD * 0.42, lcy + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
+
+    // 商户名 + 商家标签（留空也能正常出图）
+    if (hasName) {
+    var nameY = cardY + pad + qr + 30 + Math.round(cardW * 0.075);
+    var nSize = Math.round(cardW * 0.062);
+    var pillH = Math.round(nSize * 0.94);
+    var pillText = '商家';
+    ctx.save();
+    ctx.font = '500 ' + Math.round(nSize * 0.52) + 'px ' + FAM;
+    var pillW = ctx.measureText(pillText).width + pillH * 1.16;
+    var pillGap = Math.round(nSize * 0.42);
+    var nFit = fitFont(mctx, m.name || '', 600, nSize, cardW - pad * 2 - pillW - pillGap);
+    var nw = mctx.measureText(m.name || '').width;
+    var total = nw + pillGap + pillW;
+    var left = W / 2 - total / 2;
+    ctx.fillStyle = '#1B1B1B';
+    ctx.font = '600 ' + nFit + 'px ' + FAM;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(m.name || '', left, nameY);
+    // 圆角标签
+    rrect(ctx, left + nw + pillGap, nameY - pillH * 0.78, pillW, pillH, pillH * 0.26);
+    ctx.fillStyle = T.accent;
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '500 ' + Math.round(nSize * 0.52) + 'px ' + FAM;
+    ctx.textAlign = 'center';
+    ctx.fillText(pillText, left + nw + pillGap + pillW / 2, nameY - pillH * 0.78 + pillH * 0.68);
+    ctx.restore();
+    }
+
+    // 底部弧形白区
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(0, ribbonY + H * 0.03);
+    ctx.quadraticCurveTo(W / 2, ribbonY - H * 0.055, W, ribbonY + H * 0.03);
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fillStyle = T.ribbon;
+    ctx.fill();
+    ctx.restore();
+
+    drawBrandMark(ctx, W / 2, Math.round(ribbonY + (H - ribbonY) * 0.62), Math.min(1, H / 1440 * 1.02), T, m.brand, m.brandImg);
+
+    return geo;
+  }
+
+  /* ---------------- 绘制：名片卡 ---------------- */
+  function drawWechat(m) {
+    var T = m.theme, H = m.H;
+    var M = Math.round(W * 0.024);
+
+    var bg = ctx.createLinearGradient(0, 0, W * .3, H);
+    bg.addColorStop(0, T.bg[0]);
+    bg.addColorStop(1, T.bg[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    ctx.shadowColor = T.shadow;
+    ctx.shadowBlur = 50;
+    ctx.shadowOffsetY = 16;
+    rrect(ctx, M, M, W - 2 * M, H - 2 * M, Math.round(W * 0.035));
+    ctx.fillStyle = T.card;
+    ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = T.line;
+    ctx.lineWidth = 1;
+    rrect(ctx, M + .5, M + .5, W - 2 * M - 1, H - 2 * M - 1, Math.round(W * 0.035));
+    ctx.stroke();
+
+    // 顶部资料
+    var av = Math.round(W * 0.135);
+    var ax = M + Math.round(W * 0.065);
+    var ay = M + Math.round(W * 0.062);
+    drawLogo(ctx, m.logo || demoAvatar, ax + av / 2, ay + av / 2, av, 'square');
+
+    var nameSize = Math.round(W * 0.048);
+    var subSize = Math.round(W * 0.026);
+    var line2 = m.addr || m.sub || '';
+    var nameBase = ay + av * 0.44;
+    var subBase = nameBase + Math.round(W * 0.055);
+    ctx.save();
+    ctx.textAlign = 'left';
+    ctx.fillStyle = T.text;
+    ctx.font = '600 ' + nameSize + 'px ' + FAM;
+    ctx.fillText(m.name || '', ax + av + Math.round(W * 0.035), nameBase);
+    if (line2) {
+      ctx.fillStyle = T.sub;
+      ctx.font = '400 ' + subSize + 'px ' + FAM;
+      ctx.fillText(line2, ax + av + Math.round(W * 0.035), subBase);
+    }
+    ctx.restore();
+
+    // 二维码
+    var hintY = Math.round(H * 0.915);
+    var qTop = ay + av + Math.round(H * 0.042);
+    var qBottom = hintY - Math.round(H * 0.085);
+    var qr = Math.min(Math.round(W * (H > 1600 ? 0.70 : 0.64)), qBottom - qTop);
+    var qx = Math.round((W - qr) / 2);
+    var qy = Math.round(qTop + (qBottom - qTop - qr) / 2);
+    var geo = { x: qx, y: qy, w: qr, h: qr };
+
+    if (m.qr) {
+      geo = drawQrMatrix(ctx, m.qr, qx, qy, qr, m.qrColor);
+    }
+    var logoD = qr * (m.size / 100);
+    if (m.logo) drawLogo(ctx, m.logo, qx + qr / 2, qy + qr / 2, logoD, m.shape == 'square' ? 'square' : 'circle');
+    drawCheck(ctx, qx + qr / 2 + logoD * 0.42, qy + qr / 2 + logoD * 0.40, Math.max(14, logoD * 0.20), T.accent);
+
+    // 底部提示
+    if (m.kicker) {
+      textMid(ctx, m.kicker, W / 2, hintY, '400 ' + Math.round(W * 0.028) + 'px ' + FAM, T.sub);
+    }
+
+    return geo;
+  }
+
+  /* ---------------- 工具 ---------------- */
+  function dashed(c, y, x1, x2, color) {
+    c.save();
+    c.strokeStyle = color || 'rgba(10,24,17,.14)';
+    c.lineWidth = 2;
+    c.setLineDash([9, 11]);
+    c.beginPath();
+    c.moveTo(x1, y);
+    c.lineTo(x2, y);
+    c.stroke();
+    c.restore();
+  }
+
+  /* ---------------- 绘制：边框卡 ---------------- */
+  function drawFrame(m) {
+    var T = m.theme, H = m.H;
+    var bg = ctx.createLinearGradient(0, 0, W * .3, H);
+    bg.addColorStop(0, T.bg[0]);
+    bg.addColorStop(1, T.bg[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    var M = Math.round(W * 0.072);
+    var cw = W - M * 2, ch = H - 2 * M;
+    var rad = Math.round(W * 0.032);
+
+    ctx.save();
+    ctx.shadowColor = T.shadow;
+    ctx.shadowBlur = 48;
+    ctx.shadowOffsetY = 16;
+    rrect(ctx, M, M, cw, ch, rad);
+    ctx.fillStyle = T.card;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(10,24,17,.12)';
+    ctx.lineWidth = 2;
+    rrect(ctx, M + 1, M + 1, cw - 2, ch - 2, rad);
+    ctx.stroke();
+
+    // 四角细标
+    var tick = Math.round(W * 0.026), off = Math.round(W * 0.042);
+    ctx.strokeStyle = T.accent;
+    ctx.lineWidth = Math.round(W * 0.005);
+    [[M + off, M + off, 1, 1], [W - M - off, M + off, -1, 1], [M + off, H - M - off, 1, -1], [W - M - off, H - M - off, -1, -1]].forEach(function (c4) {
+      ctx.beginPath();
+      ctx.moveTo(c4[0] + c4[2] * tick, c4[1]);
+      ctx.lineTo(c4[0], c4[1]);
+      ctx.lineTo(c4[0], c4[1] + c4[3] * tick);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    var topY = M + Math.round(H * 0.075);
+    textMid(ctx, (m.kicker || '扫码收款'), W / 2, topY, '600 ' + Math.round(W * 0.024) + 'px ' + FAM, T.sub, Math.round(W * 0.008));
+
+    var brandBase = H - M - Math.round(H * 0.062);
+    var hasBra = !!(m.brand || m.brandImg);
+    if (hasBra) drawBrandMark(ctx, W / 2, brandBase, Math.min(0.9, H / 1440 * 0.94), T, m.brand, m.brandImg);
+
+    var hasName = !!(m.name && m.name.trim());
+    var nameBase = hasBra ? brandBase - Math.round(H * 0.072) : brandBase;
+    if (hasName) {
+      var nSize = Math.round(W * 0.042);
+      textMid(ctx, m.name, W / 2, nameBase, '600 ' + nSize + 'px ' + FAM, T.text, Math.round(nSize * 0.03));
+    }
+
+    var qTop = topY + Math.round(H * 0.05);
+    var qBottom = hasName ? nameBase - Math.round(H * 0.052) : (hasBra ? brandBase - Math.round(H * 0.08) : H - M - Math.round(H * 0.07));
+    var qCap = cw - Math.round(W * (H >= 1800 ? 0.10 : 0.18));
+    var qr = Math.min(qCap, qBottom - qTop);
+    if (qr < 200) qr = Math.max(180, qBottom - qTop);
+    var qx = Math.round((W - qr) / 2);
+    var qy = Math.round(qTop + (qBottom - qTop - qr) / 2);
+
+    var geo = { x: qx, y: qy, w: qr, h: qr };
+    if (m.qr) geo = drawQrMatrix(ctx, m.qr, qx, qy, qr, m.qrColor);
+    var logoD = qr * (m.size / 100);
+    if (m.logo) drawLogo(ctx, m.logo, qx + qr / 2, qy + qr / 2, logoD, m.shape == 'square' ? 'square' : 'circle');
+    drawCheck(ctx, qx + qr / 2 + logoD * 0.42, qy + qr / 2 + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
+    return geo;
+  }
+
+  /* ---------------- 绘制：票据卡 ---------------- */
+  function drawReceipt(m) {
+    var T = m.theme, H = m.H;
+    var bg = ctx.createLinearGradient(0, 0, W * .2, H);
+    bg.addColorStop(0, T.hero[0]);
+    bg.addColorStop(1, T.hero[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    var glow = ctx.createRadialGradient(W * .5, H * .18, 0, W * .5, H * .18, W * .8);
+    glow.addColorStop(0, 'rgba(255,255,255,.16)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    var pw = Math.round(W * (H >= 1800 ? 0.86 : 0.76));
+    var px = Math.round((W - pw) / 2);
+    var top = Math.round(H * 0.075), bot = Math.round(H * 0.925);
+    var tooth = Math.round(W * 0.015);
+    var step = tooth * 2;
+
+    function paperPath() {
+      ctx.beginPath();
+      ctx.moveTo(px, top);
+      for (var x = px; x < px + pw; x += step) {
+        var x2 = Math.min(x + step, px + pw);
+        ctx.lineTo((x + x2) / 2, top - tooth);
+        ctx.lineTo(x2, top);
+      }
+      ctx.lineTo(px + pw, bot);
+      for (var b = px + pw; b > px; b -= step) {
+        var b1 = Math.max(b - step, px);
+        ctx.lineTo((b1 + b) / 2, bot + tooth);
+        ctx.lineTo(b1, bot);
+      }
+      ctx.closePath();
+    }
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,.36)';
+    ctx.shadowBlur = 64;
+    ctx.shadowOffsetY = 22;
+    paperPath();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.restore();
+
+    var headY = top + Math.round(H * 0.072);
+    textMid(ctx, '收 款 码', W / 2, headY, '600 ' + Math.round(W * 0.026) + 'px ' + FAM, '#8C9A93', Math.round(W * 0.012));
+    dashed(ctx, headY + Math.round(H * 0.032), px + Math.round(W * 0.07), px + pw - Math.round(W * 0.07));
+
+    var brandBase = bot - Math.round(H * 0.075);
+    var hasBra = !!(m.brand || m.brandImg);
+    var hasName = !!(m.name && m.name.trim());
+    var nameBase = bot - Math.round(H * 0.155);
+    var qrTop = headY + Math.round(H * 0.062);
+    var qrBottom = hasName ? nameBase - Math.round(H * 0.04) : (hasBra ? brandBase - Math.round(H * 0.07) : bot - Math.round(H * 0.09));
+    var qr = Math.min(pw - Math.round(W * (H >= 1800 ? 0.145 : 0.19)), qrBottom - qrTop);
+    if (qr < 200) qr = Math.max(180, qrBottom - qrTop);
+    var qx = Math.round((W - qr) / 2);
+    var qy = Math.round(qrTop + (qrBottom - qrTop - qr) / 2);
+
+    var geo = { x: qx, y: qy, w: qr, h: qr };
+    if (m.qr) geo = drawQrMatrix(ctx, m.qr, qx, qy, qr, m.qrColor);
+    var logoD = qr * (m.size / 100);
+    if (m.logo) drawLogo(ctx, m.logo, qx + qr / 2, qy + qr / 2, logoD, m.shape == 'square' ? 'square' : 'circle');
+    drawCheck(ctx, qx + qr / 2 + logoD * 0.42, qy + qr / 2 + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
+
+    if (hasName) {
+      var nSize = Math.round(W * 0.042);
+      textMid(ctx, m.name, W / 2, nameBase, '600 ' + nSize + 'px ' + FAM, '#161B18', Math.round(nSize * 0.03));
+      if (hasBra) {
+        dashed(ctx, nameBase + Math.round(H * 0.035), px + Math.round(W * 0.09), px + pw - Math.round(W * 0.09));
+      }
+    }
+    if (hasBra) drawBrandMark(ctx, W / 2, brandBase, Math.min(0.9, H / 1440 * 0.94), T, m.brand, m.brandImg);
+    return geo;
+  }
+
+  /* ---------------- 绘制：简约名片 ---------------- */
+  function drawCardFrame(m) {
+    var T = m.theme, H = m.H;
+    var bg = ctx.createLinearGradient(0, 0, W * .3, H);
+    bg.addColorStop(0, T.bg[0]);
+    bg.addColorStop(1, T.bg[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    var M = Math.round(W * 0.05);
+    var rad = Math.round(W * 0.035);
+    ctx.save();
+    ctx.shadowColor = T.shadow;
+    ctx.shadowBlur = 46;
+    ctx.shadowOffsetY = 14;
+    rrect(ctx, M, M, W - 2 * M, H - 2 * M, rad);
+    ctx.fillStyle = T.card;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = 'rgba(10,24,17,.10)';
+    ctx.lineWidth = 1.5;
+    rrect(ctx, M + .75, M + .75, W - 2 * M - 1.5, H - 2 * M - 1.5, rad);
+    ctx.stroke();
+
+    var av = Math.round(W * 0.115);
+    var ay = M + Math.round(H * 0.05);
+    drawLogo(ctx, m.logo || demoAvatar, W / 2, ay + av / 2, av, m.shape == 'square' ? 'square' : 'circle');
+
+    var nameBase = ay + av + Math.round(W * 0.062);
+    var nSize = Math.round(W * 0.044);
+    textMid(ctx, m.name || '', W / 2, nameBase, '600 ' + nSize + 'px ' + FAM, T.text, Math.round(nSize * 0.03));
+
+    var sub = m.sub || m.addr || '';
+    var subBase = nameBase + Math.round(W * 0.048);
+    if (sub) {
+      textMid(ctx, sub, W / 2, subBase, '400 ' + Math.round(W * 0.026) + 'px ' + FAM, T.sub);
+    }
+
+    var hintY = Math.round(H * 0.90);
+    var qTop = subBase + Math.round(H * 0.05);
+    var qBottom = hintY - Math.round(H * 0.085);
+    var qr = Math.min(Math.round(W * (H > 1600 ? 0.68 : 0.62)), qBottom - qTop);
+    var qx = Math.round((W - qr) / 2);
+    var qy = Math.round(qTop + (qBottom - qTop - qr) / 2);
+
+    var geo = { x: qx, y: qy, w: qr, h: qr };
+    if (m.qr) geo = drawQrMatrix(ctx, m.qr, qx, qy, qr, m.qrColor);
+    var logoD = qr * (m.size / 100);
+    if (m.logo) drawLogo(ctx, m.logo, qx + qr / 2, qy + qr / 2, logoD, m.shape == 'square' ? 'square' : 'circle');
+    drawCheck(ctx, qx + qr / 2 + logoD * 0.42, qy + qr / 2 + logoD * 0.40, Math.max(14, logoD * 0.20), T.accent);
+
+    if (m.kicker) textMid(ctx, m.kicker, W / 2, hintY, '400 ' + Math.round(W * 0.027) + 'px ' + FAM, T.sub);
+    return geo;
+  }
+
+  /* ---------------- 主绘制 ---------------- */
+  var DRAW = { minimal: drawMinimal, poster: drawPoster, frame: drawFrame, receipt: drawReceipt, wechat: drawWechat, banner: drawCardFrame };
+
+  function fitCanvas() {
+    var H = SIZES[S.ratio[S.tab]] || 1440;
+    var wide = !window.matchMedia('(max-width:1020px)').matches;
+    var maxW = wide ? 352 : Math.max(180, Math.min(window.innerWidth - 100, 330));
+    var maxH = wide ? 540 : 400;
+    var w = Math.min(maxW, maxH * W / H);
+    cv.style.width = Math.round(w) + 'px';
+    cv.style.height = 'auto';
+  }
+
+  function drawCard() {
+    var m = buildModel();
+    var H = m.H;
+
+    if (cv.width !== W * DS || cv.height !== H * DS) {
+      cv.width = W * DS;
+      cv.height = H * DS;
+    }
+    ctx.setTransform(DS, 0, 0, DS, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    fitCanvas();
+    var geo = (DRAW[m.tpl] || drawMinimal)(m);
+
+    cv.classList.add('on');
+    currentGeo = { qr: geo, demo: m.demo, text: m.qrText, tab: m.tab, H: H };
+    return currentGeo;
+  }
+
   /* ---------------- 扫码自检 ---------------- */
+  var lastBadge = '', chimeNext = false;
   function setBadge(kind, text) {
+    if (kind === 'ok' && (lastBadge === 'bad' || chimeNext)) { sfxDone(); chimeNext = false; }
+    lastBadge = kind;
     var b = $('#badge'), t = $('#badgeText');
     var db = $('#dockBadge'), dt = $('#dockBadgeText');
     b.className = 'badge ' + (kind === 'check' ? 'check' : kind === 'ok' ? 'ok' : kind === 'bad' ? 'bad' : '');
@@ -994,7 +2410,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (!window.jsQR) { setBadge('', '无法自检'); return; }
 
     var geo = currentGeo.qr;
-    var scale = cv.width / LOGIC_W;
+    var scale = cv.width / W;
     var SZ = 800;
     var tmp = document.createElement('canvas');
     tmp.width = tmp.height = SZ;
@@ -1152,18 +2568,117 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
 
   /* ---------------- 交互绑定 ---------------- */
-  // 切换标签
+  function syncChrome() {
+    Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) {
+      b.classList.toggle('is-on', b.getAttribute('data-tab') === S.tab);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.panel'), function (p) {
+      p.hidden = p.getAttribute('data-panel') !== S.tab;
+    });
+    syncTpl();
+    syncRatio();
+    syncRedrawNote();
+  }
+
+  var TPL_DESC = {
+    pay: {
+      poster: '品牌大标题 + 白色卡片 + 底部标识，适合贴在柜台',
+      minimal: '白卡极简：二维码 + 名称，干净利落',
+      frame: '细边框 + 四角标记，留白更高级',
+      receipt: '票据造型 + 品牌底色，像一张小票'
+    },
+    card: {
+      wechat: '头像 + 昵称 + 地区 + 扫码提示',
+      minimal: '白卡极简：只留名字和二维码',
+      banner: '头像居中 + 姓名职位上下排，简约克制'
+    }
+  };
+
+  function syncTpl() {
+    var tpl = S.tpl[S.tab];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tpls="' + S.tab + '"] .tpl'), function (b) {
+      b.classList.toggle('is-on', b.getAttribute('data-tpl') === tpl);
+    });
+    var desc = $('#tplDesc');
+    if (desc) desc.textContent = TPL_DESC.pay[S.tpl.pay] || '';
+    var desc2 = $('#tplDesc2');
+    if (desc2) desc2.textContent = TPL_DESC.card[S.tpl.card] || '';
+  }
+
+  function syncRatio() {
+    var r = S.ratio[S.tab];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ratios="' + S.tab + '"] button'), function (b) {
+      b.classList.toggle('is-on', b.getAttribute('data-ratio') === r);
+    });
+  }
+
+  function syncRedrawNote() {
+    var hint = $('#qrColorHint');
+    if (!hint) return;
+    var imgMode = S.tab === 'pay' && S.pay.img && !(S.pay.redraw && S.pay.text);
+    hint.textContent = imgMode ? '原图模式下码色不生效' : '深色更稳，扫码更快';
+  }
+
   Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (btn) {
     btn.addEventListener('click', function () {
       S.tab = btn.getAttribute('data-tab');
-      Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) {
-        b.classList.toggle('is-on', b === btn);
-      });
-      Array.prototype.forEach.call(document.querySelectorAll('.panel'), function (p) {
-        p.hidden = p.getAttribute('data-panel') !== S.tab;
-      });
+      syncChrome();
       schedule();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // 模板
+  Array.prototype.forEach.call(document.querySelectorAll('.tpl'), function (b) {
+    b.addEventListener('click', function () {
+      var grp = b.closest('[data-tpls]');
+      if (!grp) return;
+      var tab = grp.getAttribute('data-tpls');
+      S.tpl[tab] = b.getAttribute('data-tpl');
+      if (tab === 'pay' && S.tpl[tab] === 'poster' && S.ratio.pay === '1:1') {
+        S.ratio.pay = '3:4';
+        syncRatio();
+      }
+      syncTpl();
+      syncRedrawNote();
+      schedule();
+    });
+  });
+
+  // 尺寸
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ratios] button'), function (b) {
+    b.addEventListener('click', function () {
+      var grp = b.closest('[data-ratios]');
+      var tab = grp.getAttribute('data-ratios');
+      S.ratio[tab] = b.getAttribute('data-ratio');
+      syncRatio();
+      schedule();
+    });
+  });
+
+  // 主题
+  Array.prototype.forEach.call(document.querySelectorAll('.swatch'), function (sw) {
+    sw.addEventListener('click', function () {
+      S.theme = sw.getAttribute('data-theme');
+      paintBrand();
+      Array.prototype.forEach.call(document.querySelectorAll('.swatch'), function (x) {
+        x.classList.toggle('is-on', x.getAttribute('data-theme') === S.theme);
+      });
+      schedule();
+    });
+  });
+
+  // 码色
+  Array.prototype.forEach.call(document.querySelectorAll('.qrc'), function (b) {
+    b.addEventListener('click', function () {
+      S.qrColor = b.getAttribute('data-qrc');
+      Array.prototype.forEach.call(document.querySelectorAll('.qrc'), function (x) {
+        x.classList.toggle('is-on', x.getAttribute('data-qrc') === S.qrColor);
+      });
+      if (S.tab === 'pay' && S.pay.img && !(S.pay.redraw && S.pay.text)) {
+        toast('原图模式下改不了码色，打开高清重绘即可彩色重绘');
+      }
+      schedule();
     });
   });
 
@@ -1230,11 +2745,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (this.disabled) return;
     S.pay.redraw = !S.pay.redraw;
     this.setAttribute('aria-pressed', String(S.pay.redraw));
+    syncRedrawNote();
     schedule();
   });
 
   // 滑杆
-  function bindRange(sel, valSel, get, set) {
+  function bindRange(sel, valSel, set) {
     var el = $(sel), out = $(valSel);
     function sync() {
       var min = +el.min, max = +el.max;
@@ -1249,8 +2765,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     sync();
     return sync;
   }
-  bindRange('#logoSize', '#logoVal', null, function (v) { S.pay.size = v; });
-  bindRange('#cardLogoSize', '#cardLogoVal', null, function (v) { S.card.size = v; });
+  bindRange('#logoSize', '#logoVal', function (v) { S.pay.size = v; });
+  bindRange('#cardLogoSize', '#cardLogoVal', function (v) { S.card.size = v; });
 
   // 形状
   function bindShape(sel, set) {
@@ -1269,7 +2785,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   // 文字字段
   var FIELDS = [
-    ['#payKicker', 'pay', 'kicker'], ['#payName', 'pay', 'name'], ['#payNote', 'pay', 'note'],
+    ['#payKicker', 'pay', 'kicker'], ['#payName', 'pay', 'name'], ['#payNote', 'pay', 'note'], ['#payBrand', 'pay', 'brand'],
     ['#cKicker', 'card', 'kicker'], ['#cName', 'card', 'name'], ['#cTitle', 'card', 'title'],
     ['#cOrg', 'card', 'org'], ['#cTel', 'card', 'tel'], ['#cEmail', 'card', 'email'],
     ['#cUrl', 'card', 'url'], ['#cAddr', 'card', 'addr'], ['#cNote', 'card', 'note']
@@ -1279,29 +2795,82 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (!el) return;
     el.addEventListener('input', function () {
       S[f[1]][f[2]] = el.value;
+      if (f[0] === '#payBrand') paintBrand();
       schedule();
     });
   });
 
-  // 主题
-  Array.prototype.forEach.call(document.querySelectorAll('.swatch'), function (sw) {
-    sw.addEventListener('click', function () {
-      S.theme = sw.getAttribute('data-theme');
-      Array.prototype.forEach.call(document.querySelectorAll('.swatch'), function (x) {
-        x.classList.toggle('is-on', x.getAttribute('data-theme') === S.theme);
-      });
+  function paintBrand() {
+    var pv = $('#brandPrev');
+    if (!pv) return;
+    var x = pv.getContext('2d');
+    x.setTransform(1, 0, 0, 1, 0, 0);
+    x.clearRect(0, 0, pv.width, pv.height);
+    x.setTransform(2, 0, 0, 2, 0, 0);
+    var on = S.pay.brandShow !== false;
+    var label = String(S.pay.brand || '').trim();
+    if (!label && !S.pay.brandImg) {
+      x.strokeStyle = 'rgba(10,26,18,.18)';
+      x.lineWidth = 1.4;
+      x.setLineDash([5, 4]);
+      rrect(x, 12, 12, 44, 44, 12);
+      x.stroke();
+      x.setLineDash([]);
+      x.strokeStyle = 'rgba(10,26,18,.14)';
+      x.beginPath();
+      x.moveTo(16, 52); x.lineTo(52, 16);
+      x.stroke();
+    } else {
+      x.globalAlpha = on ? 1 : .28;
+      drawBrandBadge(x, 34, 34, 44, label, S.pay.brandImg, THEMES[S.theme]);
+      x.globalAlpha = 1;
+    }
+    var card = $('#brandCard');
+    if (card) card.classList.toggle('is-off', !on);
+    var clr = $('#brandClear');
+    if (clr) clr.hidden = !S.pay.brandImg;
+    var sw = $('#swBrand');
+    if (sw) {
+      sw.setAttribute('aria-checked', on ? 'true' : 'false');
+      sw.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+  }
+
+  $('#fileBrand').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    var im = new Image();
+    im.onload = function () {
+      S.pay.brandImg = im;
+      paintBrand();
       schedule();
-    });
+      toast('标识已更新');
+    };
+    im.onerror = function () { toast('这张图读不出来，换一张试试'); };
+    im.src = URL.createObjectURL(f);
+    e.target.value = '';
   });
+  $('#brandClear').addEventListener('click', function () {
+    S.pay.brandImg = null;
+    paintBrand();
+    schedule();
+    toast('已恢复自动生成');
+  });
+  $('#swBrand').addEventListener('click', function () {
+    S.pay.brandShow = !S.pay.brandShow;
+    paintBrand();
+    schedule();
+  });
+  paintBrand();
 
   // 自检失败点一下缩小
   $('#badge').addEventListener('click', function () {
     if (!this.classList.contains('bad')) return;
     if (S.tab === 'pay') {
-      if (S.pay.redraw && S.pay.text) { toast('已自动缩小头像'); }
       S.pay.size = Math.max(8, S.pay.size - 4);
       $('#logoSize').value = S.pay.size;
       $('#logoSize').dispatchEvent(new Event('input'));
+      toast('已自动缩小头像');
     } else {
       S.card.size = Math.max(8, S.card.size - 4);
       $('#cardLogoSize').value = S.card.size;
@@ -1315,7 +2884,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   function fileName() {
     var nm = S.tab === 'pay' ? (S.pay.name.trim() || '收款码') : (S.card.name.trim() || '名片');
-    return (S.tab === 'pay' ? '微信收款码-' : '微信名片-') + nm.replace(/[\\/:*?"<>|\s]+/g, '') + '.png';
+    return (S.tab === 'pay' ? '好彩U-收款码-' : '好彩U-名片-') + nm.replace(/[\\/:*?"<>|\s]+/g, '') + '.png';
   }
 
   function savePng() {
@@ -1335,8 +2904,28 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     } catch (e) { openHold(); }
   }
 
+  function copyPng() {
+    if (!navigator.clipboard || !window.ClipboardItem) {
+      toast('当前浏览器不支持复制，请用下载');
+      return;
+    }
+    try {
+      cv.toBlob(function (blob) {
+        if (!blob) { toast('复制失败，请用下载'); return; }
+        navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(function () {
+          toast('图片已复制，可直接粘贴');
+        }).catch(function () {
+          toast('复制失败，请用下载');
+        });
+      }, 'image/png');
+    } catch (e) {
+      toast('复制失败，请用下载');
+    }
+  }
+
   function openHold() {
     var img = $('#modalImg');
+    var t = $('#toast'); if (t) t.classList.remove('on');
     try {
       img.src = cv.toDataURL('image/png');
     } catch (e) { toast('导出失败，请截图保存'); return; }
@@ -1345,8 +2934,19 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   $('#btnSave').addEventListener('click', savePng);
   $('#btnSave2').addEventListener('click', savePng);
-  $('#btnHold').addEventListener('click', openHold);
+  $('#btnCopy').addEventListener('click', copyPng);
+
+  $('#btnFold').addEventListener('click', function () {
+    var on = $('#stageIn').classList.toggle('is-fold');
+    this.textContent = on ? '展开预览' : '收起预览';
+  });
+  $('#cv').addEventListener('click', function () {
+    if (window.matchMedia('(max-width:1020px)').matches) openHold();
+  });
   $('#btnHold2').addEventListener('click', openHold);
+  var dock = $('#dock');
+  if ($('#dockMin')) $('#dockMin').addEventListener('click', function () { dock.classList.add('is-min'); });
+  if ($('#dockOpen')) $('#dockOpen').addEventListener('click', function () { dock.classList.remove('is-min'); });
   $('#modalClose').addEventListener('click', function () { $('#modal').classList.remove('on'); });
   $('#modal').addEventListener('click', function (e) {
     if (e.target === $('#modal')) $('#modal').classList.remove('on');
@@ -1370,21 +2970,16 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     toast('已清空');
   });
 
+  window.addEventListener('resize', function () { fitCanvas(); });
+
   /* ---------------- 启动 ---------------- */
   function init() {
     demoAvatar = makeDemoAvatar();
+    bindFeel();
     var url = new URL(location.href);
-    if (url.searchParams.get('tab') === 'card') {
-      S.tab = 'card';
-      Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) {
-        b.classList.toggle('is-on', b.getAttribute('data-tab') === 'card');
-      });
-      Array.prototype.forEach.call(document.querySelectorAll('.panel'), function (p) {
-        p.hidden = p.getAttribute('data-panel') !== 'card';
-      });
-    }
+    if (url.searchParams.get('tab') === 'card') S.tab = 'card';
+    syncChrome();
     render();
-    // 首次渲染后字体可能稍晚就绪，再补一帧
     setTimeout(function () { drawCard(); verify(); }, 260);
   }
 
