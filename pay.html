@@ -306,11 +306,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   });
 
   var DEBUG = /[?&]debug=1/.test(location.search);
-  if (!DEBUG && isAli && ali) {
-    setTimeout(function () { try { location.href = ali; } catch (e) {} }, 500);
+  function autoOpen(link) {
+    if (!link) return false;
+    // 只有能直接打开的 https 链接才自动跳；wxp:// 这类深链在微信里会被拦，保留二维码长按识别
+    if (/^https?:\/\//i.test(link)) return true;
+    return false;
   }
-  if (!DEBUG && isWx && wx) {
-    setTimeout(function () { try { location.href = wx; } catch (e) {} }, 500);
+  if (!DEBUG && isAli && autoOpen(ali)) {
+    setTimeout(function () { try { location.href = ali; } catch (e) {} }, 180);
+  }
+  if (!DEBUG && isWx && autoOpen(wx)) {
+    setTimeout(function () { try { location.href = wx; } catch (e) {} }, 180);
+  }
+  if (isWx && wx && !autoOpen(wx)) {
+    var t1 = document.getElementById('tip');
+    if (t1) t1.innerHTML = '这个收款码是 <b>wxp://</b> 个人码，微信不允许网页直接跳，<b>长按上方二维码</b>即可付款。';
   }
   if ((isWx || isAli) && tabs && (!wx || !ali)) tabs.classList.remove('hide');
   else if ((isWx || isAli) && tabs) tabs.classList.add('hide');
