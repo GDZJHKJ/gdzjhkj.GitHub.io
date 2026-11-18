@@ -68,6 +68,13 @@ h1{margin:2px 0 4px;font-size:22px;letter-spacing:-.6px}
 .foot{margin-top:18px;font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
 .foot svg{width:12px;height:12px;opacity:.7}
 .hide{display:none!important}
+
+  /* 隐藏托管平台自动注入的水印（GitHub / 自有域名本就没有） */
+  doubao-watermark, [data-custom-element="doubao-watermark"],
+  [data-custom-element$="-watermark"], [data-custom-element$="-watermark-mobile"] {
+    display: none !important; visibility: hidden !important; opacity: 0 !important;
+    width: 0 !important; height: 0 !important; overflow: hidden !important;
+  }
 </style>
 </head>
 <body>
@@ -303,6 +310,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   if ((isWx || isAli) && tabs && (!wx || !ali)) tabs.classList.remove('hide');
   else if ((isWx || isAli) && tabs) tabs.classList.add('hide');
 })();
+
+  /* 移除托管平台注入的水印节点 */
+  (function () {
+    var kill = function () {
+      var list = document.querySelectorAll('[data-custom-element="doubao-watermark"],[data-custom-element$="-watermark"]');
+      for (var i = 0; i < list.length; i++) {
+        try { list[i].parentNode && list[i].parentNode.removeChild(list[i]); } catch (e) {}
+      }
+    };
+    kill();
+    try {
+      var mo = new MutationObserver(kill);
+      mo.observe(document.body, { childList: true });
+    } catch (e) {}
+    setTimeout(kill, 400); setTimeout(kill, 1200); setTimeout(kill, 2500);
+  })();
 </script>
 </body>
 </html>
