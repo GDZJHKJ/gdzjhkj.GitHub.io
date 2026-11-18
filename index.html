@@ -982,6 +982,58 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
   .foot-note{font-size:10px}
 }
 
+/* ===== 双码聚合 ===== */
+.duo{
+  margin-top:12px; padding:11px 12px 12px; border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(246,250,247,.92));
+  border:1px solid rgba(13,23,18,.07);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 12px 26px -24px rgba(10,26,18,.7);
+}
+.duo-head{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap}
+.duo-head b{font-size:12px; font-weight:600; color:#0D1712; letter-spacing:-.1px}
+.duo-head span{font-size:10px; color:#77867D; letter-spacing:-.02em}
+.duo-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:9px}
+.duo-slot{
+  display:flex; align-items:center; gap:9px; padding:8px; border-radius:13px; text-align:left;
+  background:#fff; border:1px solid rgba(13,23,18,.10);
+  box-shadow:0 2px 8px -7px rgba(10,26,18,.7); transition:box-shadow .18s var(--ease), border-color .18s var(--ease), transform .12s var(--ease);
+}
+.duo-slot.is-on{border-color:rgba(15,163,107,.55); box-shadow:0 0 0 3px rgba(15,163,107,.13), 0 2px 8px -7px rgba(10,26,18,.7)}
+.duo-slot:active{transform:scale(.985)}
+.duo-thumb{
+  width:40px; height:40px; flex:none; border-radius:10px; background:#F7FAF8;
+  border:1px solid rgba(13,23,18,.06); display:grid; place-items:center; overflow:hidden;
+}
+.duo-thumb img{width:100%; height:100%; object-fit:cover; display:block}
+.duo-ph{font-size:15px; color:#A7B4AC; font-weight:300}
+.duo-meta{display:flex; flex-direction:column; gap:2px; min-width:0}
+.duo-meta b{font-size:11.5px; font-weight:600; color:#0D1712; display:inline-flex; align-items:center; gap:5px}
+.duo-meta span{font-size:10px; color:#83918A; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pt{width:6px; height:6px; border-radius:50%; display:inline-block; flex:none}
+.pt-a{background:#12B76A}
+.pt-b{background:#1677FF}
+@media (max-width:1020px){
+  .duo-grid{gap:7px}
+  .duo-slot{padding:7px; gap:7px}
+  .duo-thumb{width:34px; height:34px}
+}
+
+/* ---------- 双码同图 / 支付图标 ---------- */
+.duo-opts{margin-top:10px;display:grid;gap:2px}
+.duo-opt{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.6)}
+.duo-opt + .duo-opt{margin-top:6px}
+.duo-opt-t{display:grid;gap:3px;min-width:0}
+.duo-opt-t b{font-size:13px;font-weight:650;letter-spacing:-.2px;color:#0c1b14}
+.duo-opt-t i{font-style:normal;font-size:11px;color:var(--muted);line-height:1.4}
+.switch.sm{width:38px;height:22px;flex:none}
+.switch.sm i{width:18px;height:18px;top:2px;left:2px}
+.switch.sm[aria-pressed="true"] i{transform:translateX(16px)}
+.tpls.is-locked{opacity:.42;pointer-events:none;filter:grayscale(.2)}
+@media (max-width:640px){
+  .duo-opt{padding:9px 10px}
+}
+.duo-note{margin-top:8px;font-size:11px;line-height:1.55;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -1090,7 +1142,7 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
     <div class="panel-in">
 
       <div class="block">
-        <div class="block-h"><span class="num">01</span><h2>上传原二维码</h2>
+        <div class="block-h"><span class="num">01</span><h2>上传收款码</h2>
           <div class="head-switch">
             <span>高清重绘</span>
             <button class="switch" id="swRedraw" aria-pressed="true" title="开启后按原码内容重建干净图案，扫出来一样；关闭则直接用原图"><i></i></button>
@@ -1113,6 +1165,34 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
           <button class="link" id="qrClear">移除</button>
         </div>
         <div class="decode" id="decodeBox"><i class="dot"></i><span class="txt" id="decodeText">还没有上传，下面看到的是示例效果</span></div>
+
+        <div class="duo" id="duo">
+          <div class="duo-head">
+            <b>双码聚合</b>
+            <span>两张收款码都存进来，出图时任选一张</span>
+          </div>
+          <div class="duo-grid">
+            <button class="duo-slot is-on" type="button" data-slot="a">
+              <span class="duo-thumb"><img id="slotThumbA" alt="" hidden><span class="duo-ph" id="slotPhA">+</span></span>
+              <span class="duo-meta"><b><i class="pt pt-a"></i>收款码 A</b><span id="slotTxtA">未上传</span></span>
+            </button>
+            <button class="duo-slot" type="button" data-slot="b">
+              <span class="duo-thumb"><img id="slotThumbB" alt="" hidden><span class="duo-ph" id="slotPhB">+</span></span>
+              <span class="duo-meta"><b><i class="pt pt-b"></i>收款码 B</b><span id="slotTxtB">未上传</span></span>
+            </button>
+          </div>
+          <div class="duo-opts">
+            <div class="duo-opt">
+              <span class="duo-opt-t"><b>双码同图</b><i>两张码合成一张，扫哪张都能付</i></span>
+              <button class="switch sm" id="swDual" aria-pressed="false" disabled title="两张码都上传后可开启，一张海报里并排两个码"><i></i></button>
+            </div>
+            <div class="duo-opt">
+              <span class="duo-opt-t"><b>支付图标</b><i>在码下方标出两个扫码入口</i></span>
+              <button class="switch sm" id="swIcons" aria-pressed="true" title="关闭后只保留二维码"><i></i></button>
+            </div>
+          </div>
+          <div class="duo-note">两张码会并排出现在同一张海报里；若已办服务商的「聚合码」，直接传它、图标照样显示</div>
+        </div>
         <div class="hintline">
           <i>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
@@ -1394,6 +1474,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       size: 16, shape: 'circle', kicker: '好彩U · 扫码收款', name: '', note: '',
       brand: '好彩U', brandImg: null, brandImgUrl: null, brandShow: true
     },
+    alt: { img: null, objUrl: null, fileName: '', size: 0, decoded: false, text: '', crop: null },
+    pick: 'a',
+    dual: false,
+    icons: true,
     card: {
       logo: null, logoUrl: null, logoName: '',
       size: 14, shape: 'circle', kicker: '扫码保存我的名片，随时联系',
@@ -1663,12 +1747,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
     if (isPay) {
       var p = S.pay;
+      var src = (S.pick === 'b' && S.alt.img) ? S.alt : p;
       m.kicker = (p.kicker || '').trim();
       m.brand = p.brandShow === false ? '' : (p.brand === undefined ? '好彩U' : String(p.brand || '').trim());
       m.brandImg = p.brandShow === false ? null : (p.brandImg || null);
       m.size = p.size;
       m.shape = p.shape;
-      if (!p.img) {
+      if (!src.img) {
         m.demo = true;
         m.qrText = '示例二维码 · 好彩U全工具箱，上传你的收款码即可替换';
         m.qr = makeQr(m.qrText);
@@ -1679,15 +1764,29 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (!m.kicker) m.kicker = '好彩U · 扫码收款';
       } else {
         m.logo = p.logo || demoAvatar;
-        if (p.redraw && p.text) {
-          m.qrText = p.text;
-          m.qr = makeQr(p.text);
+        if (p.redraw && src.text) {
+          m.qrText = src.text;
+          m.qr = makeQr(src.text);
         } else {
-          m.img = p.img;
-          m.crop = p.crop;
+          m.img = src.img;
+          m.crop = src.crop;
         }
         m.name = (p.name || '').trim();
         m.note = (p.note || '').trim();
+      }
+      if (S.dual && m.qr || (S.dual && m.img)) {
+        var other = (S.pick === 'b') ? p : S.alt;
+        if (src.img && other.img) {
+          m.dual = true;
+          m.icons = !!S.icons;
+          if (p.redraw && other.text) {
+            m.qrText2 = other.text;
+            m.qr2 = makeQr(other.text);
+          } else {
+            m.img2 = other.img;
+            m.crop2 = other.crop;
+          }
+        }
       }
     } else {
       var c = S.card;
@@ -1949,6 +2048,162 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
 
   /* ---------------- 绘制：品牌收款海报 ---------------- */
+
+  /* ---------------- 图标：两种扫码入口 ---------------- */
+  function drawPayGlyph(c, cx, cy, d, kind) {
+    c.save();
+    c.beginPath(); c.arc(cx, cy, d / 2, 0, Math.PI * 2);
+    c.fillStyle = '#FFFFFF'; c.fill();
+    c.beginPath(); c.arc(cx, cy, d / 2 - Math.max(1.5, d * 0.04), 0, Math.PI * 2);
+    c.fillStyle = kind === 'b' ? '#1A73E8' : '#12B76A'; c.fill();
+    if (kind === 'b') {
+      c.fillStyle = '#FFFFFF';
+      c.font = '700 ' + Math.round(d * 0.5) + 'px ' + FAM;
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText('支', cx, cy + d * 0.02);
+    } else {
+      var r = d * 0.155, by = cy - d * 0.03;
+      c.fillStyle = '#FFFFFF';
+      c.beginPath(); c.arc(cx - d * 0.12, by, r, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.arc(cx + d * 0.14, by + d * 0.07, r * 0.92, 0, Math.PI * 2); c.fill();
+      c.beginPath();
+      c.moveTo(cx - d * 0.24, by + d * 0.12);
+      c.lineTo(cx - d * 0.30, by + d * 0.26);
+      c.lineTo(cx - d * 0.13, by + d * 0.18);
+      c.closePath(); c.fill();
+    }
+    c.restore();
+  }
+
+  /* ---------------- 绘制：双码同图 ---------------- */
+  function drawDuo(m) {
+    var T = m.theme, H = m.H;
+
+    var bg = ctx.createLinearGradient(0, 0, W * .25, H);
+    bg.addColorStop(0, T.hero[0]);
+    bg.addColorStop(1, T.hero[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    var glow = ctx.createRadialGradient(W * .5, H * .12, 0, W * .5, H * .12, W * .82);
+    glow.addColorStop(0, 'rgba(255,255,255,.20)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    var titleY = Math.round(H * 0.095);
+    var tSize = Math.round(W * (H >= 1800 ? 0.072 : 0.06));
+    var kicker = m.kicker || '好彩U · 双码收款';
+    var tFit = fitFont(mctx, kicker, 700, tSize, W - 170);
+    textMid(ctx, kicker, W / 2, titleY, '700 ' + tFit + 'px ' + FAM, T.heroText, Math.round(tFit * 0.05));
+
+    if (m.name && m.name.trim()) {
+      var subSize = Math.round(W * 0.026);
+      textMid(ctx, m.name.trim(), W / 2, titleY + Math.round(tFit * 0.95), '500 ' + subSize + 'px ' + FAM, 'rgba(255,255,255,.72)', 0);
+    }
+
+    var ribbonY = Math.round(H * 0.855);
+    var cardTop = titleY + Math.round(tFit * 1.05) + Math.round(H * 0.03) + (m.name ? Math.round(H * 0.018) : 0);
+    var availH = ribbonY - cardTop - Math.round(H * 0.03);
+    var vert = H >= 1600;
+    var cardW0 = Math.round(W * 0.86);
+    var pad = Math.round(cardW0 * 0.052);
+    var gap = Math.round(cardW0 * 0.042);
+    var labelH = Math.round(cardW0 * 0.086);
+    var q;
+    if (vert) q = Math.min(cardW0 - pad * 2, Math.round((availH - pad * 2 - gap - labelH * 2) / 2));
+    else q = Math.min(Math.round((cardW0 - pad * 2 - gap) / 2), availH - pad * 2 - labelH);
+    if (q < 250) q = 250;
+    var cardW = vert ? q + pad * 2 : q * 2 + gap + pad * 2;
+    var cardH = vert ? q * 2 + gap + labelH * 2 + pad * 2 : q + labelH + pad * 2;
+    var cardX = Math.round((W - cardW) / 2);
+    var cardY = Math.round(cardTop + Math.max(0, (availH - cardH) / 2));
+
+    if (cardY - cardTop > Math.round(H * 0.055)) {
+      var capSize = Math.round(W * 0.024);
+      textMid(ctx, '两种扫码方式 · 任选其一', W / 2, cardY - Math.round(H * 0.03), '500 ' + capSize + 'px ' + FAM, 'rgba(255,255,255,.62)', 0);
+    }
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(6,50,30,.22)';
+    ctx.shadowBlur = 48;
+    ctx.shadowOffsetY = 18;
+    rrect(ctx, cardX, cardY, cardW, cardH, Math.round(cardW * 0.055));
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.restore();
+
+    function tile(src, x, y, kind) {
+      ctx.save();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(x, y, q, q);
+      var g = { x: x, y: y, w: q, h: q };
+      if (src.qr) {
+        g = drawQrMatrix(ctx, src.qr, x, y, q, m.qrColor);
+      } else if (src.img) {
+        var crop = src.crop || { x: 0, y: 0, w: src.img.width, h: src.img.height };
+        var ar = crop.w / crop.h, dw = q, dh = q;
+        if (ar > 1) dh = q / ar; else dw = q * ar;
+        var dx = x + (q - dw) / 2, dy = y + (q - dh) / 2;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(dx, dy, dw, dh);
+        ctx.drawImage(src.img, crop.x, crop.y, crop.w, crop.h, dx, dy, dw, dh);
+        g = { x: dx, y: dy, w: dw, h: dh };
+      }
+      ctx.restore();
+
+      if (m.icons) {
+        var iconD = Math.round(q * 0.135);
+        var iconY = y + q + Math.round(labelH * 0.5) - Math.round(q * 0.012);
+        var fs = Math.round(q * 0.072);
+        ctx.save();
+        ctx.font = '600 ' + fs + 'px ' + FAM;
+        var tw = ctx.measureText('扫码支付').width;
+        var total = iconD + Math.round(fs * 0.42) + tw;
+        var left = x + (q - total) / 2;
+        drawPayGlyph(ctx, left + iconD / 2, iconY, iconD, kind);
+        ctx.fillStyle = T.sub || '#66736C';
+        ctx.font = '600 ' + fs + 'px ' + FAM;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('扫码支付', left + iconD + Math.round(fs * 0.42), iconY);
+        ctx.restore();
+      }
+      return g;
+    }
+
+    var g1, g2;
+    if (vert) {
+      g1 = tile({ qr: m.qr, img: m.img, crop: m.crop }, cardX + pad, cardY + pad, 'a');
+      g2 = tile({ qr: m.qr2, img: m.img2, crop: m.crop2 }, cardX + pad, cardY + pad + q + labelH + gap, 'b');
+    } else {
+      g1 = tile({ qr: m.qr, img: m.img, crop: m.crop }, cardX + pad, cardY + pad, 'a');
+      g2 = tile({ qr: m.qr2, img: m.img2, crop: m.crop2 }, cardX + pad + q + gap, cardY + pad, 'b');
+    }
+
+    // 底部弧形 + 品牌
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(0, ribbonY + H * 0.03);
+    ctx.quadraticCurveTo(W / 2, ribbonY - H * 0.055, W, ribbonY + H * 0.03);
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fillStyle = T.ribbon;
+    ctx.fill();
+    ctx.restore();
+
+    drawBrandMark(ctx, W / 2, Math.round(ribbonY + (H - ribbonY) * 0.62), Math.min(1, H / 1440 * 1.02), T, m.brand, m.brandImg);
+
+    return {
+      x: g1.x, y: g1.y, w: g1.w, h: g1.h,
+      list: [
+        { geo: g1, text: m.qrText || '' },
+        { geo: g2, text: m.qrText2 || '' }
+      ]
+    };
+  }
+
   function drawPoster(m) {
     var T = m.theme, H = m.H;
 
@@ -1964,7 +2219,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     glow.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, W, H);
-
     // 标题
     var titleY = Math.round(H * 0.10);
     var tSize = Math.round(W * (H >= 1800 ? 0.076 : 0.062));
@@ -2012,12 +2266,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       ctx.drawImage(m.img, src.x, src.y, src.w, src.h, dx, dy, dw, dh);
       geo = { x: dx, y: dy, w: dw, h: dh };
     }
-
     var logoD = qr * (m.size / 100);
     var lcx = qx + qr / 2, lcy = qy + qr / 2;
     if (m.logo) drawLogo(ctx, m.logo, lcx, lcy, logoD, m.shape);
     drawCheck(ctx, lcx + logoD * 0.42, lcy + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
-
     // 商户名 + 商家标签（留空也能正常出图）
     if (hasName) {
     var nameY = cardY + pad + qr + 30 + Math.round(cardW * 0.075);
@@ -2380,10 +2632,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ctx.clearRect(0, 0, W, H);
 
     fitCanvas();
-    var geo = (DRAW[m.tpl] || drawMinimal)(m);
+    var geo = (m.dual ? drawDuo : (DRAW[m.tpl] || drawMinimal))(m);
 
     cv.classList.add('on');
-    currentGeo = { qr: geo, demo: m.demo, text: m.qrText, tab: m.tab, H: H };
+    currentGeo = { qr: geo, demo: m.demo, text: m.qrText, tab: m.tab, H: H, list: geo && geo.list };
     return currentGeo;
   }
 
@@ -2409,27 +2661,35 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (currentGeo.demo) { setBadge('demo', '示例预览'); return; }
     if (!window.jsQR) { setBadge('', '无法自检'); return; }
 
-    var geo = currentGeo.qr;
     var scale = cv.width / W;
-    var SZ = 800;
-    var tmp = document.createElement('canvas');
-    tmp.width = tmp.height = SZ;
-    var tc = tmp.getContext('2d');
-    tc.fillStyle = '#fff';
-    tc.fillRect(0, 0, SZ, SZ);
-    try {
-      tc.drawImage(cv, geo.x * scale, geo.y * scale, geo.w * scale, geo.h * scale, 0, 0, SZ, SZ);
-    } catch (e) { setBadge('', '无法自检'); return; }
+    var items = (currentGeo.list && currentGeo.list.length) ? currentGeo.list : [{ geo: currentGeo.qr, text: currentGeo.text }];
+    var bad = 0, mismatch = 0;
 
-    var data;
-    try { data = tc.getImageData(0, 0, SZ, SZ); } catch (e) { setBadge('', '无法自检'); return; }
-    var res = null;
-    try { res = window.jsQR(data.data, SZ, SZ, { inversionAttempts: 'attemptBoth' }); } catch (e) { res = null; }
+    for (var i = 0; i < items.length; i++) {
+      var geo = items[i].geo;
+      if (!geo) { bad++; continue; }
+      var SZ = 800;
+      var tmp = document.createElement('canvas');
+      tmp.width = tmp.height = SZ;
+      var tc = tmp.getContext('2d');
+      tc.fillStyle = '#fff';
+      tc.fillRect(0, 0, SZ, SZ);
+      try {
+        tc.drawImage(cv, geo.x * scale, geo.y * scale, geo.w * scale, geo.h * scale, 0, 0, SZ, SZ);
+      } catch (e) { bad++; continue; }
+      var data;
+      try { data = tc.getImageData(0, 0, SZ, SZ); } catch (e) { bad++; continue; }
+      var res = null;
+      try { res = window.jsQR(data.data, SZ, SZ, { inversionAttempts: 'attemptBoth' }); } catch (e) { res = null; }
+      if (!res) { bad++; continue; }
+      if (items[i].text && res.data !== items[i].text) mismatch++;
+    }
 
-    if (!res) { setBadge('bad', '扫不出来 · 点我缩小头像'); return; }
-    var expect = currentGeo.text;
-    if (expect && res.data !== expect) { setBadge('bad', '内容不一致 · 请关闭重绘'); return; }
-    setBadge('ok', expect ? '扫码通过 · 内容一致' : '扫码通过');
+    var duo = items.length > 1;
+    if (!bad && !mismatch) { setBadge('ok', duo ? '双码扫码通过 · 内容一致' : (items[0].text ? '扫码通过 · 内容一致' : '扫码通过')); return; }
+    if (mismatch && !bad) { setBadge('bad', '内容不一致 · 请关闭重绘'); return; }
+    if (duo) { setBadge('bad', '有一张没扫过 · 点它缩小头像'); return; }
+    setBadge('bad', '扫不出来 · 点我缩小头像');
   }
 
   function render() {
@@ -2458,27 +2718,25 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   function kb(n) { return n > 1024 * 1024 ? (n / 1048576).toFixed(1) + 'MB' : Math.round(n / 1024) + 'KB'; }
 
-  function setQrFile(file) {
+  function slotOf(k) { return k === 'b' ? S.alt : S.pay; }
+  function activeSrc() { return (S.pick === 'b' && S.alt.img) ? S.alt : S.pay; }
+
+  function setQrFile(file, slotKey) {
     if (!file) return;
+    var k = slotKey === 'b' ? 'b' : 'a';
     loadFile(file).then(function (o) {
-      if (S.pay.objUrl) URL.revokeObjectURL(S.pay.objUrl);
-      S.pay.img = o.img;
-      S.pay.objUrl = o.url;
-      S.pay.fileName = file.name || '二维码图片';
+      var t = slotOf(k);
+      if (t.objUrl) URL.revokeObjectURL(t.objUrl);
+      t.img = o.img;
+      t.objUrl = o.url;
+      t.fileName = file.name || '二维码图片';
+      t.bytes = file.size || 0;
       var info = analyzeImage(o.img);
-      S.pay.decoded = !!info;
-      S.pay.text = info ? info.text : '';
-      S.pay.crop = info ? info.crop : null;
-
-      $('#qrThumb').src = o.url;
-      $('#qrChip').hidden = false;
-      $('#dropQr').hidden = true;
-      $('#qrName').textContent = S.pay.fileName;
-      $('#qrInfo').textContent = o.img.width + ' × ' + o.img.height + ' · ' + kb(file.size);
-
-      $('#swRedraw').disabled = !info;
-      $('#swRedraw').setAttribute('aria-pressed', String(!!info && S.pay.redraw));
-
+      t.decoded = !!info;
+      t.text = info ? info.text : '';
+      t.crop = info ? info.crop : null;
+      S.pick = k;
+      updateDuo();
       updateDecode();
       schedule();
       toast(info ? '已识别二维码内容' : '没识别出内容，将直接使用原图');
@@ -2488,28 +2746,72 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
 
   function clearQr() {
-    if (S.pay.objUrl) URL.revokeObjectURL(S.pay.objUrl);
-    S.pay.img = null; S.pay.objUrl = null; S.pay.fileName = '';
-    S.pay.decoded = false; S.pay.text = ''; S.pay.crop = null;
-    $('#qrChip').hidden = true;
-    $('#dropQr').hidden = false;
-    $('#swRedraw').disabled = false;
-    $('#swRedraw').setAttribute('aria-pressed', 'true');
+    var k = S.pick === 'b' ? 'b' : 'a';
+    var t = slotOf(k);
+    if (t.objUrl) URL.revokeObjectURL(t.objUrl);
+    t.img = null; t.objUrl = null; t.fileName = ''; t.bytes = 0;
+    t.decoded = false; t.text = ''; t.crop = null;
+    if (k === 'a' && S.alt.img) S.pick = 'b';
+    else S.pick = 'a';
     S.pay.redraw = true;
+    updateDuo();
     updateDecode();
     schedule();
   }
 
+  function updateDuo() {
+    var list = [['a', S.pay], ['b', S.alt]];
+    list.forEach(function (it) {
+      var k = it[0], t = it[1];
+      var slot = $('.duo-slot[data-slot="' + k + '"]');
+      if (!slot) return;
+      slot.classList.toggle('is-on', S.pick === k && !!t.img);
+      var img = $('#slotThumb' + k.toUpperCase());
+      var ph = $('#slotPh' + k.toUpperCase());
+      var tx = $('#slotTxt' + k.toUpperCase());
+      if (img) { if (t.img) { img.src = t.objUrl; img.hidden = false; if (ph) ph.hidden = true; } else { img.hidden = true; img.removeAttribute('src'); if (ph) ph.hidden = false; } }
+      if (tx) tx.textContent = t.img ? (t.fileName.length > 14 ? t.fileName.slice(0, 13) + '…' : t.fileName) : '未上传';
+    });
+    var src = activeSrc();
+    var has = !!src.img;
+    $('#qrChip').hidden = !has;
+    $('#dropQr').hidden = has;
+    if (has) {
+      $('#qrThumb').src = src.objUrl;
+      $('#qrName').textContent = src.fileName;
+      var w = src.img.width, hh = src.img.height;
+      $('#qrInfo').textContent = w + ' × ' + hh + (src.bytes ? ' · ' + kb(src.bytes) : '');
+    }
+    var canRedraw = !!(src.img && src.text);
+    $('#swRedraw').disabled = !canRedraw;
+    $('#swRedraw').setAttribute('aria-pressed', String(!!canRedraw && S.pay.redraw));
+    syncDualUI();
+  }
+
+  function syncDualUI() {
+    var both = !!(S.pay.img && S.alt.img);
+    var sw = $('#swDual');
+    if (!both && S.dual) S.dual = false;
+    sw.disabled = !both;
+    sw.setAttribute('aria-pressed', String(!!S.dual));
+    var tpls = document.querySelector('[data-tpls="pay"]');
+    if (tpls) tpls.classList.toggle('is-locked', !!S.dual);
+    var ci = $('#swIcons');
+    ci.setAttribute('aria-pressed', String(!!S.icons));
+    ci.disabled = !both;
+  }
+
   function updateDecode() {
     var box = $('#decodeBox'), txt = $('#decodeText');
+    var src = activeSrc();
     box.className = 'decode';
-    if (!S.pay.img) {
+    if (!src.img) {
       txt.textContent = '还没有上传，下面看到的是示例效果';
       return;
     }
-    if (S.pay.decoded) {
+    if (src.decoded) {
       box.classList.add('ok');
-      var s = S.pay.text || '';
+      var s = src.text || '';
       txt.textContent = '已识别：' + (s.length > 46 ? s.slice(0, 46) + '…' : s);
       txt.title = s;
     } else {
@@ -2615,7 +2917,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   function syncRedrawNote() {
     var hint = $('#qrColorHint');
     if (!hint) return;
-    var imgMode = S.tab === 'pay' && S.pay.img && !(S.pay.redraw && S.pay.text);
+    var imgMode = S.tab === 'pay' && activeSrc().img && !(S.pay.redraw && activeSrc().text);
     hint.textContent = imgMode ? '原图模式下码色不生效' : '深色更稳，扫码更快';
   }
 
@@ -2661,6 +2963,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     sw.addEventListener('click', function () {
       S.theme = sw.getAttribute('data-theme');
       paintBrand();
+  updateDuo();
       Array.prototype.forEach.call(document.querySelectorAll('.swatch'), function (x) {
         x.classList.toggle('is-on', x.getAttribute('data-theme') === S.theme);
       });
@@ -2675,7 +2978,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       Array.prototype.forEach.call(document.querySelectorAll('.qrc'), function (x) {
         x.classList.toggle('is-on', x.getAttribute('data-qrc') === S.qrColor);
       });
-      if (S.tab === 'pay' && S.pay.img && !(S.pay.redraw && S.pay.text)) {
+      if (S.tab === 'pay' && activeSrc().img && !(S.pay.redraw && activeSrc().text)) {
         toast('原图模式下改不了码色，打开高清重绘即可彩色重绘');
       }
       schedule();
@@ -2683,11 +2986,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   });
 
   // 上传
+  var pendingSlot = 'a';
+  function openPicker(k) { pendingSlot = k; $('#fileQr').click(); }
+
   $('#fileQr').addEventListener('change', function (e) {
-    setQrFile(e.target.files[0]);
+    setQrFile(e.target.files[0], pendingSlot);
     e.target.value = '';
+    pendingSlot = S.pick;
   });
-  $('#qrReplace').addEventListener('click', function () { $('#fileQr').click(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.duo-slot'), function (b) {
+    b.addEventListener('click', function () {
+      var k = b.getAttribute('data-slot');
+      if (!slotOf(k).img) { openPicker(k); return; }
+      S.pick = k;
+      updateDuo();
+      updateDecode();
+      schedule();
+      toast(k === 'b' ? '已切到收款码 B' : '已切到收款码 A');
+    });
+  });
+  $('#qrReplace').addEventListener('click', function () { openPicker(S.pick); });
   $('#qrClear').addEventListener('click', clearQr);
 
   $('#fileLogo').addEventListener('change', function (e) {
@@ -2738,6 +3057,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         break;
       }
     }
+  });
+
+  // 双码同图 / 支付图标
+  $('#swDual').addEventListener('click', function () {
+    if (this.disabled) return;
+    S.dual = !S.dual;
+    this.setAttribute('aria-pressed', String(S.dual));
+    syncDualUI();
+    schedule();
+    toast(S.dual ? '已开启双码同图' : '已切回单码出图');
+  });
+  $('#swIcons').addEventListener('click', function () {
+    S.icons = !S.icons;
+    this.setAttribute('aria-pressed', String(S.icons));
+    if (S.dual) schedule();
   });
 
   // 高清重绘开关
