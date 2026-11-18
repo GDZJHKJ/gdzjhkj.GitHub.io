@@ -1033,6 +1033,12 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
   .duo-opt{padding:9px 10px}
 }
 .duo-note{margin-top:8px;font-size:11px;line-height:1.55;color:var(--muted)}
+.duo-opt.is-col{display:block}
+.jump-row{display:flex;align-items:center;gap:10px;margin-top:9px}
+.jump-row input{flex:1;min-width:0;height:38px;padding:0 12px;border-radius:11px;border:1px solid rgba(12,27,20,.10);
+  background:#fff;font-size:12.5px;color:#0c1b14;outline:none;transition:border-color .2s,box-shadow .2s}
+.jump-row input::placeholder{color:#9AA7A0}
+.jump-row input:focus{border-color:rgba(14,158,106,.6);box-shadow:0 0 0 3px rgba(14,158,106,.12)}
 
 </style>
 </head>
@@ -1189,6 +1195,13 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
             <div class="duo-opt">
               <span class="duo-opt-t"><b>支付图标</b><i>在码下方标出两个扫码入口</i></span>
               <button class="switch sm" id="swIcons" aria-pressed="true" title="关闭后只保留二维码"><i></i></button>
+            </div>
+          </div>
+          <div class="duo-opt is-col">
+            <div class="duo-opt-t"><b>单码跳转</b><i>只出一个小码，先落到你的中转页再分流</i></div>
+            <div class="jump-row">
+              <input id="jumpUrl" type="url" inputmode="url" autocomplete="off" placeholder="https://你的站点/pay.html">
+              <button class="switch sm" id="swJump" aria-pressed="false" title="填好中转页地址后打开"><i></i></button>
             </div>
           </div>
           <div class="duo-note">两张码会并排出现在同一张海报里；若已办服务商的「聚合码」，直接传它、图标照样显示</div>
@@ -1477,6 +1490,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     alt: { img: null, objUrl: null, fileName: '', size: 0, decoded: false, text: '', crop: null },
     pick: 'a',
     dual: false,
+    jump: { on: false, url: '' },
     icons: true,
     card: {
       logo: null, logoUrl: null, logoName: '',
@@ -1774,7 +1788,29 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         m.name = (p.name || '').trim();
         m.note = (p.note || '').trim();
       }
-      if (S.dual && m.qr || (S.dual && m.img)) {
+      var jumpUrl = (S.jump && S.jump.on) ? String(S.jump.url || '').trim() : '';
+      if (/^https?:\/\//i.test(jumpUrl)) {
+        var wxTxt = '', aliTxt = '';
+        [p, S.alt].forEach(function (o) {
+          var t = String((o && o.text) || '');
+          if (!t) return;
+          if (/^(wxp|weixin):/i.test(t)) wxTxt = t;
+          else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
+        });
+        var hashParts = [];
+        if (wxTxt) hashParts.push('w=' + encodeURIComponent(wxTxt));
+        if (aliTxt) hashParts.push('a=' + encodeURIComponent(aliTxt));
+        var full = jumpUrl + (hashParts.length ? (jumpUrl.indexOf('#') >= 0 ? '&' : '#') + hashParts.join('&') : '');
+        m.jump = true;
+        m.dual = false;
+        m.logo = null;
+        m.img = null;
+        m.qrText = full;
+        m.qr = makeQr(full);
+        m.demo = false;
+        m.name = (p.name || '').trim();
+        m.note = (p.note || '').trim();
+      } else if (S.dual && m.qr || (S.dual && m.img)) {
         var other = (S.pick === 'b') ? p : S.alt;
         if (src.img && other.img) {
           m.dual = true;
@@ -2268,8 +2304,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
     var logoD = qr * (m.size / 100);
     var lcx = qx + qr / 2, lcy = qy + qr / 2;
-    if (m.logo) drawLogo(ctx, m.logo, lcx, lcy, logoD, m.shape);
-    drawCheck(ctx, lcx + logoD * 0.42, lcy + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
+    if (m.logo) {
+      drawLogo(ctx, m.logo, lcx, lcy, logoD, m.shape);
+      drawCheck(ctx, lcx + logoD * 0.42, lcy + logoD * 0.40, Math.max(16, logoD * 0.20), T.accent);
+    }
     // 商户名 + 商家标签（留空也能正常出图）
     if (hasName) {
     var nameY = cardY + pad + qr + 30 + Math.round(cardW * 0.075);
@@ -2632,7 +2670,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ctx.clearRect(0, 0, W, H);
 
     fitCanvas();
-    var geo = (m.dual ? drawDuo : (DRAW[m.tpl] || drawMinimal))(m);
+    var geo = (m.dual ? drawDuo : (m.jump ? drawPoster : (DRAW[m.tpl] || drawMinimal)))(m);
 
     cv.classList.add('on');
     currentGeo = { qr: geo, demo: m.demo, text: m.qrText, tab: m.tab, H: H, list: geo && geo.list };
@@ -2796,6 +2834,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     sw.setAttribute('aria-pressed', String(!!S.dual));
     var tpls = document.querySelector('[data-tpls="pay"]');
     if (tpls) tpls.classList.toggle('is-locked', !!S.dual);
+    var sj = $('#swJump');
+    sj.setAttribute('aria-pressed', String(!!S.jump.on));
+    if (S.jump.on) { sw.disabled = true; }
     var ci = $('#swIcons');
     ci.setAttribute('aria-pressed', String(!!S.icons));
     ci.disabled = !both;
@@ -3072,6 +3113,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     S.icons = !S.icons;
     this.setAttribute('aria-pressed', String(S.icons));
     if (S.dual) schedule();
+  });
+
+  // 单码跳转
+  $('#jumpUrl').addEventListener('input', function () {
+    S.jump.url = this.value;
+    if (S.jump.on) schedule();
+  });
+  $('#swJump').addEventListener('click', function () {
+    S.jump.url = $('#jumpUrl').value;
+    if (!S.jump.on && !/^https?:\/\//i.test(String(S.jump.url).trim())) {
+      toast('先填好中转页地址，再打开单码跳转');
+      return;
+    }
+    S.jump.on = !S.jump.on;
+    this.setAttribute('aria-pressed', String(S.jump.on));
+    if (S.jump.on && S.dual) { S.dual = false; syncDualUI(); }
+    schedule();
+    toast(S.jump.on ? '已切到单码跳转' : '已切回码面出图');
   });
 
   // 高清重绘开关
