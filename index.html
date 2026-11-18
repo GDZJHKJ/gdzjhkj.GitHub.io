@@ -1206,6 +1206,7 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
               <input id="jumpUrl" type="url" inputmode="url" autocomplete="off" placeholder="打开站点时会自动填入">
               <button class="jump-auto" id="jumpAuto" type="button" title="按当前站点地址重新识别">自动</button>
               <button class="jump-auto hide" id="jumpDoubao" type="button" title="填入已部署的中转页">豆包</button>
+              <button class="jump-auto" id="jumpTry" type="button" title="用当前两张码打开中转页试试">试</button>
               <button class="switch sm" id="swJump" aria-pressed="false" title="填好中转页地址后打开"><i></i></button>
             </div>
           </div>
@@ -1753,6 +1754,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     return c;
   }
 
+  function buildJumpTarget(base) {
+    var wxTxt = '', aliTxt = '';
+    [S.pay, S.alt].forEach(function (o) {
+      var t = String((o && o.text) || '');
+      if (!t) return;
+      if (/^(wxp|weixin):/i.test(t)) wxTxt = t;
+      else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
+    });
+    var qs = [];
+    if (wxTxt) qs.push('w=' + encodeURIComponent(wxTxt));
+    if (aliTxt) qs.push('a=' + encodeURIComponent(aliTxt));
+    base = String(base).split('#')[0];
+    var sep = base.indexOf('?') >= 0 ? '&' : '?';
+    return base + (qs.length ? sep + qs.join('&') : '');
+  }
+
   /* ---------------- 构建模型 ---------------- */
   function buildModel() {
     var isPay = S.tab === 'pay';
@@ -1795,19 +1812,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
       var jumpUrl = (S.jump && S.jump.on) ? String(S.jump.url || '').trim() : '';
       if (/^https?:\/\//i.test(jumpUrl)) {
-        var wxTxt = '', aliTxt = '';
-        [p, S.alt].forEach(function (o) {
-          var t = String((o && o.text) || '');
-          if (!t) return;
-          if (/^(wxp|weixin):/i.test(t)) wxTxt = t;
-          else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
-        });
-        var qs = [];
-        if (wxTxt) qs.push('w=' + encodeURIComponent(wxTxt));
-        if (aliTxt) qs.push('a=' + encodeURIComponent(aliTxt));
-        var base = jumpUrl.split('#')[0];
-        var sep = base.indexOf('?') >= 0 ? '&' : '?';
-        var full = base + (qs.length ? sep + qs.join('&') : '');
+        var full = buildJumpTarget(jumpUrl);
         m.jump = true;
         m.dual = false;
         m.logo = null;
@@ -3152,6 +3157,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (S.jump.on) schedule();
     });
   })();
+
+  $('#jumpTry').addEventListener('click', function () {
+    var base = String($('#jumpUrl').value || '').trim();
+    if (!/^https?:\/\//i.test(base)) { toast('先填好中转页地址'); return; }
+    if (!S.pay.img && !S.alt.img) { toast('先把收款码传上来'); return; }
+    S.jump.url = base;
+    window.open(buildJumpTarget(base), '_blank');
+  });
 
   $('#jumpAuto').addEventListener('click', function () {
     fillJumpUrl(true);
