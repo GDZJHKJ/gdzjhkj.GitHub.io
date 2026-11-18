@@ -1039,6 +1039,9 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
   background:#fff;font-size:12.5px;color:#0c1b14;outline:none;transition:border-color .2s,box-shadow .2s}
 .jump-row input::placeholder{color:#9AA7A0}
 .jump-row input:focus{border-color:rgba(14,158,106,.6);box-shadow:0 0 0 3px rgba(14,158,106,.12)}
+.jump-auto{flex:none;height:38px;padding:0 12px;border-radius:11px;border:1px solid rgba(12,27,20,.10);
+  background:#fff;font-size:12px;font-weight:600;color:#0A7A52;cursor:pointer;transition:background .2s}
+.jump-auto:active{background:rgba(14,158,106,.10)}
 
 </style>
 </head>
@@ -1200,7 +1203,9 @@ button:focus-visible{outline:2px solid rgba(15,163,107,.4); outline-offset:2px}
           <div class="duo-opt is-col">
             <div class="duo-opt-t"><b>单码跳转</b><i>只出一个小码，先落到你的中转页再分流</i></div>
             <div class="jump-row">
-              <input id="jumpUrl" type="url" inputmode="url" autocomplete="off" placeholder="https://你的站点/pay.html">
+              <input id="jumpUrl" type="url" inputmode="url" autocomplete="off" placeholder="打开站点时会自动填入">
+              <button class="jump-auto" id="jumpAuto" type="button" title="按当前站点地址重新识别">自动</button>
+              <button class="jump-auto hide" id="jumpDoubao" type="button" title="填入已部署的中转页">豆包</button>
               <button class="switch sm" id="swJump" aria-pressed="false" title="填好中转页地址后打开"><i></i></button>
             </div>
           </div>
@@ -1797,10 +1802,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           if (/^(wxp|weixin):/i.test(t)) wxTxt = t;
           else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
         });
-        var hashParts = [];
-        if (wxTxt) hashParts.push('w=' + encodeURIComponent(wxTxt));
-        if (aliTxt) hashParts.push('a=' + encodeURIComponent(aliTxt));
-        var full = jumpUrl + (hashParts.length ? (jumpUrl.indexOf('#') >= 0 ? '&' : '#') + hashParts.join('&') : '');
+        var qs = [];
+        if (wxTxt) qs.push('w=' + encodeURIComponent(wxTxt));
+        if (aliTxt) qs.push('a=' + encodeURIComponent(aliTxt));
+        var base = jumpUrl.split('#')[0];
+        var sep = base.indexOf('?') >= 0 ? '&' : '?';
+        var full = base + (qs.length ? sep + qs.join('&') : '');
         m.jump = true;
         m.dual = false;
         m.logo = null;
@@ -3115,9 +3122,47 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (S.dual) schedule();
   });
 
+  // 单码跳转：按当前站点自动推导中转页地址
+  function autoJumpUrl() {
+    try {
+      var u = new URL(location.href);
+      if (!/^https?:$/.test(u.protocol)) return '';
+      var path = u.pathname.replace(/[^/]*$/, '');
+      return u.origin + path + 'pay.html';
+    } catch (e) { return ''; }
+  }
+  function fillJumpUrl(force) {
+    var auto = autoJumpUrl();
+    if (!auto) return;
+    var el = $('#jumpUrl');
+    if (!force && el.value.trim()) return;
+    el.value = auto;
+    S.jump.url = auto;
+  }
+  (function () {
+    var b = $('#jumpDoubao');
+    if (!/doubao\.link$/i.test(location.hostname)) return;
+    b.classList.remove('hide');
+    b.addEventListener('click', function () {
+      var u = location.origin + '/app/app_17ja90gjuzx';
+      $('#jumpUrl').value = u;
+      S.jump.url = u;
+      try { localStorage.setItem('haocaiu-jump', u); } catch (e) {}
+      toast('已填入豆包中转页');
+      if (S.jump.on) schedule();
+    });
+  })();
+
+  $('#jumpAuto').addEventListener('click', function () {
+    fillJumpUrl(true);
+    toast(S.jump.url ? '已按当前站点填入中转页' : '先部署到站点再用');
+    if (S.jump.on) schedule();
+  });
+
   // 单码跳转
   $('#jumpUrl').addEventListener('input', function () {
     S.jump.url = this.value;
+    try { localStorage.setItem('haocaiu-jump', this.value); } catch (e) {}
     if (S.jump.on) schedule();
   });
   $('#swJump').addEventListener('click', function () {
@@ -3368,6 +3413,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   /* ---------------- 启动 ---------------- */
   function init() {
     demoAvatar = makeDemoAvatar();
+    try {
+      var savedJump = localStorage.getItem('haocaiu-jump');
+      if (savedJump) { $('#jumpUrl').value = savedJump; S.jump.url = savedJump; }
+    } catch (e) {}
+    fillJumpUrl(false);
     bindFeel();
     var url = new URL(location.href);
     if (url.searchParams.get('tab') === 'card') S.tab = 'card';

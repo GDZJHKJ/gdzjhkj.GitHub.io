@@ -104,17 +104,26 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ali: ''   // https://qr.alipay.com/xxxx
   };
 
-  function readHash() {
-    var h = location.hash.replace(/^#/, '');
+  function parsePairs(str) {
     var out = {};
-    if (!h) return out;
-    h.split('&').forEach(function (kv) {
+    if (!str) return out;
+    str.split('&').forEach(function (kv) {
       if (!kv) return;
       var i = kv.indexOf('=');
       var k = i < 0 ? kv : kv.slice(0, i);
       var v = i < 0 ? '' : kv.slice(i + 1);
-      try { v = decodeURIComponent(v); } catch (e) {}
+      try { v = decodeURIComponent(v.replace(/\+/g, ' ')); } catch (e) {}
       out[k] = v;
+    });
+    return out;
+  }
+  function readParams() {
+    var q = parsePairs(location.search.replace(/^\?/, ''));
+    var h = parsePairs(location.hash.replace(/^#/, ''));
+    var out = {};
+    ['w', 'a', 'wx', 'ali'].forEach(function (k) {
+      if (q[k]) out[k] = q[k];
+      if (h[k]) out[k] = h[k];
     });
     return out;
   }
@@ -123,9 +132,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     return /^(wxp|weixin|alipays|alipay|https?):\/\//i.test(v) ? v : '';
   }
 
-  var hp = readHash();
-  var wx = safe(hp.w) || safe(CFG.wx);
-  var ali = safe(hp.a) || safe(CFG.ali);
+  var hp = readParams();
+  var cache = {};
+  try { cache = JSON.parse(localStorage.getItem('haocaiu-pay') || '{}') || {}; } catch (e) { cache = {}; }
+  var wx = safe(hp.w) || safe(CFG.wx) || safe(cache.w);
+  var ali = safe(hp.a) || safe(CFG.ali) || safe(cache.a);
+  try {
+    if (wx || ali) localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali }));
+  } catch (e) {}
   var ua = navigator.userAgent || '';
   var isWx = /MicroMessenger/i.test(ua);
   var isAli = /AlipayClient/i.test(ua);
@@ -146,7 +160,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       ctx.fillStyle = '#9AA7A0';
       ctx.font = '600 13px -apple-system,"PingFang SC",sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('未配置收款链接', CSSQ / 2, CSSQ / 2);
+      ctx.fillText('请从收款码进入', CSSQ / 2, CSSQ / 2);
       return;
     }
     var q = qrcode(0, 'M');
@@ -186,7 +200,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     copyBtn.disabled = !link;
     tip.innerHTML = link
       ? '按钮没反应时，<b>长按上方二维码</b>识别即可付款。'
-      : '在 <b>pay.html</b> 顶部或链接 <b>#w= / #a=</b> 里填入收款链接后即可使用。';
+      : '这个地址需要从收款码扫码打开才会带上收款信息；直接打开只会显示当前状态。';
   }
 
   tabs.addEventListener('click', function (e) {
