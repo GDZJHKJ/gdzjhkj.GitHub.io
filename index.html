@@ -1759,8 +1759,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     [S.pay, S.alt].forEach(function (o) {
       var t = String((o && o.text) || '');
       if (!t) return;
-      if (/^(wxp|weixin):/i.test(t) || /payapp\.wechatpay\.cn/i.test(t)) wxTxt = t;
-      else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
+      if (/^alipays?:/i.test(t) || /qr\.alipay\.com|alipay\.com/i.test(t)) aliTxt = t;
+      else if (/^(wxp|weixin):/i.test(t) || /wechatpay|weixin\.qq\.com|tenpay/i.test(t)) wxTxt = t;
     });
     var qs = [];
     if (wxTxt) qs.push('w=' + encodeURIComponent(wxTxt));

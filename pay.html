@@ -162,13 +162,17 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   var cache = {};
   try { cache = JSON.parse(localStorage.getItem('haocaiu-pay') || '{}') || {}; } catch (e) { cache = {}; }
   var SRC = { w: '默认', a: '默认' };
-  var wx = safe(hp.w) || safe(CFG.wx) || safe(cache.w);
-  var ali = safe(hp.a) || safe(CFG.ali) || safe(cache.a);
-  if (safe(hp.w)) SRC.w = '扫码参数'; else if (safe(CFG.wx)) SRC.w = '页面内置'; else if (safe(cache.w)) SRC.w = '本机记忆';
-  if (safe(hp.a)) SRC.a = '扫码参数'; else if (safe(CFG.ali)) SRC.a = '页面内置'; else if (safe(cache.a)) SRC.a = '本机记忆';
-  try {
-    if (hp.w || hp.a) localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali }));
-  } catch (e) {}
+  var fromParams = !!(safe(hp.w) || safe(hp.a));
+  var wx = fromParams ? safe(hp.w) : (safe(CFG.wx) || safe(cache.w));
+  var ali = fromParams ? safe(hp.a) : (safe(CFG.ali) || safe(cache.a));
+  if (fromParams) {
+    SRC.w = safe(hp.w) ? '本次扫码' : '本次扫码未带';
+    SRC.a = safe(hp.a) ? '本次扫码' : '本次扫码未带';
+    try { localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali })); } catch (e) {}
+  } else {
+    SRC.w = safe(CFG.wx) ? '页面内置' : (safe(cache.w) ? '本机记忆' : '未配置');
+    SRC.a = safe(CFG.ali) ? '页面内置' : (safe(cache.a) ? '本机记忆' : '未配置');
+  }
   var ua = navigator.userAgent || '';
   var isWx = /MicroMessenger/i.test(ua);
   var isAli = /AlipayClient/i.test(ua);
@@ -301,10 +305,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     setTimeout(function () { location.reload(); }, 600);
   });
 
-  if (isAli && ali) {
+  var DEBUG = /[?&]debug=1/.test(location.search);
+  if (!DEBUG && isAli && ali) {
     setTimeout(function () { try { location.href = ali; } catch (e) {} }, 500);
   }
-  if (isWx && wx) {
+  if (!DEBUG && isWx && wx) {
     setTimeout(function () { try { location.href = wx; } catch (e) {} }, 500);
   }
   if ((isWx || isAli) && tabs && (!wx || !ali)) tabs.classList.remove('hide');
