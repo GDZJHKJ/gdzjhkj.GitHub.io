@@ -51,11 +51,20 @@ h1{margin:2px 0 4px;font-size:22px;letter-spacing:-.6px}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:rgba(255,255,255,.92);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .btn:disabled{opacity:.5}
+.setup{margin:14px 0 0;padding:13px;border-radius:14px;background:#F4F8F5;border:1px solid #E4EDE7}
+.setup.hide{display:none}
+.setup-t{font-size:12px;line-height:1.6;color:#6C7A73;margin-bottom:9px}
+.setup input{width:100%;box-sizing:border-box;margin-bottom:7px;padding:10px 11px;font-size:12.5px;border:1px solid #DCE6E0;border-radius:10px;background:#fff;color:#14251C;outline:none}
+.setup input:focus{border-color:#1F7A53}
+.setup .btn{width:100%}
 .tip{margin:16px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 .tip b{color:#0A7A52}
 .switch{display:flex;gap:8px;margin:0 0 14px;padding:4px;border-radius:13px;background:rgba(12,27,20,.05)}
 .switch button{flex:1;padding:9px;border:0;border-radius:10px;background:transparent;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
 .switch button.on{background:#fff;color:var(--ink);box-shadow:0 4px 12px -10px rgba(9,48,32,.5)}
+.resetline{margin:6px 0 0;text-align:center}
+.resetline button{border:0;background:none;font-size:11px;color:#A7B4AD;text-decoration:underline;padding:4px}
+.srcline{margin:10px 0 0;font-size:11px;color:#93A29B;text-align:center}
 .foot{margin-top:18px;font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
 .foot svg{width:12px;height:12px;opacity:.7}
 .hide{display:none!important}
@@ -81,7 +90,16 @@ h1{margin:2px 0 4px;font-size:22px;letter-spacing:-.6px}
     <button class="btn ghost" id="copy">复制收款链接</button>
   </div>
 
+  <div class="setup hide" id="setup">
+    <div class="setup-t">只有这台设备要看？把另一条收款链接粘贴一次，之后直接打开这个网址也能用。</div>
+    <input id="setupW" inputmode="text" placeholder="方式一链接：wxp://…" autocomplete="off">
+    <input id="setupA" inputmode="text" placeholder="方式二链接：https://qr.alipay.com/…" autocomplete="off">
+    <button class="btn ghost" id="setupOk">保存到本机</button>
+  </div>
+
   <p class="tip" id="tip">按钮没反应时，<b>长按上方二维码</b>识别即可付款。</p>
+  <div class="srcline" id="srcline"></div>
+  <div class="resetline"><button id="resetCache" type="button">清除本机记忆</button></div>
   <div class="foot">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
     本页在本机渲染 · 不收集任何信息
@@ -100,8 +118,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 (function () {
   /* ======= 配置：可以直接填，也可以由生成工具通过 #w= / #a= 传进来 ======= */
   var CFG = {
-    wx: '',   // wxp://xxxxx
-    ali: ''   // https://qr.alipay.com/xxxx
+    wx: 'https://payapp.wechatpay.cn/sjt/qr/AQFK8uEm3Ub07MbazlgzLTpQ',   // 老板的方式一收款链接
+    ali: 'https://qr.alipay.com/fkx18914fm2lypxparwll6d'   // 老板的方式二收款链接
+    /* 两条都固定写在这里，扫码与直接打开都能用 */
   };
 
   function parsePairs(str) {
@@ -135,10 +154,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   var hp = readParams();
   var cache = {};
   try { cache = JSON.parse(localStorage.getItem('haocaiu-pay') || '{}') || {}; } catch (e) { cache = {}; }
+  var SRC = { w: '默认', a: '默认' };
   var wx = safe(hp.w) || safe(CFG.wx) || safe(cache.w);
   var ali = safe(hp.a) || safe(CFG.ali) || safe(cache.a);
+  if (safe(hp.w)) SRC.w = '扫码参数'; else if (safe(CFG.wx)) SRC.w = '页面内置'; else if (safe(cache.w)) SRC.w = '本机记忆';
+  if (safe(hp.a)) SRC.a = '扫码参数'; else if (safe(CFG.ali)) SRC.a = '页面内置'; else if (safe(cache.a)) SRC.a = '本机记忆';
   try {
-    if (wx || ali) localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali }));
+    if (hp.w || hp.a) localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali }));
   } catch (e) {}
   var ua = navigator.userAgent || '';
   var isWx = /MicroMessenger/i.test(ua);
@@ -186,6 +208,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   var copyBtn = document.getElementById('copy');
   var tabs = document.getElementById('tabs');
 
+  function paintSrc() {
+    var el = document.getElementById('srcline');
+    if (!el) return;
+    el.textContent = '当前链接：方式一 → ' + (SRC.w || '默认') + '｜方式二 → ' + (SRC.a || '默认');
+  }
+
   function paint(k) {
     cur = k;
     var link = k === 'ali' ? ali : wx;
@@ -220,6 +248,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
   });
 
+  var setupBox = document.getElementById('setup');
+  var setupW = document.getElementById('setupW');
+  var setupA = document.getElementById('setupA');
+  var setupOk = document.getElementById('setupOk');
+
+  function syncSetup() {
+    if (!setupBox) return;
+    if (wx && ali) { setupBox.classList.add('hide'); return; }
+    setupBox.classList.remove('hide');
+    if (!setupW.value && !wx) setupW.value = '';
+    if (!setupA.value && !ali) setupA.value = '';
+  }
+
+  if (setupOk) setupOk.addEventListener('click', function () {
+    var w = safe(setupW.value), a = safe(setupA.value);
+    if (!w && !a) return;
+    wx = w || wx; ali = a || ali;
+    try { localStorage.setItem('haocaiu-pay', JSON.stringify({ w: wx, a: ali })); } catch (e) {}
+    syncSetup(); paint();
+  });
+
   copyBtn.addEventListener('click', function () {
     var link = cur === 'ali' ? ali : wx;
     if (!link) return;
@@ -234,12 +283,25 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
   });
 
+  if (!wx && ali) cur = 'ali';
   paint(cur);
+  syncSetup();
+  paintSrc();
+  var rc = document.getElementById('resetCache');
+  if (rc) rc.addEventListener('click', function () {
+    try { localStorage.removeItem('haocaiu-pay'); } catch (e) {}
+    rc.textContent = '已清除，请重新扫码';
+    setTimeout(function () { location.reload(); }, 600);
+  });
 
   if (isAli && ali) {
-    setTimeout(function () { try { location.href = ali; } catch (e) {} }, 900);
+    setTimeout(function () { try { location.href = ali; } catch (e) {} }, 500);
   }
-  if ((isWx || isAli) && tabs) tabs.classList.add('hide');
+  if (isWx && wx) {
+    setTimeout(function () { try { location.href = wx; } catch (e) {} }, 500);
+  }
+  if ((isWx || isAli) && tabs && (!wx || !ali)) tabs.classList.remove('hide');
+  else if ((isWx || isAli) && tabs) tabs.classList.add('hide');
 })();
 </script>
 </body>
