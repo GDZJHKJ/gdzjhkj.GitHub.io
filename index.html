@@ -1759,7 +1759,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     [S.pay, S.alt].forEach(function (o) {
       var t = String((o && o.text) || '');
       if (!t) return;
-      if (/^(wxp|weixin):/i.test(t)) wxTxt = t;
+      if (/^(wxp|weixin):/i.test(t) || /payapp\.wechatpay\.cn/i.test(t)) wxTxt = t;
       else if (/^(https:\/\/qr\.alipay\.com|alipays:)/i.test(t)) aliTxt = t;
     });
     var qs = [];
@@ -3146,10 +3146,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
   (function () {
     var b = $('#jumpDoubao');
-    if (!/doubao\.link$/i.test(location.hostname)) return;
     b.classList.remove('hide');
     b.addEventListener('click', function () {
-      var u = location.origin + '/app/app_17ja90gjuzx';
+      var u = 'https://4kn4snrhjwjw4.doubao.link/app/app_17ja90gjuzx';
       $('#jumpUrl').value = u;
       S.jump.url = u;
       try { localStorage.setItem('haocaiu-jump', u); } catch (e) {}
